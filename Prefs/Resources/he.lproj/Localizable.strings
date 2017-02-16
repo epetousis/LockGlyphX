@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANIMATIONS_TITLE</key>
+	<string>אנימציות</string>
+	<key>ANIM_FASTTOGL_LABEL</key>
+	<string>השתמש באנימציות מהירות יותר</string>
+	<key>ANIM_FOOTER_TEXT</key>
+	<string>שימוש באנימציות מהירות יותר יאיץ את האנימציה של LockGlyph בהרבה</string>
+	<key>ANIM_HEADER_TEXT</key>
+	<string>אנימציות</string>
+	<key>ANIM_SHINETOGL_LABEL</key>
+	<string>השתמש באנימציה בוהקת</string>
+	<key>ANIM_TICKTOGL_LABEL</key>
+	<string>השתמש באנימציית הווי</string>
+	<key>APPEARANCE_TITLE</key>
+	<string>מראה</string>
+	<key>BEHAVIOUR_TITLE</key>
+	<string>התנהגות</string>
+	<key>COLOURS_HEADER_TEXT</key>
+	<string>צבעים</string>
+	<key>COLOURS_IDLECOLOUR_LABEL</key>
+	<string>צבע ריק</string>
+	<key>COLOURS_RESET_LABEL</key>
+	<string>אתחל צבעים לברירת מחדל</string>
+	<key>COLOURS_SCANCOLOUR_LABEL</key>
+	<string>צבע סריקה</string>
+	<key>FAILUNLOCK_FOOTER_TEXT</key>
+	<string>פעולות אלו יבוצעו כאשר אצבע לא רשומה תנסה לפתוח את המכשיר</string>
+	<key>FAILUNLOCK_HEADER_TEXT</key>
+	<string>פעולת פתיחה שנכשלה</string>
+	<key>FAILUNLOCK_SHAKETOGL_LABEL</key>
+	<string>נער טביעת אצבע</string>
+	<key>FAILUNLOCK_VIBRATETOGL_LABEL</key>
+	<string>רטט</string>
+	<key>FINGERPOS_HEADER_TEXT</key>
+	<string>מיקום טביעת האצבע</string>
+	<key>FINGERPOS_LANDSCAPEYTOGL_LABEL</key>
+	<string>ערך Y מותאם אישית לרוחב</string>
+	<key>FINGERPOS_LANDSCAPEY_LABEL</key>
+	<string>ערך Y לרוחב</string>
+	<key>FINGERPOS_PORTRAITYTOGL_LABEL</key>
+	<string>ערך Y מותאם אישית לאורך</string>
+	<key>FINGERPOS_PORTRAITY_LABEL</key>
+	<string>ערך Y לאורך</string>
+	<key>FIRST_ANIMATIONS_LABEL</key>
+	<string>אנימציות</string>
+	<key>FIRST_APPEARANCE_LABEL</key>
+	<string>מראה</string>
+	<key>FIRST_BEHAVIOUR_LABEL</key>
+	<string>התנהגות</string>
+	<key>FIRST_DEVELOPER_HEADER_TEXT</key>
+	<string>מפתח</string>
+	<key>FIRST_SUBTITLE_TEXT</key>
+	<string>פותח על ידי evilgoldfish</string>
+	<key>GENERAL_FOOTER_TEXT</key>
+	<string>הפעלת פתיחה מיידית תפתח את המכשיר ברגע שטביעת אצבע תזוהה במקום לחכות לסיום האנימציה, אפשר אם אתה רוצה לפתוח את המכשיר כמה שיותר מהר</string>
+	<key>GENERAL_HEADER_TEXT</key>
+	<string>כללי</string>
+	<key>GENERAL_LOCKGLYPHTOGL_LABEL</key>
+	<string>אפשר את LockGlyph</string>
+	<key>GENERAL_UNLOCKIMEDTOGL_LABEL</key>
+	<string>פתיחה מיידית</string>
+	<key>GENERAL_UNLOCKSNDTOGL_LABEL</key>
+	<string>אפשר צליל פתיחה</string>
+	<key>THEMES_APPLYTHEME_LABEL</key>
+	<string>החל ערכת נושא</string>
+	<key>THEMES_FOOTER_TEXT</key>
+	<string>החלת ערכת נושא דורשת רענון הספרינגבורד</string>
+	<key>THEMES_HEADER_TEXT</key>
+	<string>ערכות נושא</string>
+	<key>THEMES_THEMESELECT_LABEL</key>
+	<string>ערכת נושא</string>
+</dict>
+</plist>

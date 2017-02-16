@@ -1,0 +1,38 @@
+"FIRST_SUBTITLE_TEXT" = "Vytvořil evilgoldfish.";
+"FIRST_BEHAVIOUR_LABEL" = "Chování";
+"FIRST_APPEARANCE_LABEL" = "Vzhled";
+"FIRST_ANIMATIONS_LABEL" = "Animace";
+"FIRST_DEVELOPER_HEADER_TEXT" = "Vývojář";
+
+"BEHAVIOUR_TITLE" = "Chování";
+"GENERAL_HEADER_TEXT" = "Obecné";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Zapnout LockGlyph";
+"GENERAL_UNLOCKSNDTOGL_LABEL" = "Zapnout zvuk odemknutí";
+"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Odemknout okamžitě";
+"GENERAL_FOOTER_TEXT" = "Při zapnutí okamžitého odemknutí se zařízení odemkne ihned po rozpoznání otisku prstu. Zapněte tuto volbu pokud chcete zařízení odemykat co nejrychleji.";
+"FAILUNLOCK_HEADER_TEXT" = "Akce při nerozpoznání otisku";
+"FAILUNLOCK_VIBRATETOGL_LABEL" = "Zavibrovat";
+"FAILUNLOCK_SHAKETOGL_LABEL" = "Zatřást otiskem prstu";
+"FAILUNLOCK_FOOTER_TEXT" = "Tyto akce budou provedeny kdykoli bude pro odemknutí zařízení použit nesprávný prst.";
+
+"APPEARANCE_TITLE" = "Vzhled";
+"THEMES_HEADER_TEXT" = "Témata";
+"THEMES_THEMESELECT_LABEL" = "Téma";
+"THEMES_APPLYTHEME_LABEL" = "Použít téma";
+"THEMES_FOOTER_TEXT" = "Použití tématu povede k respringování Vašeho zařízení.";
+"COLOURS_HEADER_TEXT" = "Barvy";
+"COLOURS_IDLECOLOUR_LABEL" = "Barva otisku v klidu";
+"COLOURS_SCANCOLOUR_LABEL" = "Barva otisku při skenování";
+"COLOURS_RESET_LABEL" = "Použít výchozí barvy";
+"FINGERPOS_HEADER_TEXT" = "Umístění otisku";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Vlastní hodnota osy Y na výšku";
+"FINGERPOS_PORTRAITY_LABEL" = "Osa Y na výšku";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Vlastní hodnota osy Y na šířku";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Osa Y na šířku";
+
+"ANIMATIONS_TITLE" = "Animace";
+"ANIM_HEADER_TEXT" = "Animace";
+"ANIM_TICKTOGL_LABEL" = "Povojlt potrvzující animaci";
+"ANIM_SHINETOGL_LABEL" = "Povolit animaci záření";
+"ANIM_FASTTOGL_LABEL" = "Použít rychlejší animace";
+"ANIM_FOOTER_TEXT" = "Tato volba viditelně zrychlí všechny animace LockGlyphu.";

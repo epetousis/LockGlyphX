@@ -1,0 +1,38 @@
+"FIRST_SUBTITLE_TEXT" = "De evilgoldfish.";
+"FIRST_BEHAVIOUR_LABEL" = "Comportament";
+"FIRST_APPEARANCE_LABEL" = "Aspect";
+"FIRST_ANIMATIONS_LABEL" = "Animații";
+"FIRST_DEVELOPER_HEADER_TEXT" = "Dezvoltator";
+
+"BEHAVIOUR_TITLE" = "Comportament";
+"GENERAL_HEADER_TEXT" = "General";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Activează LockGlyph";
+"GENERAL_UNLOCKSNDTOGL_LABEL" = "Activează sunetul de deblocare";
+"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Deblocare imediată";
+"GENERAL_FOOTER_TEXT" = "Activând deblocarea imediată va debloca telefonul imediat ce amprenta este recunoscută sau amprenta este atinsă. Activează această opțiune dacă vrei sa deblochezi cât mai repede cu putință.";
+"FAILUNLOCK_HEADER_TEXT" = "Încercare de deblocare eșuată";
+"FAILUNLOCK_VIBRATETOGL_LABEL" = "Vibrează";
+"FAILUNLOCK_SHAKETOGL_LABEL" = "Scutură amprenta";
+"FAILUNLOCK_FOOTER_TEXT" = "Aceste acțiuni vor avea loc când o amprentă greșită este folosită la deblocare.";
+
+"APPEARANCE_TITLE" = "Aspect";
+"THEMES_HEADER_TEXT" = "Teme";
+"THEMES_THEMESELECT_LABEL" = "Teme";
+"THEMES_APPLYTHEME_LABEL" = "Activează tema";
+"THEMES_FOOTER_TEXT" = "La activarea temei, device-ul va suferi un respring";
+"COLOURS_HEADER_TEXT" = "Culori";
+"COLOURS_IDLECOLOUR_LABEL" = "Culoarea în așteptare";
+"COLOURS_SCANCOLOUR_LABEL" = "Culoarea în scanare";
+"COLOURS_RESET_LABEL" = "Resetează culorile la opțiunile implicite";
+"FINGERPOS_HEADER_TEXT" = "Poziția amprentei";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Particularizare Portret pe Y";
+"FINGERPOS_PORTRAITY_LABEL" = "Portret Y";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Particularizare Peisaj pe Y";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Peisaj Y";
+
+"ANIMATIONS_TITLE" = "Animații";
+"ANIM_HEADER_TEXT" = "Animații";
+"ANIM_TICKTOGL_LABEL" = "Folosește animația bifei";
+"ANIM_SHINETOGL_LABEL" = "Folosește animația liniei de scanare";
+"ANIM_FASTTOGL_LABEL" = "Folosește animații mai rapide";
+"ANIM_FOOTER_TEXT" = "Folosind opțiunea animații mai rapide va face LockGlyph să deblocheze mai repede.";

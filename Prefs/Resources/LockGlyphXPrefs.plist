@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string>LockGlyphX</string>
+	
+	<key>items</key>
+	<array>
+		
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>headerCellClass</key>
+			<string>LockGlyphXTitleCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>LockGlyphXPrefsBehaviourController</string>
+			<key>isController</key>
+			<true/>
+			<key>label</key>
+			<string>FIRST_BEHAVIOUR_LABEL</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>LockGlyphXPrefsAppearanceController</string>
+			<key>isController</key>
+			<true/>
+			<key>label</key>
+			<string>FIRST_APPEARANCE_LABEL</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>LockGlyphXPrefsAnimationsController</string>
+			<key>isController</key>
+			<true/>
+			<key>label</key>
+			<string>FIRST_ANIMATIONS_LABEL</string>
+		</dict>
+		
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>FIRST_DEVELOPER_HEADER_TEXT</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Follow @evilgoldfish01</string>
+			<key>icon</key>
+			<string>Twitter.png</string>
+			<key>id</key>
+			<string>twitterButton</string>
+			<key>action</key>
+			<string>twitterButton</string>
+		</dict>
+	</array>
+	
+</dict>
+</plist>

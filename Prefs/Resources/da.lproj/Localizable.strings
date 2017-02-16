@@ -1,0 +1,38 @@
+"FIRST_SUBTITLE_TEXT" = "Af evilgoldfish.";
+"FIRST_BEHAVIOUR_LABEL" = "Adfærd";
+"FIRST_APPEARANCE_LABEL" = "Udseende";
+"FIRST_ANIMATIONS_LABEL" = "Animationer";
+"FIRST_DEVELOPER_HEADER_TEXT" = "Udvikler";
+
+"BEHAVIOUR_TITLE" = "Adfærd";
+"GENERAL_HEADER_TEXT" = "Generelt";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Aktiver LockGlyph";
+"GENERAL_UNLOCKSNDTOGL_LABEL" = "Aktiver lås-op lyd";
+"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Lås op med det samme";
+"GENERAL_FOOTER_TEXT" = "Aktiveres Lås op med det samme, låses enheden op så snart fingeraftryk genkendes, eller berøres. Aktiver denne funktion, hvis du ønsker at låse op så hurtigt som muligt.";
+"FAILUNLOCK_HEADER_TEXT" = "Fejl ved lås-op";
+"FAILUNLOCK_VIBRATETOGL_LABEL" = "Vibrer";
+"FAILUNLOCK_SHAKETOGL_LABEL" = "Ryst figeraftryk";
+"FAILUNLOCK_FOOTER_TEXT" = "Disse funktioner vil vil blive aktiveret, hvis fingeraftryk ikke genkendes.";
+
+"APPEARANCE_TITLE" = "Udseende";
+"THEMES_HEADER_TEXT" = "Temaer";
+"THEMES_THEMESELECT_LABEL" = "Tema";
+"THEMES_APPLYTHEME_LABEL" = "Anvend tema";
+"THEMES_FOOTER_TEXT" = "Anvendelse af tema kræver ‘respring’ af enheden.";
+"COLOURS_HEADER_TEXT" = "Farver";
+"COLOURS_IDLECOLOUR_LABEL" = "Passiv farve";
+"COLOURS_SCANCOLOUR_LABEL" = "Scanner farve";
+"COLOURS_RESET_LABEL" = "Genstart farver til standard";
+"FINGERPOS_HEADER_TEXT" = "Fingeraftryk position";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Brugerdefineret Y i Portræt";
+"FINGERPOS_PORTRAITY_LABEL" = "Portræt Y";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Brugerdefineret Y i Landskab";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Landskab Y";
+
+"ANIMATIONS_TITLE" = "Animationer";
+"ANIM_HEADER_TEXT" = "Animationer";
+"ANIM_TICKTOGL_LABEL" = "Brug afkrydsning animation";
+"ANIM_SHINETOGL_LABEL" = "Brug skinnende animation";
+"ANIM_FASTTOGL_LABEL" = "Brug hurtigere animationer";
+"ANIM_FOOTER_TEXT" = "Brug af hurtige animationer, vil animere LochGlyph meget hurtigere.";

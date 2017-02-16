@@ -1,0 +1,38 @@
+"FIRST_SUBTITLE_TEXT" = "От evilgoldfish.";
+"FIRST_BEHAVIOUR_LABEL" = "Настройки";
+"FIRST_APPEARANCE_LABEL" = "Внешний вид";
+"FIRST_ANIMATIONS_LABEL" = "Анимации";
+"FIRST_DEVELOPER_HEADER_TEXT" = "Разработчик";
+
+"BEHAVIOUR_TITLE" = "Настройки";
+"GENERAL_HEADER_TEXT" = "Общие";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Включить LockGlyph";
+"GENERAL_UNLOCKSNDTOGL_LABEL" = "Звук разблокировки";
+"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Немедленная разблокировка";
+"GENERAL_FOOTER_TEXT" = "Включение немедленной разблокировки позволит разблокировать устройство, как только отпечаток будет опознан, даже если анимация еще не завершилась. Эта функция позволяет разблокировать устройство настолько быстро, насколько это возможно.";
+"FAILUNLOCK_HEADER_TEXT" = "Действия при неправильном отпечатке";
+"FAILUNLOCK_VIBRATETOGL_LABEL" = "Вибрация";
+"FAILUNLOCK_SHAKETOGL_LABEL" = "Потрясти отпечаток";
+"FAILUNLOCK_FOOTER_TEXT" = "Здесь можно настроить то, что происходит в случае считывания неправильного отпечатка.";
+
+"APPEARANCE_TITLE" = "Внешний вид";
+"THEMES_HEADER_TEXT" = "Темы";
+"THEMES_THEMESELECT_LABEL" = "Тема";
+"THEMES_APPLYTHEME_LABEL" = "Применить тему";
+"THEMES_FOOTER_TEXT" = "Для того, чтобы применить тему необходим респринг";
+"COLOURS_HEADER_TEXT" = "Цвета";
+"COLOURS_IDLECOLOUR_LABEL" = "Цвет на момент бездействия";
+"COLOURS_SCANCOLOUR_LABEL" = "Цвет на момент считывания отпечатка";
+"COLOURS_RESET_LABEL" = "Установить цвета по умолчанию";
+"FINGERPOS_HEADER_TEXT" = "Положение отпечатка";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Изменить положение на оси Y в портретной ориентации";
+"FINGERPOS_PORTRAITY_LABEL" = "Координата на оси Y";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Изменить положение на оси Y в ландшафтной ориентации ориентации";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Координата на оси Y";
+
+"ANIMATIONS_TITLE" = "Анимации";
+"ANIM_HEADER_TEXT" = "Анимации";
+"ANIM_TICKTOGL_LABEL" = "Анимация галочки";
+"ANIM_SHINETOGL_LABEL" = "Анимация блеска";
+"ANIM_FASTTOGL_LABEL" = "Использовать ускоренную анимацию";
+"ANIM_FOOTER_TEXT" = "Использование ускоренной анимации ускоряет LockGlyph.";
