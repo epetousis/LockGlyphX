@@ -11,17 +11,17 @@
 #import <AudioToolbox/AudioServices.h>
 
 
-#define kGlyphStateDefault 	0
-#define kGlyphStateScanning	1
-#define kGlyphStateCustom	6
-#define kGlyphStateTicked	7
+#define kGlyphStateDefault 0
+#define kGlyphStateScanning 1
+#define kGlyphStateCustom 6
+#define kGlyphStateTicked 7
 
-#define kTouchIDFingerUp 	0
-#define kTouchIDFingerDown  1
-#define kTouchIDFingerHeld  2
-#define kTouchIDMatched 	3
-#define kTouchIDSuccess 	4
-#define kTouchIDNotMatched 	10
+#define kTouchIDFingerUp 0
+#define kTouchIDFingerDown 1
+#define kTouchIDFingerHeld 2
+#define kTouchIDMatched 3
+#define kTouchIDSuccess 4
+#define kTouchIDNotMatched 10
 
 #define kBundlePath @"/Library/Application Support/LockGlyph/Themes/"
 
@@ -241,15 +241,13 @@ static void performShakeFingerFailAnimation(void) {
 		if (themeAssets && ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]] || [[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage@2x" ofType:@"png"]])) {
 			HBLogDebug(@"found theme glyph");
 			UIImage *customImage = [UIImage imageWithContentsOfFile:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]];
-			// CGImage *customCGImage = [UIImage imageWithCGImage:customImage.CGImage scale:[UIScreen mainScreen].scale orientation:customImage.imageOrientation].CGImage;
-			CGImage *customCGImage = [UIImage imageWithCGImage:customImage.CGImage scale:2 orientation:customImage.imageOrientation].CGImage;
+			CGImage *customCGImage = [UIImage imageWithCGImage:customImage.CGImage scale:[UIScreen mainScreen].scale orientation:customImage.imageOrientation].CGImage;
 			[fingerglyph setCustomImage:customCGImage withAlignmentEdgeInsets:UIEdgeInsetsZero];
 			
 			// set glyph to custom mode
 			[fingerglyph setState:kGlyphStateCustom animated:YES completionHandler:nil];
 			
 		} else {
-			// fingerglyph.customImage = nil;
 			[fingerglyph setCustomImage:nil withAlignmentEdgeInsets:UIEdgeInsetsZero];
 		}
 		
