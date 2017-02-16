@@ -1,0 +1,38 @@
+"FIRST_SUBTITLE_TEXT" = "Skapad av evilgoldfish.";
+"FIRST_BEHAVIOUR_LABEL" = "Beteende";
+"FIRST_APPEARANCE_LABEL" = "Utseende";
+"FIRST_ANIMATIONS_LABEL" = "Animationer";
+"FIRST_DEVELOPER_HEADER_TEXT" = "Utvecklare";
+
+"BEHAVIOUR_TITLE" = "Behaviour";
+"GENERAL_HEADER_TEXT" = "Allmänt";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Sätt på LockGlyph";
+"GENERAL_UNLOCKSNDTOGL_LABEL" = "Tillåt upplåsningsljud";
+"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Lås upp omedelbart";
+"GENERAL_FOOTER_TEXT" = "Om du sätter på detta så låser enheten upp sig så fort fingersensoren har känt igen ett fingeravtryck. Använd detta om du vill låsa upp enheten så fort som möjligt.";
+"FAILUNLOCK_HEADER_TEXT" = "Misslyckad upplåsning";
+"FAILUNLOCK_VIBRATETOGL_LABEL" = "Vibrera";
+"FAILUNLOCK_SHAKETOGL_LABEL" = "Skaka fingeravtrycket";
+"FAILUNLOCK_FOOTER_TEXT" = "Dessa händelser kommer att ske när fingeravtrycket inte känns igen.";
+
+"APPEARANCE_TITLE" = "Utseende";
+"THEMES_HEADER_TEXT" = "Teman";
+"THEMES_THEMESELECT_LABEL" = "Tema";
+"THEMES_APPLYTHEME_LABEL" = "Använd tema";
+"THEMES_FOOTER_TEXT" = "Om du byter tema beöver du respringa enheten.";
+"COLOURS_HEADER_TEXT" = "Färger";
+"COLOURS_IDLECOLOUR_LABEL" = "Väntelägets färg";
+"COLOURS_SCANCOLOUR_LABEL" = "Skannings-färg";
+"COLOURS_RESET_LABEL" = "Återställ till ursprungliga färger";
+"FINGERPOS_HEADER_TEXT" = "Fingeravtryckets position";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Ändrat Porträtt Y";
+"FINGERPOS_PORTRAITY_LABEL" = "Porträtt Y";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Ändrat Landskap Y";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Landskap Y";
+
+"ANIMATIONS_TITLE" = "Animations";
+"ANIM_HEADER_TEXT" = "Animationer";
+"ANIM_TICKTOGL_LABEL" = "Använd check animation";
+"ANIM_SHINETOGL_LABEL" = "Använd skinande animation";
+"ANIM_FASTTOGL_LABEL" = "Använd snabbare animationer";
+"ANIM_FOOTER_TEXT" = "Om du använder snabbare animationer så blir LockGlyph animationen snabbare.";

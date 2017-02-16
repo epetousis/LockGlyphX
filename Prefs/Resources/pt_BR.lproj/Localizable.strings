@@ -1,0 +1,38 @@
+"FIRST_SUBTITLE_TEXT" = "Por evilgoldfish.";
+"FIRST_BEHAVIOUR_LABEL" = "Comportamento";
+"FIRST_APPEARANCE_LABEL" = "Aparência";
+"FIRST_ANIMATIONS_LABEL" = "Animação";
+"FIRST_DEVELOPER_HEADER_TEXT" = "Desenvolvedor";
+
+"BEHAVIOUR_TITLE" = "Comportamento";
+"GENERAL_HEADER_TEXT" = "Geral";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Habilitar LockGlyph";
+"GENERAL_UNLOCKSNDTOGL_LABEL" = "Habilitar som ao desbloquear";
+"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Desbloqueio imediato";
+"GENERAL_FOOTER_TEXT" = "Habilitando o Desbloqueio imediato, o aparelho irá desbloquear no momento em que a digital for reconhecida ou tocada. Habilite caso queira desbloquear o mais rápido possível.";
+"FAILUNLOCK_HEADER_TEXT" = "Ação na falha ao desbloquear";
+"FAILUNLOCK_VIBRATETOGL_LABEL" = "Vibrar";
+"FAILUNLOCK_SHAKETOGL_LABEL" = "Tremer a digital";
+"FAILUNLOCK_FOOTER_TEXT" = "Estas ações ocorrerão quando a digital utilizada para desbloquear o aparelho não for reconhecida.";
+
+"APPEARANCE_TITLE" = "Aparência";
+"THEMES_HEADER_TEXT" = "Temas";
+"THEMES_THEMESELECT_LABEL" = "Tema";
+"THEMES_APPLYTHEME_LABEL" = "Aplicar o tema";
+"THEMES_FOOTER_TEXT" = "Aplicar o tema fará com que o springboard reinicie (respring).";
+"COLOURS_HEADER_TEXT" = "Cores";
+"COLOURS_IDLECOLOUR_LABEL" = "Cor em espera";
+"COLOURS_SCANCOLOUR_LABEL" = "Cor enquanto escaneia";
+"COLOURS_RESET_LABEL" = "Restaurar as cores padrão";
+"FINGERPOS_HEADER_TEXT" = "Posição da Digital";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Coordenada Vertical Personalizada Y";
+"FINGERPOS_PORTRAITY_LABEL" = "Vertical Y";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Coordenada Horizontal Personalizada Y";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Horizontal Y";
+
+"ANIMATIONS_TITLE" = "Animações";
+"ANIM_HEADER_TEXT" = "Animações";
+"ANIM_TICKTOGL_LABEL" = "Utilizar animação de 'checado'";
+"ANIM_SHINETOGL_LABEL" = "Utilizar animação de brilho";
+"ANIM_FASTTOGL_LABEL" = "Utilizar animações mais rápidas";
+"ANIM_FOOTER_TEXT" = "Utilizar animações mais rápidas tornará a animação do LockGlyph muito mais rápida.";

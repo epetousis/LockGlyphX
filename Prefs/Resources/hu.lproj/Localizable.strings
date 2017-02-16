@@ -1,0 +1,38 @@
+"FIRST_SUBTITLE_TEXT" = "By evilgoldfish.";
+"FIRST_BEHAVIOUR_LABEL" = "Viselkedés";
+"FIRST_APPEARANCE_LABEL" = "Megjelenés";
+"FIRST_ANIMATIONS_LABEL" = "Animációk";
+"FIRST_DEVELOPER_HEADER_TEXT" = "Fejlesztő";
+
+"BEHAVIOUR_TITLE" = "Viselkedés";
+"GENERAL_HEADER_TEXT" = "Általános";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "LockGlyph engedélyezése";
+"GENERAL_UNLOCKSNDTOGL_LABEL" = "Feloldási hang engedélyezése";
+"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Azonnali feloldás";
+"GENERAL_FOOTER_TEXT" = "Az Azonnali feloldás engedélyezésével a készülék azonnal fel fog oldódni, amint az ujjlenyomatot felismerte. Ezt az opciót akkor engedélyezd, ha a feloldást a lehető leggyorsabbá akarod tenni.";
+"FAILUNLOCK_HEADER_TEXT" = "Feloldás nem sikerült";
+"FAILUNLOCK_VIBRATETOGL_LABEL" = "Rezgés";
+"FAILUNLOCK_SHAKETOGL_LABEL" = "Ujjlenyomat megrázása";
+"FAILUNLOCK_FOOTER_TEXT" = "Ezek akkor fognak végbemenni, ha rossz ujj lett használva a feloldáshoz.";
+
+"APPEARANCE_TITLE" = "Megjelenés";
+"THEMES_HEADER_TEXT" = "Témák";
+"THEMES_THEMESELECT_LABEL" = "Téma";
+"THEMES_APPLYTHEME_LABEL" = "Téma beállítása";
+"THEMES_FOOTER_TEXT" = "A téma beállítása respring-elni fogja a készüléket.";
+"COLOURS_HEADER_TEXT" = "Színek";
+"COLOURS_IDLECOLOUR_LABEL" = "Várakozási szín";
+"COLOURS_SCANCOLOUR_LABEL" = "Vizsgálati szín";
+"COLOURS_RESET_LABEL" = "Színek visszaállítása alapértelmezettre";
+"FINGERPOS_HEADER_TEXT" = "Ujjlenyomat helye";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Függőleges helyzet Y";
+"FINGERPOS_PORTRAITY_LABEL" = "Portrait Y";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Vízszintes helyzet Y";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Vízszintes Y";
+
+"ANIMATIONS_TITLE" = "Animációk";
+"ANIM_HEADER_TEXT" = "Animációk";
+"ANIM_TICKTOGL_LABEL" = "Pipa animáció használata";
+"ANIM_SHINETOGL_LABEL" = "Fénylő animáció használata";
+"ANIM_FASTTOGL_LABEL" = "Gyorsabb animáció használata";
+"ANIM_FOOTER_TEXT" = "A gyorsabb animáció használata nagyban meggyorsítja az animáció sebességét.";

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANIMATIONS_TITLE</key>
+	<string>Animation</string>
+	<key>ANIM_FASTTOGL_LABEL</key>
+	<string>Schnelle Animation</string>
+	<key>ANIM_FOOTER_TEXT</key>
+	<string>Die Option "Schnelle Animation" beschleunigt die Animation des Fingerabdrucksymbols.</string>
+	<key>ANIM_HEADER_TEXT</key>
+	<string>Animation</string>
+	<key>ANIM_SHINETOGL_LABEL</key>
+	<string>Animiertes Fingerabdrucksymbol</string>
+	<key>ANIM_TICKTOGL_LABEL</key>
+	<string>Häkchensymbol nach Erkennung</string>
+	<key>APPEARANCE_TITLE</key>
+	<string>Darstellung</string>
+	<key>BEHAVIOUR_TITLE</key>
+	<string>Verhalten</string>
+	<key>COLOURS_HEADER_TEXT</key>
+	<string>Farben</string>
+	<key>COLOURS_IDLECOLOUR_LABEL</key>
+	<string>Grundfarbe</string>
+	<key>COLOURS_RESET_LABEL</key>
+	<string>Farben auf Grundeinstellung zurücksetzen</string>
+	<key>COLOURS_SCANCOLOUR_LABEL</key>
+	<string>Animationsfarbe</string>
+	<key>FAILUNLOCK_FOOTER_TEXT</key>
+	<string>Dies wird ausgeführt, wenn ein nicht gespeicherter oder nicht erkannter Fingerabdruck zum Entsperren genutzt wird.</string>
+	<key>FAILUNLOCK_HEADER_TEXT</key>
+	<string>Bei fehlgeschlagenem Entsperren</string>
+	<key>FAILUNLOCK_SHAKETOGL_LABEL</key>
+	<string>Fingerabrdrucksymbol wackeln</string>
+	<key>FAILUNLOCK_VIBRATETOGL_LABEL</key>
+	<string>Vibrieren</string>
+	<key>FINGERPOS_HEADER_TEXT</key>
+	<string>Position Fingerabdrucksymbol</string>
+	<key>FINGERPOS_LANDSCAPEYTOGL_LABEL</key>
+	<string>Standard Querformat Y</string>
+	<key>FINGERPOS_LANDSCAPEY_LABEL</key>
+	<string>Querformat Y</string>
+	<key>FINGERPOS_PORTRAITYTOGL_LABEL</key>
+	<string>Standard Hochformat Y</string>
+	<key>FINGERPOS_PORTRAITY_LABEL</key>
+	<string>Hochformat Y</string>
+	<key>FIRST_ANIMATIONS_LABEL</key>
+	<string>Animation</string>
+	<key>FIRST_APPEARANCE_LABEL</key>
+	<string>Darstellung</string>
+	<key>FIRST_BEHAVIOUR_LABEL</key>
+	<string>Verhalten</string>
+	<key>FIRST_DEVELOPER_HEADER_TEXT</key>
+	<string>Entwickler</string>
+	<key>FIRST_SUBTITLE_TEXT</key>
+	<string>By evilgoldfish.</string>
+	<key>GENERAL_FOOTER_TEXT</key>
+	<string>Bei aktiviertem "Sofort Entsperren" wird das Gerät unmittelbar nach Erkennen eines Fingerabdrucks entsperrt bzw. sofort, nachdem das Fingerabdrucksymbol berührt wird. Diese Option aktivieren, wenn schnelles Entsperren gewünscht ist.</string>
+	<key>GENERAL_HEADER_TEXT</key>
+	<string>Allgemein</string>
+	<key>GENERAL_LOCKGLYPHTOGL_LABEL</key>
+	<string>LockGlyph aktivieren</string>
+	<key>GENERAL_UNLOCKIMEDTOGL_LABEL</key>
+	<string>Sofort Entsperren</string>
+	<key>GENERAL_UNLOCKSNDTOGL_LABEL</key>
+	<string>Entsperrgeräusch aktivieren</string>
+	<key>THEMES_APPLYTHEME_LABEL</key>
+	<string>Hintergrund wechseln</string>
+	<key>THEMES_FOOTER_TEXT</key>
+	<string>Wenn der Hintergrund geändert wird, erfolgt ein Neustart der Oberfläche.</string>
+	<key>THEMES_HEADER_TEXT</key>
+	<string>Hintergrund</string>
+	<key>THEMES_THEMESELECT_LABEL</key>
+	<string>Hintergrund</string>
+</dict>
+</plist>

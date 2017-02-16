@@ -1,0 +1,38 @@
+"FIRST_SUBTITLE_TEXT" = "Laget av evilgoldfish.";
+"FIRST_BEHAVIOUR_LABEL" = "Oppførsel";
+"FIRST_APPEARANCE_LABEL" = "Utseende";
+"FIRST_ANIMATIONS_LABEL" = "Animasjoner";
+"FIRST_DEVELOPER_HEADER_TEXT" = "Utvikler";
+
+"BEHAVIOUR_TITLE" = "Oppførsel";
+"GENERAL_HEADER_TEXT" = "Generelt";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Aktiver LockGlyph";
+"GENERAL_UNLOCKSNDTOGL_LABEL" = "Aktiver opplåsningslyd";
+"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Lås opp umiddelbart";
+"GENERAL_FOOTER_TEXT" = "Aktiverng av Lås opp umiddelbart vil låse opp enheten så snart et fingeravtrykk er gjenkjent eller når fingeren legges på fingeravtrykkleseren. Aktiver denne innstilligen hvis du vil låse opp enheten så fort som mulig";
+"FAILUNLOCK_HEADER_TEXT" = "Opplåsning mislyktes";
+"FAILUNLOCK_VIBRATETOGL_LABEL" = "Vibrer";
+"FAILUNLOCK_SHAKETOGL_LABEL" = "Rist fingeravtrykksymbolet";
+"FAILUNLOCK_FOOTER_TEXT" = "Disse handlingene vil utføres om man forsøker å låse opp enheten med feil fingeravtrykk.";
+
+"APPEARANCE_TITLE" = "Utseende";
+"THEMES_HEADER_TEXT" = "Temaer";
+"THEMES_THEMESELECT_LABEL" = "Tema";
+"THEMES_APPLYTHEME_LABEL" = "Aktiver tema";
+"THEMES_FOOTER_TEXT" = "Aktivering av et tema vil respringe enheten.";
+"COLOURS_HEADER_TEXT" = "Farger";
+"COLOURS_IDLECOLOUR_LABEL" = "Farge ved inaktivitet";
+"COLOURS_SCANCOLOUR_LABEL" = "Farge ved skanning";
+"COLOURS_RESET_LABEL" = "Tilbakestill farger til standard";
+"FINGERPOS_HEADER_TEXT" = "Posisjon til fingeravtrykk";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Egendefinert Portrett Y";
+"FINGERPOS_PORTRAITY_LABEL" = "Portrett Y";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Egendefinert Landskap Y";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Landskap Y";
+
+"ANIMATIONS_TITLE" = "Animasjoner";
+"ANIM_HEADER_TEXT" = "Animasjoner";
+"ANIM_TICKTOGL_LABEL" = "Bruk hakeanimasjon";
+"ANIM_SHINETOGL_LABEL" = "Bruk skinnende animasjon";
+"ANIM_FASTTOGL_LABEL" = "Bruk raskere animasjoner";
+"ANIM_FOOTER_TEXT" = "Om raskere animasjoner er påslått vil LockGlyphs animasjoner være hurtigere.";

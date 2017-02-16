@@ -1,0 +1,38 @@
+"FIRST_SUBTITLE_TEXT" = "Oleh evilgoldfish.";
+"FIRST_BEHAVIOUR_LABEL" = "Perilaku";
+"FIRST_APPEARANCE_LABEL" = "Penampilan";
+"FIRST_ANIMATIONS_LABEL" = "Animasi";
+"FIRST_DEVELOPER_HEADER_TEXT" = "Pengembang";
+
+"BEHAVIOUR_TITLE" = "Perilaku";
+"GENERAL_HEADER_TEXT" = "Umum";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Perbolehkan LockGlyph";
+"GENERAL_UNLOCKSNDTOGL_LABEL" = "Perbolehkan suara unlock";
+"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Unlock segera";
+"GENERAL_FOOTER_TEXT" = "Perbolehkan Unlock segera akan membuka kunci perangkat segera setelah sidik jari di kenal atau sidik jari terbaca. Perbolehkan ini jika anda ingin membuka kunci perangkat secepat mungkin.";
+"FAILUNLOCK_HEADER_TEXT" = "Tindakan gagal unlock";
+"FAILUNLOCK_VIBRATETOGL_LABEL" = "Getar";
+"FAILUNLOCK_SHAKETOGL_LABEL" = "Sidik jari bergoyang";
+"FAILUNLOCK_FOOTER_TEXT" = "Tindakan ini akan dilakukan saat jari yang berbeda digunakan untuk membuka kunci perangkat.";
+
+"APPEARANCE_TITLE" = "Penampilan";
+"THEMES_HEADER_TEXT" = "Tema";
+"THEMES_THEMESELECT_LABEL" = "Tema";
+"THEMES_APPLYTHEME_LABEL" = "Terapkan tema";
+"THEMES_FOOTER_TEXT" = "Menerapkan tema akan merespring perangkat anda.";
+"COLOURS_HEADER_TEXT" = "Warna";
+"COLOURS_IDLECOLOUR_LABEL" = "Warna idle";
+"COLOURS_SCANCOLOUR_LABEL" = "Memindai warna";
+"COLOURS_RESET_LABEL" = "Atur ulang warna ke awal";
+"FINGERPOS_HEADER_TEXT" = "Posisi sidik jari";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Custom Portrait Y";
+"FINGERPOS_PORTRAITY_LABEL" = "Portrait Y";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Custom Landscape Y";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Landscape Y";
+
+"ANIMATIONS_TITLE" = "Animasi";
+"ANIM_HEADER_TEXT" = "Animasi";
+"ANIM_TICKTOGL_LABEL" = "Gunakan animasi tanda centang";
+"ANIM_SHINETOGL_LABEL" = "Gunakan animasi berkilau";
+"ANIM_FASTTOGL_LABEL" = "Gunakan animasi lebih cepat";
+"ANIM_FOOTER_TEXT" = "Gunakan animasi lebih cepat akan membuat LockGlyph bergerak lebih cepat.";

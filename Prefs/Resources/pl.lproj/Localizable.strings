@@ -1,0 +1,38 @@
+"FIRST_SUBTITLE_TEXT" = "Stworzone przez evilgoldfish.";
+"FIRST_BEHAVIOUR_LABEL" = "Zachowanie";
+"FIRST_APPEARANCE_LABEL" = "Wygląd";
+"FIRST_ANIMATIONS_LABEL" = "Animacje";
+"FIRST_DEVELOPER_HEADER_TEXT" = "Developer";
+
+"BEHAVIOUR_TITLE" = "Zachowanie";
+"GENERAL_HEADER_TEXT" = "Ogólne";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Włącz LockGlyph";
+"GENERAL_UNLOCKSNDTOGL_LABEL" = "Dźwięk po odblokowaniu";
+"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Odblokuj natychmiast";
+"GENERAL_FOOTER_TEXT" = "Po włączeniu opcji odblokuj natychmiast urządzenie zostanie odblokowane natychmiast po rozpoznaniu odcisku palca. Włącz, jeśli chceć odblokowywać najszybciej jak to tylko możliwe";
+"FAILUNLOCK_HEADER_TEXT" = "Nieudane odblokowanie";
+"FAILUNLOCK_VIBRATETOGL_LABEL" = "Wibracja";
+"FAILUNLOCK_SHAKETOGL_LABEL" = "Potrząśnij";
+"FAILUNLOCK_FOOTER_TEXT" = "Te akcje zostaną wykonane gdy palec nie zostanie rozpoznany.";
+
+"APPEARANCE_TITLE" = "Wygląd";
+"THEMES_HEADER_TEXT" = "Skórki";
+"THEMES_THEMESELECT_LABEL" = "Skórka";
+"THEMES_APPLYTHEME_LABEL" = "Zastosuj skórkę";
+"THEMES_FOOTER_TEXT" = "Po zastosowaniu skórki zostanie przeprowadzony respring urządzenia.";
+"COLOURS_HEADER_TEXT" = "Kolory";
+"COLOURS_IDLECOLOUR_LABEL" = "Kolor w stanie spoczynku";
+"COLOURS_SCANCOLOUR_LABEL" = "Kolor podczas skanowania";
+"COLOURS_RESET_LABEL" = "Przywróć kolory domyślne";
+"FINGERPOS_HEADER_TEXT" = "Pozycja odcisku palca";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Niestandarowa pozycja pionowa";
+"FINGERPOS_PORTRAITY_LABEL" = "Pionowa Y";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Niestandarowa pozycja pozioma";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Pozioma Y";
+
+"ANIMATIONS_TITLE" = "Animacje";
+"ANIM_HEADER_TEXT" = "Animacje";
+"ANIM_TICKTOGL_LABEL" = "Użyj animacji ptaszka";
+"ANIM_SHINETOGL_LABEL" = "Użyj animacji błysku";
+"ANIM_FASTTOGL_LABEL" = "Użyj szybszych animacji";
+"ANIM_FOOTER_TEXT" = "Użycie szybszych animacji sprawi, że LockGlyph będzie animował się znacznie szybciej.";

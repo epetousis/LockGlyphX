@@ -1,0 +1,38 @@
+"FIRST_SUBTITLE_TEXT" = "Od evilgoldfish.";
+"FIRST_BEHAVIOUR_LABEL" = "Správanie";
+"FIRST_APPEARANCE_LABEL" = "Vzhľad";
+"FIRST_ANIMATIONS_LABEL" = "Animácie";
+"FIRST_DEVELOPER_HEADER_TEXT" = "Vývojár";
+
+"BEHAVIOUR_TITLE" = "Správanie";
+"GENERAL_HEADER_TEXT" = "Všeobecné";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Povoliť LockGlyph";
+"GENERAL_UNLOCKSNDTOGL_LABEL" = "Povoliť zvuk odomknutia";
+"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Odomknúť okamžite";
+"GENERAL_FOOTER_TEXT" = "Pri povolení Okamžitého odomknutia, sa zariadenie okamžite odomkne po rozoznaní otlačku, alebo pri kliknutí na otlačok. Povolte túto funkciu, ak chcete, aby sa zariadenie odomklo čo najrýchlejšie.";
+"FAILUNLOCK_HEADER_TEXT" = "Akcia pri zlom pokuse";
+"FAILUNLOCK_VIBRATETOGL_LABEL" = "Vybrovanie";
+"FAILUNLOCK_SHAKETOGL_LABEL" = "Zatrasenie otlačku";
+"FAILUNLOCK_FOOTER_TEXT" = "Tieto akcie budú vykonané vždy, keď bude použitý nesprávny prst, pri pokuse o odomknutie zariadenia.";
+
+"APPEARANCE_TITLE" = "Vzhľad";
+"THEMES_HEADER_TEXT" = "Témy";
+"THEMES_THEMESELECT_LABEL" = "Téma";
+"THEMES_APPLYTHEME_LABEL" = "Použi tému!";
+"THEMES_FOOTER_TEXT" = "Použitie témy reštartuje Springboard.";
+"COLOURS_HEADER_TEXT" = "Farby";
+"COLOURS_IDLECOLOUR_LABEL" = "Farba nečinnosti";
+"COLOURS_SCANCOLOUR_LABEL" = "Farba skenovania";
+"COLOURS_RESET_LABEL" = "Resetovať farby na predvolené";
+"FINGERPOS_HEADER_TEXT" = "Pozícia otlačku";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Vlastný výškový Y";
+"FINGERPOS_PORTRAITY_LABEL" = "Výškový Y";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Vlastný šírkový Y";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Šírkový Y";
+
+"ANIMATIONS_TITLE" = "Animácie";
+"ANIM_HEADER_TEXT" = "Animácie";
+"ANIM_TICKTOGL_LABEL" = "Použiť animáciu odfajknutia";
+"ANIM_SHINETOGL_LABEL" = "Použiť trblietanie";
+"ANIM_FASTTOGL_LABEL" = "Použiť rýchlejšiu animáciu";
+"ANIM_FOOTER_TEXT" = "Použitie Rýchlejšej animácie spraví LockGlyph omnoho rýchlejším.";

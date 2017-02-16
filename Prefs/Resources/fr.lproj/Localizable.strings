@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANIMATIONS_TITLE</key>
+	<string>Animations</string>
+	<key>ANIM_FASTTOGL_LABEL</key>
+	<string>Animations plus rapides</string>
+	<key>ANIM_FOOTER_TEXT</key>
+	<string>L'utilisation d'animations plus rapides accélérera sensiblement le déverrouillage avec LockGlyph.</string>
+	<key>ANIM_HEADER_TEXT</key>
+	<string>Animations</string>
+	<key>ANIM_SHINETOGL_LABEL</key>
+	<string>Utiliser l'animation de brillance</string>
+	<key>ANIM_TICKTOGL_LABEL</key>
+	<string>Utiliser l'animation de validation</string>
+	<key>APPEARANCE_TITLE</key>
+	<string>Apparence</string>
+	<key>BEHAVIOUR_TITLE</key>
+	<string>Comportement</string>
+	<key>COLOURS_HEADER_TEXT</key>
+	<string>Couleurs</string>
+	<key>COLOURS_IDLECOLOUR_LABEL</key>
+	<string>Couleur à l'état inactif</string>
+	<key>COLOURS_RESET_LABEL</key>
+	<string>Réinitialiser les couleurs</string>
+	<key>COLOURS_SCANCOLOUR_LABEL</key>
+	<string>Couleur du scan</string>
+	<key>FAILUNLOCK_FOOTER_TEXT</key>
+	<string>Ces actions seront effectuées lorsqu'un doigt inconnu tente de déverrouiller l'appareil, ou lorsque la lecture de l'empreinte échoue.</string>
+	<key>FAILUNLOCK_HEADER_TEXT</key>
+	<string>Actions si échec déverrouillage</string>
+	<key>FAILUNLOCK_SHAKETOGL_LABEL</key>
+	<string>Secouer l'empreinte</string>
+	<key>FAILUNLOCK_VIBRATETOGL_LABEL</key>
+	<string>Vibreur</string>
+	<key>FINGERPOS_HEADER_TEXT</key>
+	<string>Position de l'empreinte</string>
+	<key>FINGERPOS_LANDSCAPEYTOGL_LABEL</key>
+	<string>Hauteur Y personnalisée (Paysage)</string>
+	<key>FINGERPOS_LANDSCAPEY_LABEL</key>
+	<string>Y (Paysage)</string>
+	<key>FINGERPOS_PORTRAITYTOGL_LABEL</key>
+	<string>Hauteur Y personnalisée (Portrait)</string>
+	<key>FINGERPOS_PORTRAITY_LABEL</key>
+	<string>Y (Portrait)</string>
+	<key>FIRST_ANIMATIONS_LABEL</key>
+	<string>Animations</string>
+	<key>FIRST_APPEARANCE_LABEL</key>
+	<string>Apparence</string>
+	<key>FIRST_BEHAVIOUR_LABEL</key>
+	<string>Comportement</string>
+	<key>FIRST_DEVELOPER_HEADER_TEXT</key>
+	<string>Développeur</string>
+	<key>FIRST_SUBTITLE_TEXT</key>
+	<string>Par evilgoldfish.</string>
+	<key>GENERAL_FOOTER_TEXT</key>
+	<string>Autoriser le déverrouillage immédiat permet à l'appareil d'être déverrouillé aussitôt qu'une empreinte connue est détectée, même si l'animation de LockGlyph n'est pas terminée. Activez ceci pour déverrouiller aussi rapidement que possible.</string>
+	<key>GENERAL_HEADER_TEXT</key>
+	<string>Général</string>
+	<key>GENERAL_LOCKGLYPHTOGL_LABEL</key>
+	<string>Activer LockGlyph</string>
+	<key>GENERAL_UNLOCKIMEDTOGL_LABEL</key>
+	<string>Déverrouillage immédiat</string>
+	<key>GENERAL_UNLOCKSNDTOGL_LABEL</key>
+	<string>Jouer un son au déverrouillage</string>
+	<key>THEMES_APPLYTHEME_LABEL</key>
+	<string>Appliquer le thème</string>
+	<key>THEMES_FOOTER_TEXT</key>
+	<string>Appliquer le thème provoquera un Respring de votre appareil.</string>
+	<key>THEMES_HEADER_TEXT</key>
+	<string>Thèmes</string>
+	<key>THEMES_THEMESELECT_LABEL</key>
+	<string>Thème</string>
+</dict>
+</plist>

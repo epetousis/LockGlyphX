@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANIMATIONS_TITLE</key>
+	<string>Animaties</string>
+	<key>ANIM_FASTTOGL_LABEL</key>
+	<string>Gebruik snellere animaties</string>
+	<key>ANIM_FOOTER_TEXT</key>
+	<string>Gebruik snellere animaties zorgt dat LockGlyph veel sneller animeert.</string>
+	<key>ANIM_HEADER_TEXT</key>
+	<string>Animaties</string>
+	<key>ANIM_SHINETOGL_LABEL</key>
+	<string>Gebruik blink animatie</string>
+	<key>ANIM_TICKTOGL_LABEL</key>
+	<string>Gebruik afvink animatie</string>
+	<key>APPEARANCE_TITLE</key>
+	<string>Uiterlijk</string>
+	<key>BEHAVIOUR_TITLE</key>
+	<string>Gedraging</string>
+	<key>COLOURS_HEADER_TEXT</key>
+	<string>Kleuren</string>
+	<key>COLOURS_IDLECOLOUR_LABEL</key>
+	<string>Standaard kleur</string>
+	<key>COLOURS_RESET_LABEL</key>
+	<string>Reset kleuren naar standaard</string>
+	<key>COLOURS_SCANCOLOUR_LABEL</key>
+	<string>Scannende kleur</string>
+	<key>FAILUNLOCK_FOOTER_TEXT</key>
+	<string>Deze acties zullen uitgevoerd worden als er een onjuiste vingerafdruk gebruikt is om het toestel te ontgrendelen.</string>
+	<key>FAILUNLOCK_HEADER_TEXT</key>
+	<string>Mislukte ontgrendeling actie</string>
+	<key>FAILUNLOCK_SHAKETOGL_LABEL</key>
+	<string>Schud vingerafdruk</string>
+	<key>FAILUNLOCK_VIBRATETOGL_LABEL</key>
+	<string>Tril</string>
+	<key>FINGERPOS_HEADER_TEXT</key>
+	<string>Vingerafdruk positie</string>
+	<key>FINGERPOS_LANDSCAPEYTOGL_LABEL</key>
+	<string>Aangepast liggend Y</string>
+	<key>FINGERPOS_LANDSCAPEY_LABEL</key>
+	<string>Liggend Y</string>
+	<key>FINGERPOS_PORTRAITYTOGL_LABEL</key>
+	<string>Aangepast staand Y</string>
+	<key>FINGERPOS_PORTRAITY_LABEL</key>
+	<string>Staand Y</string>
+	<key>FIRST_ANIMATIONS_LABEL</key>
+	<string>Animaties</string>
+	<key>FIRST_APPEARANCE_LABEL</key>
+	<string>Uiterlijk</string>
+	<key>FIRST_BEHAVIOUR_LABEL</key>
+	<string>Gedraging</string>
+	<key>FIRST_DEVELOPER_HEADER_TEXT</key>
+	<string>Ontwikkelaar</string>
+	<key>FIRST_SUBTITLE_TEXT</key>
+	<string>Door evilgoldfish.</string>
+	<key>GENERAL_FOOTER_TEXT</key>
+	<string>Onmiddellijk ontgrendelen inschakelen laat het toestel ontgrendelen vanaf dat de juiste vingerafdruk is herkent, of de vingerafdruk is aangetikt. Schakel dit in als je jouw toestel zo snel mogelijk wilt ontgrendelen.</string>
+	<key>GENERAL_HEADER_TEXT</key>
+	<string>Algemeen</string>
+	<key>GENERAL_LOCKGLYPHTOGL_LABEL</key>
+	<string>Schakel LockGlyph in</string>
+	<key>GENERAL_UNLOCKIMEDTOGL_LABEL</key>
+	<string>Ontgrendel onmiddellijk</string>
+	<key>GENERAL_UNLOCKSNDTOGL_LABEL</key>
+	<string>Schakel ontgrendelgeluid in</string>
+	<key>THEMES_APPLYTHEME_LABEL</key>
+	<string>Stel thema in</string>
+	<key>THEMES_FOOTER_TEXT</key>
+	<string>Een thema instellen zal je toestel een respring laten uitvoeren.</string>
+	<key>THEMES_HEADER_TEXT</key>
+	<string>Thema's </string>
+	<key>THEMES_THEMESELECT_LABEL</key>
+	<string>Thema's</string>
+</dict>
+</plist>
