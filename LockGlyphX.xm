@@ -110,33 +110,22 @@ static UIColor *parseColorFromPreferences(NSString* string) {
 }
 
 static void loadPreferences() {
-	CFPreferencesAppSynchronize(kPrefsAppID);
-	
-	NSDictionary *settings = nil;
-	CFArrayRef keyList = CFPreferencesCopyKeyList(kPrefsAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-	if (keyList) {
-		settings = (NSDictionary *)CFBridgingRelease(CFPreferencesCopyMultiple(keyList, kPrefsAppID, kCFPreferencesCurrentUser, kCFPreferencesAnyHost));
-		DebugLogC(@"Got user preferences: %@", settings);
-		CFRelease(keyList);
-	} else {
-		DebugLogC(@"No keylist from Prefs, no settings yet or error.");
-	}
-	
-	enabled = 					settings[@"enabled"] ? [settings[@"enabled"] boolValue] : YES;
-	useUnlockSound = 			settings[@"useUnlockSound"] ? [settings[@"useUnlockSound"] boolValue] : YES;
-	useTickAnimation = 			settings[@"useTickAnimation"] ? [settings[@"useTickAnimation"] boolValue] : YES;
-	useFasterAnimations = 		settings[@"useFasterAnimations"] ? [settings[@"useFasterAnimations"] boolValue] : NO;
-	vibrateOnIncorrectFinger = 	settings[@"vibrateOnIncorrectFinger"] ? [settings[@"vibrateOnIncorrectFinger"] boolValue] : YES;
-	shakeOnIncorrectFinger = 	settings[@"shakeOnIncorrectFinger"] ? [settings[@"shakeOnIncorrectFinger"] boolValue] : YES;
-	useShine = 					settings[@"useShine"] ? [settings[@"useShine"] boolValue] : YES;
-	primaryColor = 				settings[@"primaryColor"] ? parseColorFromPreferences(settings[@"primaryColor"]) : kDefaultPrimaryColor;
-	secondaryColor = 			settings[@"secondaryColor"] ? parseColorFromPreferences(settings[@"secondaryColor"]) : kDefaultSecondaryColor;
-	enablePortraitY = 			settings[@"enablePortraitY"] ? [settings[@"enablePortraitY"] boolValue] : NO;
-	portraitY = 				settings[@"portraitY"] ? [settings[@"portraitY"] floatValue] : 0;
-	enableLandscapeY = 			settings[@"enableLandscapeY"] ? [settings[@"enableLandscapeY"] boolValue] : NO;
-	landscapeY = 				settings[@"landscapeY"] ? [settings[@"landscapeY"] floatValue] : 0;
-	themeBundleName = 			settings[@"currentTheme"] ? settings[@"currentTheme"] : @"LockGlyph-Default.bundle";
-	shouldNotDelay = 			settings[@"shouldNotDelay"] ? [settings[@"shouldNotDelay"] boolValue] : NO;
+	CFPreferencesAppSynchronize(CFSTR("com.evilgoldfish.lockglyph"));
+	enabled = !CFPreferencesCopyAppValue(CFSTR("enabled"), CFSTR("com.evilgoldfish.lockglyph")) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enabled"), CFSTR("com.evilgoldfish.lockglyph"))) boolValue];
+	useUnlockSound = !CFPreferencesCopyAppValue(CFSTR("useUnlockSound"), CFSTR("com.evilgoldfish.lockglyph")) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useUnlockSound"), CFSTR("com.evilgoldfish.lockglyph"))) boolValue];
+	useTickAnimation = !CFPreferencesCopyAppValue(CFSTR("useTickAnimation"), CFSTR("com.evilgoldfish.lockglyph")) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useTickAnimation"), CFSTR("com.evilgoldfish.lockglyph"))) boolValue];
+	useFasterAnimations = !CFPreferencesCopyAppValue(CFSTR("useFasterAnimations"), CFSTR("com.evilgoldfish.lockglyph")) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useFasterAnimations"), CFSTR("com.evilgoldfish.lockglyph"))) boolValue];
+	vibrateOnIncorrectFinger = !CFPreferencesCopyAppValue(CFSTR("vibrateOnIncorrectFinger"), CFSTR("com.evilgoldfish.lockglyph")) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("vibrateOnIncorrectFinger"), CFSTR("com.evilgoldfish.lockglyph"))) boolValue];
+	shakeOnIncorrectFinger = !CFPreferencesCopyAppValue(CFSTR("shakeOnIncorrectFinger"), CFSTR("com.evilgoldfish.lockglyph")) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shakeOnIncorrectFinger"), CFSTR("com.evilgoldfish.lockglyph"))) boolValue];
+	useShine = !CFPreferencesCopyAppValue(CFSTR("useShine"), CFSTR("com.evilgoldfish.lockglyph")) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useShine"), CFSTR("com.evilgoldfish.lockglyph"))) boolValue];
+	primaryColor = !CFPreferencesCopyAppValue(CFSTR("primaryColor"), CFSTR("com.evilgoldfish.lockglyph")) ? kDefaultPrimaryColor : parseColorFromPreferences(CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("primaryColor"), CFSTR("com.evilgoldfish.lockglyph"))));
+	secondaryColor = !CFPreferencesCopyAppValue(CFSTR("secondaryColor"), CFSTR("com.evilgoldfish.lockglyph")) ? kDefaultSecondaryColor : parseColorFromPreferences(CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("secondaryColor"), CFSTR("com.evilgoldfish.lockglyph"))));
+	enablePortraitY = !CFPreferencesCopyAppValue(CFSTR("enablePortraitY"), CFSTR("com.evilgoldfish.lockglyph")) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enablePortraitY"), CFSTR("com.evilgoldfish.lockglyph"))) boolValue];
+	portraitY = !CFPreferencesCopyAppValue(CFSTR("portraitY"), CFSTR("com.evilgoldfish.lockglyph")) ? 0 : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("portraitY"), CFSTR("com.evilgoldfish.lockglyph"))) floatValue];
+	enableLandscapeY = !CFPreferencesCopyAppValue(CFSTR("enableLandscapeY"), CFSTR("com.evilgoldfish.lockglyph")) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enableLandscapeY"), CFSTR("com.evilgoldfish.lockglyph"))) boolValue];
+	landscapeY = !CFPreferencesCopyAppValue(CFSTR("landscapeY"), CFSTR("com.evilgoldfish.lockglyph")) ? 0 : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("landscapeY"), CFSTR("com.evilgoldfish.lockglyph"))) floatValue];
+	themeBundleName = !CFPreferencesCopyAppValue(CFSTR("currentTheme"), CFSTR("com.evilgoldfish.lockglyph")) ? @"LockGlyph-Default.bundle" : CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("currentTheme"), CFSTR("com.evilgoldfish.lockglyph")));
+	shouldNotDelay = !CFPreferencesCopyAppValue(CFSTR("shouldNotDelay"), CFSTR("com.evilgoldfish.lockglyph")) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shouldNotDelay"), CFSTR("com.evilgoldfish.lockglyph"))) boolValue];
 	
 	// theme bundle
 	NSURL *bundleURL = [NSURL fileURLWithPath:kBundlePath];
