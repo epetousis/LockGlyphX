@@ -1,6 +1,7 @@
 Package: com.evilgoldfish.lockglyphx
 Name: LockGlyphX
 Depends: firmware (>= 10.0), mobilesubstrate, preferenceloader, org.thebigboss.libcolorpicker (>= 1.1)
+Conflicts: com.evilgoldfish.lockglyph
 Version: 0.1.0
 Architecture: iphoneos-arm
 Description: LockGlyph for iOS 10.
