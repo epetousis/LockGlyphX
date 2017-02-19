@@ -55,7 +55,7 @@
 			<key>cell</key>
 			<string>PSButtonCell</string>
 			<key>label</key>
-			<string>Follow @evilgoldfish01</string>
+			<string>@evilgoldfish01</string>
 			<key>icon</key>
 			<string>Twitter.png</string>
 			<key>id</key>
