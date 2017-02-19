@@ -9,7 +9,7 @@
 #import <Preferences/PSTableCell.h>
 
 #define kBundlePath 		@"/Library/Application Support/LockGlyph/Themes/"
-#define kSelfBundlePath 	@"/Library/PreferenceBundles/LockGlyphXPrefs.bundle"
+#define kSelfBundlePath 	@"/Library/PreferenceBundles/LockGlyphX.bundle"
 
 #define kResetColorsAlertTag 	1
 #define kApplyThemeAlertTag 	2

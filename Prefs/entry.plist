@@ -1,6 +1,6 @@
 {
     entry = {
-		bundle = LockGlyphXPrefs;
+		bundle = LockGlyphX;
 		cell = PSLinkCell;
 		detail = LockGlyphXPrefsController;
 		icon = Icon.png;
