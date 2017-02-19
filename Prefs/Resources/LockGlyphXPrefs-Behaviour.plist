@@ -26,7 +26,7 @@
 			<key>label</key>
 			<string>GENERAL_LOCKGLYPHTOGL_LABEL</string>
 			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphxx.settingschanged</string>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -40,7 +40,7 @@
 			<key>label</key>
 			<string>GENERAL_UNLOCKSNDTOGL_LABEL</string>
 			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphxx.settingschanged</string>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -54,7 +54,7 @@
 			<key>label</key>
 			<string>GENERAL_UNLOCKIMEDTOGL_LABEL</string>
 			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphxx.settingschanged</string>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -78,7 +78,7 @@
 			<key>label</key>
 			<string>FAILUNLOCK_VIBRATETOGL_LABEL</string>
 			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphxx.settingschanged</string>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -92,7 +92,7 @@
 			<key>label</key>
 			<string>FAILUNLOCK_SHAKETOGL_LABEL</string>
 			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphxx.settingschanged</string>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 	</array>
 	<key>title</key>
