@@ -38,14 +38,9 @@
 
 
 @interface PKGlyphView (LockGlyphX)
-- (void)updatePositionWithOrientation:(UIInterfaceOrientation)orientation;
-- (void)updateStyle;
 - (void)addShineAnimation;
 - (void)removeShineAnimation;
-@end
-
-@interface SBDashBoardMesaUnlockBehavior (LockGlyphX)
-- (void)handleBiometricEventCommon:(unsigned long long)event;
+- (void)updatePositionWithOrientation:(UIInterfaceOrientation)orientation;
 @end
 
 
@@ -208,36 +203,19 @@ static void performShakeFingerFailAnimation(void) {
 
 // TESTS -----------------------------------------------------------------------
 
-
 // Custom Unlock Text
-// %hook SBUICallToActionLabel
-// - (void)setText:(id)arg1 forLanguage:(id)arg2 animated:(BOOL)arg3 {
-// 	%orig(@"LockGlyphX", arg2, arg3);
-// }
-// %end
-
-
-// Delay Unlock
-// %hook SBBacklightController
-// - (double)defaultLockScreenDimInterval {
-// 	double r = %orig;
-// 	DebugLog(@"defaultLockScreenDimInterval = %f", r);
-// 	return 60.0;
-// }
-// - (double)defaultLockScreenDimIntervalWhenNotificationsPresent {
-// 	double r = %orig;
-// 	DebugLog(@"defaultLockScreenDimIntervalWhenNotificationsPresent = %f", r);
-// 	return 60.0;
-// }
-// %end
-
+%hook SBUICallToActionLabel
+- (void)setText:(id)arg1 forLanguage:(id)arg2 animated:(BOOL)arg3 {
+	// %orig(@"LockGlyphX", arg2, arg3);
+	arg1 = @"";
+	%orig;
+}
+%end
 
 // END TESTS -------------------------------------------------------------------
 
 
 %hook SBDashBoardPageViewBase
-// %hook SBDashBoardMainPageView
-
 - (void)didMoveToWindow {
 	%orig;
 	
@@ -285,28 +263,28 @@ static void performShakeFingerFailAnimation(void) {
 	// [fingerglyph _setDrawsAsBackdropOverlayWithBlendMode:kCGBlendModePlusDarker];
 	// fingerglyph.tintColor = [UIColor colorWithWhite:0 alpha:0.50];
 	
-	// load theme image
+	// check for theme
 	if (themeAssets && ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]] || [[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage@2x" ofType:@"png"]])) {
 		DebugLog(@"found active theme: %@", themeAssets);
 		UIImage *customImage = [UIImage imageWithContentsOfFile:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]];
 		DebugLog(@"using custom image: %@", customImage);
 		
-		// fix scale?
-		UIImage *customImageWithScale = [UIImage imageWithCGImage:customImage.CGImage scale:[UIScreen mainScreen].scale orientation:customImage.imageOrientation];
-		
-		[fingerglyph setCustomImage:customImageWithScale.CGImage withAlignmentEdgeInsets:UIEdgeInsetsZero];
-		//[fingerglyph setCustomImage:customImageWithScale.CGImage withAlignmentEdgeInsets:UIEdgeInsetsMake(-50,-50,-50,-50)];
-		
-		// set glyph to custom mode
+		// set glyph to custom image mode
+		// TODO: fix image scale?
+		[fingerglyph setCustomImage:customImage.CGImage withAlignmentEdgeInsets:UIEdgeInsetsZero];
 		[fingerglyph setState:kGlyphStateCustom animated:NO completionHandler:nil];
 		
-		// fix size?
-		// CGRect frame = fingerglyph.frame;
-		// frame.size = CGSizeMake(200,200);
-		// fingerglyph.frame = frame;
+		// resize the custom glyph to the size of the image?
+		CGRect frame = fingerglyph.frame;
+		frame.size = customImage.size;
+		fingerglyph.frame = frame;
+		
+		usingGlyph = NO;
 		
 	} else {
-		[fingerglyph setCustomImage:nil withAlignmentEdgeInsets:UIEdgeInsetsZero];
+	// 	// no custom theme, use default
+	// 	[fingerglyph setCustomImage:nil withAlignmentEdgeInsets:UIEdgeInsetsZero];
+		usingGlyph = YES;
 	}
 	
 	// position glyph
@@ -335,13 +313,20 @@ static void performShakeFingerFailAnimation(void) {
 		isObserving = YES;
 	}
 	
-	// ?
 	// lockView = (UIView *)self;
 	authenticated = NO;
 	
 	DebugLog(@"fingerglyph = %@", fingerglyph);
 }
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:CFRevert object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:CFColor object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:CCRevert object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:CCColor object:nil];
+	%orig;
+}
 
+/* Handle tapping on the glyph (fake mode) */
 %new
 - (void)lockGlyphTapHandler:(UITapGestureRecognizer *)recognizer {
 	DebugLog(@"glyph was tapped");
@@ -396,15 +381,6 @@ static void performShakeFingerFailAnimation(void) {
 		AudioServicesPlaySystemSound(unlockSound);
 	}
 }
-
-- (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CFRevert object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CFColor object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CCRevert object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CCColor object:nil];
-	%orig;
-}
-
 %new
 - (void)LG_RevertUI:(NSNotification *)notification {
 	setPrimaryColorOverride(nil);
@@ -436,15 +412,11 @@ static void performShakeFingerFailAnimation(void) {
 		fingerglyph.secondaryColor = activeSecondaryColor();
 	}
 }
-
 %end
-
 
 //------------------------------------------------------------------------------
 
-
 %hook PKGlyphView
-
 %new
 - (void)updatePositionWithOrientation:(UIInterfaceOrientation)orientation {
 	DebugLog(@"updating glyph position for orientation: %ld", (long)orientation);
@@ -467,7 +439,6 @@ static void performShakeFingerFailAnimation(void) {
 	}
 	DebugLog(@"fingerglyph.frame = %@", NSStringFromCGRect(fingerglyph.frame));
 }
-
 %new
 - (void)addShineAnimation {
 	/*
@@ -510,70 +481,76 @@ static void performShakeFingerFailAnimation(void) {
 
 	self.layer.mask = gradient;
 }
-
 %new
 - (void)removeShineAnimation {
 	DebugLog0;
 	self.layer.mask = nil;
 }
 
-%end
-
-
-//------------------------------------------------------------------------------
-
-
-%hook PKSubglyphView
-
-- (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
-	DebugLog0;
-
-	// if (lockView && enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
-	if (enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
-		if (authenticated) {
-			arg2 = MIN(arg2, 0.1);
-		} else {
-			arg1 = MIN(arg1, 0.8);
-			arg2 *= 0.5;
-		}
-	}
-	%orig;
-}
-
-- (double)_minimumAnimationDurationForStateTransition {
-	DebugLog0;
-	return enabled && authenticated && useFasterAnimations && (doingTickAnimation || doingScanAnimation) ? 0.1 : %orig;
-}
-
 // test
-- (void)subglyphView:(PKSubglyphView *)arg1 didLayoutContentLayer:(CALayer *)arg2 {
+- (id)createCustomImageLayer {
+	CALayer *result = %orig;
+	result.contentsScale = 2.0;
+	return result;
+}
+- (void)_layoutContentLayer:(id)arg1 {
 	DebugLog0;
 	%orig;
 }
-
-%end
-
-
-//------------------------------------------------------------------------------
-
-
-%hook SBLockScreenManager
-- (void)_finishUIUnlockFromSource:(int)source withOptions:(id)options {
-	if (fingerglyph) {
-		fingerglyph.delegate = nil;
-		usingGlyph = NO;
-		// lockView = nil;
-	}
+- (void)updateRasterizationScale:(float)arg1 {
+	DebugLog(@"scale: %f", arg1);
 	%orig;
 }
 %end
 
+//------------------------------------------------------------------------------
+
+// %hook PKSubglyphView
+%hook PKFingerprintGlyphView
+// - (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
+// 	DebugLog0;
+//
+// 	if (enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
+// 		if (authenticated) {
+// 			arg2 = MIN(arg2, 0.1);
+// 		} else {
+// 			arg1 = MIN(arg1, 0.8);
+// 			arg2 *= 0.5;
+// 		}
+// 	}
+// 	%orig;
+// }
+// - (double)_minimumAnimationDurationForStateTransition {
+// 	DebugLog0;
+// 	return enabled && authenticated && useFasterAnimations && (doingTickAnimation || doingScanAnimation) ? 0.1 : %orig;
+// }
+- (void)layoutSubviews {
+	DebugLog0;
+	%orig;
+	
+	if (!usingGlyph) {
+		CALayer *ringLayer = MSHookIvar<CALayer *>(self, "_foregroundRingContainerLayer");
+		ringLayer.opacity = 0;
+	}
+}
+%end
 
 //------------------------------------------------------------------------------
 
+// %hook SBLockScreenManager
+// - (void)_finishUIUnlockFromSource:(int)source withOptions:(id)options {
+// 	if (fingerglyph) {
+// 		fingerglyph.delegate = nil;
+// 		usingGlyph = NO;
+// 		// lockView = nil;
+// 	}
+// 	%orig;
+// }
+// %end
+
+//------------------------------------------------------------------------------
 
 %hook SBDashBoardViewController
-
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration {
 	DebugLog0;
 	%orig;
@@ -590,7 +567,6 @@ static void performShakeFingerFailAnimation(void) {
 						 completion:nil];
 	}
 }
-
 /*
 - (BOOL)mesaUnlockBehavior:(id)arg1 requestsUnlock:(id)arg2 withFeedback:(id)arg3 {
 	DebugLog0;
@@ -672,19 +648,16 @@ static void performShakeFingerFailAnimation(void) {
 	}
 }
 */
-
 %end
 
 //------------------------------------------------------------------------------
 
 %hook SBDashBoardMesaUnlockBehavior
-
 // iOS < 10.2 ??
 // - (void)biometricEventMonitor:(id)arg1 handleBiometricEvent:(unsigned long long)event {
 // 	DebugLog0;
 // 	%orig;
 // }
-
 // iOS 10.2
 - (void)handleBiometricEvent:(unsigned long long)event {
 	if (!enabled || authenticated) {
@@ -778,7 +751,6 @@ static void performShakeFingerFailAnimation(void) {
 		}
 	}
 }
-
 %end
 
 //------------------------------------------------------------------------------
@@ -817,7 +789,6 @@ static void performShakeFingerFailAnimation(void) {
 %end
 
 //------------------------------------------------------------------------------
-
 
 %ctor {
 	@autoreleasepool {
