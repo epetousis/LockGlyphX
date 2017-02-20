@@ -26,7 +26,7 @@
 			<key>label</key>
 			<string>ANIM_TICKTOGL_LABEL</string>
 			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphxx.settingschanged</string>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -40,7 +40,7 @@
 			<key>label</key>
 			<string>ANIM_SHINETOGL_LABEL</string>
 			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphxx.settingschanged</string>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -54,7 +54,7 @@
 			<key>label</key>
 			<string>ANIM_FASTTOGL_LABEL</string>
 			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphxx.settingschanged</string>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 	</array>
 	<key>title</key>
