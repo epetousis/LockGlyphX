@@ -15,6 +15,9 @@
 @interface PKSubglyphView : UIView
 @end
 
+@interface PKFingerprintGlyphView : UIView
+@end
+
 @interface SBLockScreenView : UIView
 // - (void)setSlideToUnlockHidden:(BOOL)arg1 forRequester:(id)arg2;
 @end
