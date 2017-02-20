@@ -18,5 +18,5 @@ Initial port of LockGlyph code to iOS 10. Semi-functional. Work in progress :)
 2 - Loading circle (animated)  
 3 - Empty circle  
 4 - Move phone to reader (animated)  
-5 - Custom image in circle  
+5 - Custom image (in circle ?)
 6 - Success checkmark  
