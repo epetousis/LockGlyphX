@@ -20,6 +20,7 @@
 #define kGlyphStateScanning 1
 #define kGlyphStateCustom 	(IS_IOS_OR_NEWER(iOS_10_2) ? 6 : 5)
 #define kGlyphStateTicked 	(IS_IOS_OR_NEWER(iOS_10_2) ? 7 : 6)
+#define kGlyphStateMovePhoneToReader 	(IS_IOS_OR_NEWER(iOS_10_2) ? 5 : 4)
 
 #define kTouchIDFingerUp 	0
 #define kTouchIDFingerDown 	1
@@ -237,7 +238,6 @@ static void performShakeFingerFailAnimation(void) {
 
 //------------------------------------------------------------------------------
 
-// Custom Unlock Text - TODO: Make this a setting!
 %hook SBUICallToActionLabel
 
 -(void)didMoveToWindow {
