@@ -334,7 +334,7 @@ static void performShakeFingerFailAnimation(void) {
 	}
 	
 	DebugLog(@"creating new GlyphView to your specifications...");
-	fingerglyph = [[%c(PKGlyphView) alloc] initWithStyle:0]; // 1 = blended
+	fingerglyph = [[%c(PKGlyphView) alloc] initWithStyle:kGlyphStateDefault]; // 1 = blended
 	fingerglyph.delegate = (id<PKGlyphViewDelegate>)self;
 	
 	fingerglyph.primaryColor = activePrimaryColor();
