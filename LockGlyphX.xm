@@ -179,14 +179,26 @@ static void performFingerScanAnimation(void) {
 }
 
 static void resetFingerScanAnimation(void) {
-	DebugLogC(@"resetFingerScanAnimation()");
-	
-	if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]){
-		if (fingerglyph.customImage)
-			[fingerglyph setState:kGlyphStateCustom animated:YES completionHandler:nil];
-		else
-			[fingerglyph setState:kGlyphStateDefault animated:YES completionHandler:nil];
-	}
+    DebugLogC(@"resetFingerScanAnimation()");
+    
+    if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]){
+        if (fingerglyph.customImage)
+            [fingerglyph setState:kGlyphStateCustom animated:YES completionHandler:nil];
+        else
+            [fingerglyph setState:kGlyphStateDefault animated:YES completionHandler:nil];
+    }
+}
+
+// Reset finger scan without animation. I'll clean this up later
+static void resetFingerScan(void) {
+    DebugLogC(@"resetFingerScan()");
+    
+    if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]){
+        if (fingerglyph.customImage)
+            [fingerglyph setState:kGlyphStateCustom animated:NO completionHandler:nil];
+        else
+            [fingerglyph setState:kGlyphStateDefault animated:NO completionHandler:nil];
+    }
 }
 
 static void performTickAnimation(void) {
@@ -796,6 +808,15 @@ static void performShakeFingerFailAnimation(void) {
 						 completion:nil];
 	}
 }
+
+-(void)setAuthenticated:(BOOL)arg1 {
+    %orig;
+    if(!arg1) {
+        authenticated = NO;
+        resetFingerScan();
+    }
+}
+
 %end
 
 //------------------------------------------------------------------------------
