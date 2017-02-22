@@ -40,7 +40,7 @@
 #define kDefaultSecondaryColor 	[UIColor colorWithWhite:119/255.0f alpha:1] //#777777
 
 #define kDefaultYOffset 60.0f
-#define kDefaultYOffsetWithLockLabel 80.0f
+#define kDefaultYOffsetWithLockLabel 100.0f
 
 
 @interface PKGlyphView (LockGlyphX)
