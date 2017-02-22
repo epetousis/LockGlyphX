@@ -16,7 +16,7 @@
 "FAILUNLOCK_SHAKETOGL_LABEL" = "Shake fingerprint";
 "FAILUNLOCK_FOOTER_TEXT" = "These actions will be performed whenever an incorrect finger is used to unlock the device.";
 
-"SOUND_FOOTER" = "If the current theme doesn't include sound the default 'Apple Pay' sound will be played.";
+"SOUND_FOOTER" = "If the current theme doesn't include sound the 'Apple Pay' sound will be played.";
 "SOUND_NONE" = "None";
 "SOUND_DEFAULT" = "Theme (default)";
 "SOUND_APPLE_PAY" = "Apple Pay";
