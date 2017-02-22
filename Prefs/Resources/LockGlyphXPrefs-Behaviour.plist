@@ -81,8 +81,6 @@
 			<string>FAILUNLOCK_HEADER_TEXT</string>
 			<key>footerText</key>
 			<string>FAILUNLOCK_FOOTER_TEXT</string>
-			<key>footerAlignment</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>cell</key>
