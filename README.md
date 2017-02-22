@@ -23,5 +23,5 @@ There are some differences to PKGlyphView and friends across subversions of iOS 
 2 - Loading circle (animated)  
 3 - Empty circle  
 4 - Move phone to reader (animated)  
-5 - Custom image (in circle ?)
+5 - Custom image (in circle ?)  
 6 - Success checkmark  

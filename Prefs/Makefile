@@ -4,7 +4,7 @@ TARGET = iphone:clang:9.2:10.0
 include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = LockGlyphX
-LockGlyphX_FILES = LockGlyphXPrefs.mm
+LockGlyphX_FILES = LockGlyphXPrefs.mm LockGlyphXThemeController.mm
 LockGlyphX_CFLAGS = -fobjc-arc
 LockGlyphX_INSTALL_PATH = /Library/PreferenceBundles
 LockGlyphX_FRAMEWORKS = UIKit CoreGraphics QuartzCore
