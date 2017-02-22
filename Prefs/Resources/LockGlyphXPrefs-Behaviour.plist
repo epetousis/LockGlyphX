@@ -31,20 +31,21 @@
 			<string>PSGroupCell</string>
 		</dict>
 		<dict>
-			<key>titlesDataSource</key>
-			<string>soundTitles</string>
-			<key>valuesDataSource</key>
-			<string>soundValues</string>
+			
 			<key>cell</key>
 			<string>PSLinkListCell</string>
 			<key>label</key>
 			<string>GENERAL_UNLOCKSNDSELECTION_LABEL</string>
 			<key>detail</key>
-			<string>LockGlyphXPrefsItemsController</string>
-			<key>default</key>
-			<integer>1</integer>
+			<string>LockGlyphXPrefsSoundItemsController</string>
 			<key>key</key>
 			<string>unlockSound</string>
+			<key>titlesDataSource</key>
+			<string>soundTitles</string>
+			<key>valuesDataSource</key>
+			<string>soundValues</string>
+			<key>default</key>
+			<integer>1</integer>
 			<key>defaults</key>
 			<string>com.evilgoldfish.lockglyphx</string>
 			<key>PostNotification</key>

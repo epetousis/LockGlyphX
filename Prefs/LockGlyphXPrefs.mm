@@ -9,6 +9,7 @@
 
 #import "Common.h"
 #import <Preferences/PSListController.h>
+#import <Preferences/PSListItemsController.h>
 #import <Preferences/PSSpecifier.h>
 #import <Preferences/PSSwitchTableCell.h>
 #import <Preferences/PSTableCell.h>
@@ -195,19 +196,17 @@
 
 @implementation LockGlyphXPrefsBehaviourController
 - (id)specifiers {
-	if(_specifiers == nil) {
+	if (_specifiers == nil) {
 		_specifiers = [self loadSpecifiersFromPlistName:@"LockGlyphXPrefs-Behaviour" target:self];
 	}
 	[LGShared parseSpecifiers:_specifiers];
 	[(UINavigationItem *)self.navigationItem setTitle:[LGShared localisedStringForKey:@"BEHAVIOUR_TITLE"]];
 	return _specifiers;
 }
-
--(NSArray *)soundValues {
+- (NSArray *)soundValues {
     return @[@0, @1, @2, @3];
 }
-
--(NSArray *)soundTitles {
+- (NSArray *)soundTitles {
     NSMutableArray *titles = [@[@"SOUND_NONE", @"SOUND_DEFAULT", @"SOUND_APPLE_PAY", @"SOUND_OLD_APPLE_PAY"] mutableCopy];
     for (int i = 0; i < titles.count; i++) {
         titles[i] = [LGShared localisedStringForKey:titles[i]];
@@ -224,7 +223,7 @@
 
 @implementation LockGlyphXPrefsAppearanceController
 - (id)specifiers {
-	if(_specifiers == nil) {
+	if (_specifiers == nil) {
 		_specifiers = [self loadSpecifiersFromPlistName:@"LockGlyphXPrefs-Appearance" target:self];
 	}
 	[LGShared parseSpecifiers:_specifiers];
@@ -262,7 +261,7 @@
 
 @implementation LockGlyphXPrefsAnimationsController
 - (id)specifiers {
-	if(_specifiers == nil) {
+	if (_specifiers == nil) {
 		_specifiers = [self loadSpecifiersFromPlistName:@"LockGlyphXPrefs-Animations" target:self];
 	}
 	[LGShared parseSpecifiers:_specifiers];
@@ -279,12 +278,26 @@
 
 @implementation LockGlyphXPrefsCreditsController
 - (id)specifiers {
-	if(_specifiers == nil) {
+	if (_specifiers == nil) {
 		_specifiers = [self loadSpecifiersFromPlistName:@"LockGlyphXPrefs-Credits" target:self];
 	}
 	// [LGShared parseSpecifiers:_specifiers];
 	// [(UINavigationItem *)self.navigationItem setTitle:[LGShared localisedStringForKey:@"ANIMATIONS_TITLE"]];
 	return _specifiers;
+}
+@end
+
+
+// Sound Items Controller ------------------------------------------------------
+
+@interface LockGlyphXPrefsSoundItemsController : PSListItemsController
+@end
+
+@implementation LockGlyphXPrefsSoundItemsController
+- (NSArray *)specifiers {
+    NSArray *specifiers = [super specifiers];
+    [LGShared parseSpecifiers:specifiers butOnlyFooter:YES];
+    return specifiers;
 }
 @end
 
@@ -333,21 +346,5 @@
 		self.detailTextLabel.text = selectedTheme;
 	}
 	return self;
-}
-@end
-
-// Items Controller (still localizes footer) --------------------------------------------------------
-
-@interface PSListItemsController : PSListController
-@end
-
-@interface LockGlyphXPrefsItemsController : PSListItemsController
-@end
-
-@implementation LockGlyphXPrefsItemsController
-- (NSArray *)specifiers {
-    NSArray *specifiers = [super specifiers];
-    [LGShared parseSpecifiers:specifiers butOnlyFooter:YES];
-    return specifiers;
 }
 @end
