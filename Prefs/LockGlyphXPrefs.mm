@@ -91,11 +91,11 @@
 	self.title = @"";
 	
 	// add a heart button to the navbar
-	UIImage *heartImage = [[UIImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/heart.png", kPrefsBundlePath]];
-	UIBarButtonItem *heartButton = [[UIBarButtonItem alloc] initWithImage:heartImage style:UIBarButtonItemStylePlain target:self action:@selector(showLove)];
-	heartButton.imageInsets = (UIEdgeInsets){2, 0, -2, 0};
-	heartButton.tintColor = kTintColor;
-	[self.navigationItem setRightBarButtonItem:heartButton];
+	// UIImage *heartImage = [[UIImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/heart.png", kPrefsBundlePath]];
+	// UIBarButtonItem *heartButton = [[UIBarButtonItem alloc] initWithImage:heartImage style:UIBarButtonItemStylePlain target:self action:@selector(showLove)];
+	// heartButton.imageInsets = (UIEdgeInsets){2, 0, -2, 0};
+	// heartButton.tintColor = kTintColor;
+	// [self.navigationItem setRightBarButtonItem:heartButton];
 }
 - (id)specifiers {
 	if(_specifiers == nil) {
