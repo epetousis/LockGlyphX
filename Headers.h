@@ -16,6 +16,7 @@
 @end
 
 @interface PKFingerprintGlyphView : UIView
+@property (nonatomic,readonly) UIView * contentView;
 @end
 
 @interface SBLockScreenView : UIView
