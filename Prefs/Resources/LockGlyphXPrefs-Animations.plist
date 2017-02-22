@@ -2,21 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>title</key>
+	<string>ANIMATIONS_TITLE</string>
 	<key>items</key>
 	<array>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>ANIM_HEADER_TEXT</string>
-			<key>footerText</key>
-			<string>ANIM_FOOTER_TEXT</string>
-			<key>footerAlignment</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
 			<key>default</key>
 			<true/>
 			<key>defaults</key>
@@ -28,9 +26,16 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
 			<key>default</key>
 			<true/>
 			<key>defaults</key>
@@ -42,9 +47,20 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>ANIM_FOOTER_TEXT</string>
+			<key>footerAlignment</key>
+			<integer>1</integer>
+		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
 			<key>default</key>
 			<false/>
 			<key>defaults</key>
@@ -57,7 +73,5 @@
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 	</array>
-	<key>title</key>
-	<string>ANIMATIONS_TITLE</string>
 </dict>
 </plist>

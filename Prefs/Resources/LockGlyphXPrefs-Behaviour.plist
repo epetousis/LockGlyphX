@@ -2,21 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>title</key>
+	<string>BEHAVIOUR_TITLE</string>
 	<key>items</key>
 	<array>
+		
+		<!-- Enabled -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>GENERAL_HEADER_TEXT</string>
-			<key>footerText</key>
-			<string>GENERAL_FOOTER_TEXT</string>
-			<key>footerAlignment</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
 			<key>default</key>
 			<true/>
 			<key>defaults</key>
@@ -24,13 +24,21 @@
 			<key>key</key>
 			<string>enabled</string>
 			<key>label</key>
-			<string>GENERAL_LOCKGLYPHTOGL_LABEL</string>
+			<string>Enabled</string>
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+		
+		<!-- Sound -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
 			<key>default</key>
 			<true/>
 			<key>defaults</key>
@@ -42,9 +50,19 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		
+		<!-- Unlock Immediately -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>GENERAL_FOOTER_TEXT</string>
+		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
 			<key>default</key>
 			<false/>
 			<key>defaults</key>
@@ -56,6 +74,8 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		
+		<!-- Unlock Failure -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -69,6 +89,8 @@
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
 			<key>default</key>
 			<true/>
 			<key>defaults</key>
@@ -83,6 +105,8 @@
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
 			<key>default</key>
 			<true/>
 			<key>defaults</key>
@@ -95,7 +119,5 @@
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 	</array>
-	<key>title</key>
-	<string>BEHAVIOUR_TITLE</string>
 </dict>
 </plist>
