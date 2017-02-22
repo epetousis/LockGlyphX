@@ -29,6 +29,8 @@
 "FINGERPOS_PORTRAITY_LABEL" = "Portrait Y";
 "FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Custom Landscape Y";
 "FINGERPOS_LANDSCAPEY_LABEL" = "Landscape Y";
+"LOCKLABEL_ENABLED_LABEL" = "Show 'Press home to unlock'";
+"LOCKLABEL_CUSTOM_TEXT_LABEL" = "Custom text";
 
 "ANIMATIONS_TITLE" = "Animations";
 "ANIM_HEADER_TEXT" = "Animations";

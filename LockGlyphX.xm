@@ -28,6 +28,8 @@
 #define kTouchIDSuccess 	4
 #define kTouchIDNotMatched 	10
 
+#define kLockGlyphLockScreenActivatedNotification   @"LockGlyphLockScreenActivatedNotification"
+
 #define kPrefsAppID 					CFSTR("com.evilgoldfish.lockglyphx")
 #define kSettingsChangedNotification 	CFSTR("com.evilgoldfish.lockglyphx.settingschanged")
 
@@ -38,6 +40,7 @@
 #define kDefaultSecondaryColor 	[UIColor colorWithWhite:119/255.0f alpha:1] //#777777
 
 #define kDefaultYOffset 60.0f
+#define kDefaultYOffsetWithLockLabel 80.0f
 
 
 @interface PKGlyphView (LockGlyphX)
@@ -79,6 +82,8 @@ static CGFloat portraitX;
 static BOOL enableLandscapeX;
 static CGFloat landscapeX;
 static BOOL shouldHideRing;
+static NSString *pressHomeToUnlockText;
+static BOOL showPressHomeToUnlockLabel;
 
 static UIColor *primaryColorOverride;
 static UIColor *secondaryColorOverride;
@@ -89,6 +94,9 @@ static NSString *CFColor = @"ColorFlowLockScreenColorizationNotification";
 static NSString *CCRevert = @"CustomCoverLockScreenColourResetNotification";
 static NSString *CCColor = @"CustomCoverLockScreenColourUpdateNotification";
 
+static CGFloat getDefaultYOffset() {
+    return showPressHomeToUnlockLabel ? kDefaultYOffsetWithLockLabel : kDefaultYOffset;
+}
 
 static void setPrimaryColorOverride(UIColor *color) {
 	if ([primaryColorOverride isEqual:color]) {
@@ -147,6 +155,8 @@ static void loadPreferences() {
 	enableLandscapeX = !CFPreferencesCopyAppValue(CFSTR("enableLandscapeX"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enableLandscapeX"), kPrefsAppID)) boolValue];
 	landscapeX = !CFPreferencesCopyAppValue(CFSTR("landscapeX"), kPrefsAppID) ? 0 : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("landscapeX"), kPrefsAppID)) floatValue];
 	shouldHideRing = !CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID)) boolValue];
+    showPressHomeToUnlockLabel = !CFPreferencesCopyAppValue(CFSTR("showPressHomeToUnlockLabel"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("showPressHomeToUnlockLabel"), kPrefsAppID)) boolValue];
+    pressHomeToUnlockText = !CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID) ? @"" : CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID));
 	
 	// theme bundle
 	NSURL *bundleURL = [NSURL fileURLWithPath:kThemePath];
@@ -229,10 +239,56 @@ static void performShakeFingerFailAnimation(void) {
 
 // Custom Unlock Text - TODO: Make this a setting!
 %hook SBUICallToActionLabel
-- (void)setText:(id)arg1 forLanguage:(id)arg2 animated:(BOOL)arg3 {
-	arg1 = @"";
-	%orig;
+
+-(void)didMoveToWindow {
+    %orig;
+    [self setHidden:NO];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(LG_CheckHiddenAndText:)
+                                                 name:kLockGlyphLockScreenActivatedNotification
+                                               object:nil];
 }
+
+- (void)setText:(id)arg1 {
+    if(![pressHomeToUnlockText isEqualToString:@""]) {
+        arg1 = pressHomeToUnlockText;
+    }
+    %orig;
+}
+
+-(void)setText:(id)arg1 forLanguage:(id)arg2 animated:(BOOL)arg3 {
+    if(![pressHomeToUnlockText isEqualToString:@""]) {
+        arg1 = pressHomeToUnlockText;
+    }
+    %orig;
+}
+
+%new
+-(void)LG_CheckHiddenAndText:(NSNotification *)notification {
+    [self setHidden:NO];
+    [self setText:@""];
+}
+
+-(BOOL)hidden {
+    if(enabled && !showPressHomeToUnlockLabel) {
+        return YES;
+    }
+    return %orig;
+}
+
+-(void)setHidden:(BOOL)hidden {
+    if(enabled && !showPressHomeToUnlockLabel) {
+        %orig(YES);
+        return;
+    }
+    %orig;
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    %orig;
+}
+
 %end
 
 //------------------------------------------------------------------------------
@@ -245,12 +301,15 @@ static void performShakeFingerFailAnimation(void) {
 	if (![self.pageViewController isKindOfClass:[%c(SBDashBoardMainPageViewController) class]]) {
 		return;
 	}
+    
+    // We still need to send this if disabled so we can adjust accordingly in our other classes
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLockGlyphLockScreenActivatedNotification object:nil];
 	
 	if (!enabled) {
 		DebugLog(@"LockGlyphX is disabled :/");
 		return;
 	}
-	
+    
 	// main page is leaving it's window, do some clean up
 	if (!self.window) {
 		DebugLog(@"main page has left window");
@@ -444,9 +503,9 @@ static void performShakeFingerFailAnimation(void) {
 	if (UIInterfaceOrientationIsLandscape(orientation)) {
 		DebugLog(@"in landscape orientation");
 		if (landscapeY == 0 || !enableLandscapeY) {
-			dy = kDefaultYOffset;
+			dy = getDefaultYOffset();
 		} else {
-			dy = kDefaultYOffset + landscapeY;
+			dy = getDefaultYOffset() + landscapeY;
 		}
 		if (landscapeX == 0 || !enableLandscapeX) {
 			dx = 0;
@@ -457,9 +516,9 @@ static void performShakeFingerFailAnimation(void) {
 	} else {
 		DebugLog(@"in portrait orientation");
 		if (portraitY == 0 || !enablePortraitY) {
-			dy = kDefaultYOffset;
+			dy = getDefaultYOffset();
 		} else {
-			dy = kDefaultYOffset + portraitY;
+			dy = getDefaultYOffset() + portraitY;
 		}
 		if (portraitX == 0 || !enablePortraitX) {
 			dx = 0;
