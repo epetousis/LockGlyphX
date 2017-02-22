@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string>Credits</string>
+	
+	<key>items</key>
+	<array>
+		
+		<!-- evilgoldfish -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Creator</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>LGXButtonCell</string>
+			<key>label</key>
+			<string>@evilgoldfish01</string>
+			<key>icon</key>
+			<string>twitter.png</string>
+			<key>id</key>
+			<string>twitterButton</string>
+			<key>action</key>
+			<string>twitterButton</string>
+		</dict>
+		
+		<!-- Additional Devs -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Additional Developers</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>LGXButtonCell</string>
+			<key>label</key>
+			<string>@sticktron</string>
+			<key>icon</key>
+			<string>twitter.png</string>
+			<key>id</key>
+			<string>twitterButton2</string>
+			<key>action</key>
+			<string>twitterButton2</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>LGXButtonCell</string>
+			<key>label</key>
+			<string>@AppleBetasDev</string>
+			<key>icon</key>
+			<string>twitter.png</string>
+			<key>id</key>
+			<string>twitterButton3</string>
+			<key>action</key>
+			<string>twitterButton3</string>
+		</dict>
+	</array>
+</dict>
+</plist>

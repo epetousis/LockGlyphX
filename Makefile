@@ -1,6 +1,3 @@
-GO_EASY_ON_ME = 1
-
-
 ARCHS = armv7 arm64
 TARGET = iphone:clang:10.2:10.0
 # TARGET = simulator:clang
@@ -23,5 +20,4 @@ after-stage::
 	find . -name ".DS_STORE" -delete
 
 after-install::
-	install.exec "killall -9 SpringBoard"
-#	install.exec "killall -9 backboardd"
+	install.exec "killall -9 backboardd"
