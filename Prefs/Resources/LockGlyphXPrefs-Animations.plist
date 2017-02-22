@@ -6,6 +6,8 @@
 	<string>ANIMATIONS_TITLE</string>
 	<key>items</key>
 	<array>
+		
+		<!-- Use tick animation -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -26,6 +28,8 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		
+		<!-- Use shine animation -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -46,6 +50,8 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		
+		<!-- use faster animations -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -70,9 +76,15 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		
+		<!-- Use alternate (ring) scanning animation -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>ANIM_LOADINGTOGL_FOOTER_TEXT</string>
+			<key>footerAlignment</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -90,6 +102,8 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		
+		<!-- Use Hold-To-Reader animation -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
