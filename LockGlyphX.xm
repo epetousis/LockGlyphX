@@ -21,6 +21,7 @@
 #define kGlyphStateCustom 	(IS_IOS_OR_NEWER(iOS_10_2) ? 6 : 5)
 #define kGlyphStateTicked 	(IS_IOS_OR_NEWER(iOS_10_2) ? 7 : 6)
 #define kGlyphStateMovePhoneToReader 	(IS_IOS_OR_NEWER(iOS_10_2) ? 5 : 4)
+#define kGlyphStateLoading 	(IS_IOS_OR_NEWER(iOS_10_2) ? 3 : 2)
 
 #define kTouchIDFingerUp 	0
 #define kTouchIDFingerDown 	1
