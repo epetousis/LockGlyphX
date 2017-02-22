@@ -16,12 +16,12 @@
 #import <AudioToolbox/AudioServices.h>
 
 
-#define kGlyphStateDefault 	0
-#define kGlyphStateScanning 1
-#define kGlyphStateCustom 	(IS_IOS_OR_NEWER(iOS_10_2) ? 6 : 5)
-#define kGlyphStateTicked 	(IS_IOS_OR_NEWER(iOS_10_2) ? 7 : 6)
+#define kGlyphStateDefault 				0
+#define kGlyphStateScanning 			1
+#define kGlyphStateCustom 				(IS_IOS_OR_NEWER(iOS_10_2) ? 6 : 5)
+#define kGlyphStateTicked 				(IS_IOS_OR_NEWER(iOS_10_2) ? 7 : 6)
 #define kGlyphStateMovePhoneToReader 	(IS_IOS_OR_NEWER(iOS_10_2) ? 5 : 4)
-#define kGlyphStateLoading 	(IS_IOS_OR_NEWER(iOS_10_2) ? 3 : 2)
+#define kGlyphStateLoading 				(IS_IOS_OR_NEWER(iOS_10_2) ? 3 : 2)
 
 #define kTouchIDFingerUp 	0
 #define kTouchIDFingerDown 	1
@@ -41,12 +41,12 @@
 #define kDefaultPrimaryColor 	[UIColor colorWithWhite:188/255.0f alpha:1] //#BCBCBC
 #define kDefaultSecondaryColor 	[UIColor colorWithWhite:119/255.0f alpha:1] //#777777
 
-#define kDefaultYOffset 60.0f
-#define kDefaultYOffsetWithLockLabel 100.0f
+#define kDefaultYOffset 				60.0f
+#define kDefaultYOffsetWithLockLabel 	100.0f
 
-#define kSoundNone  0
-#define kSoundTheme 1
-#define kSoundApplePay  2
+#define kSoundNone  		0
+#define kSoundTheme 		1
+#define kSoundApplePay 		2
 #define kSoundOldApplePay   3
 
 
