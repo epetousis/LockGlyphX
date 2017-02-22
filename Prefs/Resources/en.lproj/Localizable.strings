@@ -16,7 +16,7 @@
 "FAILUNLOCK_SHAKETOGL_LABEL" = "Shake fingerprint";
 "FAILUNLOCK_FOOTER_TEXT" = "These actions will be performed whenever an incorrect finger is used to unlock the device.";
 
-"SOUND_FOOTER" = "Choosing 'Theme' will use the default Apple Pay sound if you do not have a theme with a sound enabled.";
+"SOUND_FOOTER" = "If the current theme doesn't include sound the default 'Apple Pay' sound will be played.";
 "SOUND_NONE" = "None";
 "SOUND_DEFAULT" = "Theme (default)";
 "SOUND_APPLE_PAY" = "Apple Pay";
@@ -25,8 +25,8 @@
 "APPEARANCE_TITLE" = "Appearance";
 "THEMES_HEADER_TEXT" = "Themes";
 "THEMES_THEMESELECT_LABEL" = "Theme";
-"THEMES_APPLYTHEME_LABEL" = "Apply theme";
-"THEMES_FOOTER_TEXT" = "Applying a theme will respring your device.";
+"APPEARANCE_HIDE_RING_LABEL" = "Hide ring"
+
 "COLOURS_HEADER_TEXT" = "Colors";
 "COLOURS_IDLECOLOUR_LABEL" = "Idle color";
 "COLOURS_SCANCOLOUR_LABEL" = "Scanning color";
@@ -45,6 +45,7 @@
 "ANIM_SHINETOGL_LABEL" = "Use shine animation";
 "ANIM_FASTTOGL_LABEL" = "Use faster animations";
 "ANIM_FOOTER_TEXT" = "Use faster animations will make LockGlyph animate much faster.";
-"ANIM_LOADINGTOGL_LABEL" = "Use loading scan animation";
+"ANIM_LOADINGTOGL_LABEL" = "Use alternate scanning animation";
+"ANIM_LOADINGTOGL_FOOTER_TEXT" = "Requires 'Hide ring' setting to be off.";
 "ANIM_HOLDTOREADERTOGL_LABEL" = "Use 'Hold to Reader' idle animation";
-"ANIM_ONLYDEFAULT_LABEL" = "This animation will only be active if you are using the default Apple Pay theme.";
+"ANIM_ONLYDEFAULT_LABEL" = "This animation only applies to the default theme.";
