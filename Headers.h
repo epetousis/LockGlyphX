@@ -81,3 +81,7 @@
 - (void)_handleMesaFailure;
 - (void)biometricEventMonitor:(id)arg1 handleBiometricEvent:(unsigned long long)arg2;
 @end
+
+@interface SBUICallToActionLabel : UIView
+-(void)setText:(NSString *)arg1;
+@end

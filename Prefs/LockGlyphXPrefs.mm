@@ -36,13 +36,18 @@
 	NSString *englishString = [[NSBundle bundleWithPath:[NSString stringWithFormat:@"%@/en.lproj", kPrefsBundlePath]] localizedStringForKey:key value:@"" table:nil];
 	return [[NSBundle bundleWithPath:kPrefsBundlePath] localizedStringForKey:key value:englishString table:nil];
 }
++ (void)parseSpecifiers:(NSArray *)specifiers butOnlyFooter:(BOOL)onlyFooter {
+    for (PSSpecifier *specifier in specifiers) {
+        NSString *localisedTitle = [LGShared localisedStringForKey:specifier.properties[@"label"]];
+        NSString *localisedFooter = [LGShared localisedStringForKey:specifier.properties[@"footerText"]];
+        [specifier setProperty:localisedFooter forKey:@"footerText"];
+        if(!onlyFooter) {
+            specifier.name = localisedTitle;
+        }
+    }
+}
 + (void)parseSpecifiers:(NSArray *)specifiers {
-	for (PSSpecifier *specifier in specifiers) {
-		NSString *localisedTitle = [LGShared localisedStringForKey:specifier.properties[@"label"]];
-		NSString *localisedFooter = [LGShared localisedStringForKey:specifier.properties[@"footerText"]];
-		[specifier setProperty:localisedFooter forKey:@"footerText"];
-		specifier.name = localisedTitle;
-	}
+    [LGShared parseSpecifiers:specifiers butOnlyFooter:NO];
 }
 @end
 
@@ -197,6 +202,18 @@
 	[(UINavigationItem *)self.navigationItem setTitle:[LGShared localisedStringForKey:@"BEHAVIOUR_TITLE"]];
 	return _specifiers;
 }
+
+-(NSArray *)soundValues {
+    return @[@0, @1, @2, @3];
+}
+
+-(NSArray *)soundTitles {
+    NSMutableArray *titles = [@[@"SOUND_NONE", @"SOUND_DEFAULT", @"SOUND_APPLE_PAY", @"SOUND_OLD_APPLE_PAY"] mutableCopy];
+    for (int i = 0; i < titles.count; i++) {
+        titles[i] = [LGShared localisedStringForKey:titles[i]];
+    }
+    return titles;
+}
 @end
 
 
@@ -316,5 +333,21 @@
 		self.detailTextLabel.text = selectedTheme;
 	}
 	return self;
+}
+@end
+
+// Items Controller (still localizes footer) --------------------------------------------------------
+
+@interface PSListItemsController : PSListController
+@end
+
+@interface LockGlyphXPrefsItemsController : PSListItemsController
+@end
+
+@implementation LockGlyphXPrefsItemsController
+- (NSArray *)specifiers {
+    NSArray *specifiers = [super specifiers];
+    [LGShared parseSpecifiers:specifiers butOnlyFooter:YES];
+    return specifiers;
 }
 @end
