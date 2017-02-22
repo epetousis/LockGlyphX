@@ -44,6 +44,11 @@
 #define kDefaultYOffset 60.0f
 #define kDefaultYOffsetWithLockLabel 100.0f
 
+#define kSoundNone  0
+#define kSoundTheme 1
+#define kSoundApplePay  2
+#define kSoundOldApplePay   3
+
 
 @interface PKGlyphView (LockGlyphX)
 - (void)addShineAnimation;
@@ -66,7 +71,7 @@ static BOOL isObserving;
 
 static BOOL enabled;
 static NSString *themeBundleName;
-static BOOL useUnlockSound;
+static int unlockSoundChoice;
 static BOOL useTickAnimation;
 static BOOL useFasterAnimations;
 static BOOL vibrateOnIncorrectFinger;
@@ -139,7 +144,7 @@ static void loadPreferences() {
 	CFPreferencesAppSynchronize(kPrefsAppID);
 	enabled = !CFPreferencesCopyAppValue(CFSTR("enabled"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enabled"), kPrefsAppID)) boolValue];
 	themeBundleName = !CFPreferencesCopyAppValue(CFSTR("currentTheme"), kPrefsAppID) ? kDefaultTheme : CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("currentTheme"), kPrefsAppID));
-	useUnlockSound = !CFPreferencesCopyAppValue(CFSTR("useUnlockSound"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useUnlockSound"), kPrefsAppID)) boolValue];
+    unlockSoundChoice = !CFPreferencesCopyAppValue(CFSTR("unlockSound"), kPrefsAppID) ? kSoundTheme : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("unlockSound"), kPrefsAppID)) intValue];
 	useTickAnimation = !CFPreferencesCopyAppValue(CFSTR("useTickAnimation"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useTickAnimation"), kPrefsAppID)) boolValue];
 	useFasterAnimations = !CFPreferencesCopyAppValue(CFSTR("useFasterAnimations"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useFasterAnimations"), kPrefsAppID)) boolValue];
 	vibrateOnIncorrectFinger = !CFPreferencesCopyAppValue(CFSTR("vibrateOnIncorrectFinger"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("vibrateOnIncorrectFinger"), kPrefsAppID)) boolValue];
@@ -165,18 +170,20 @@ static void loadPreferences() {
 	themeAssets = [NSBundle bundleWithURL:[bundleURL URLByAppendingPathComponent:themeBundleName]];
 	DebugLogC(@"found assets for theme (%@): %@", themeBundleName, themeAssets);
 	
-	// load sound - TODO: Move this so sound isn't loading if we are disabled.
+	// load sound
 	if (unlockSound) {
 		AudioServicesDisposeSystemSoundID(unlockSound);
 	}
-	if ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]]) {
-		NSURL *pathURL = [NSURL fileURLWithPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]];
-		AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
-	} else {
-		DebugLogC(@"no sound for theme, using default instead");
-		NSURL *pathURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Default.bundle/SuccessSound.wav", kThemePath]];
-		AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
-	}
+    if(unlockSoundChoice != 0) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]] && unlockSoundChoice == 1) {
+            NSURL *pathURL = [NSURL fileURLWithPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]];
+            AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
+        } else {
+            DebugLogC(@"no sound for theme or user doesn't want it, using default instead");
+            NSURL *pathURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Default.bundle/%@.wav", kThemePath, (unlockSoundChoice != 3 ? @"SuccessSound" : @"ClassicSuccessSound")]];
+            AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
+        }
+    }
 }
 
 static void performFingerScanAnimation(void) {
@@ -428,7 +435,7 @@ static void performShakeFingerFailAnimation(void) {
 					delayInSeconds = 0.4;
 				}
 				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-					if (!useTickAnimation && useUnlockSound && unlockSound) {
+					if (!useTickAnimation && unlockSoundChoice != 0 && unlockSound) {
 						AudioServicesPlaySystemSound(unlockSound);
 					}
 					authenticated = NO;
@@ -454,7 +461,7 @@ static void performShakeFingerFailAnimation(void) {
 %new
 - (void)glyphView:(PKGlyphView *)arg1 revealingCheckmark:(BOOL)arg2 {
 	DebugLog0;
-	if (enabled && useUnlockSound && useTickAnimation && unlockSound) {
+	if (enabled && unlockSoundChoice != 0 && useTickAnimation && unlockSound) {
 		AudioServicesPlaySystemSound(unlockSound);
 	}
 }
@@ -726,7 +733,7 @@ static void performShakeFingerFailAnimation(void) {
 					
 					unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
 						DebugLog(@"performing block after delay now");
-						if (!useTickAnimation && useUnlockSound && unlockSound) {
+						if (!useTickAnimation && unlockSoundChoice != 0 && unlockSound) {
 							AudioServicesPlaySystemSound(unlockSound);
 						}
 						%orig;
@@ -739,8 +746,8 @@ static void performShakeFingerFailAnimation(void) {
 					}
 					if (!manager.isUILocked) {
 						DebugLog(@"manager.isUILocked == NO");
-						if (!useTickAnimation && useUnlockSound && unlockSound && shouldNotDelay) {
-							DebugLog(@"!useTickAnimation && useUnlockSound && unlockSound && shouldNotDelay");
+						if (!useTickAnimation && unlockSoundChoice != 0 && unlockSound && shouldNotDelay) {
+							DebugLog(@"!useTickAnimation && unlockSoundChoice != 0 && unlockSound && shouldNotDelay");
 							AudioServicesPlaySystemSound(unlockSound);
 						}
 					}
@@ -814,7 +821,7 @@ static void performShakeFingerFailAnimation(void) {
 					
 					unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
 						DebugLog(@"performing block after delay now");
-						if (!useTickAnimation && useUnlockSound && unlockSound) {
+						if (!useTickAnimation && unlockSoundChoice != 0 && unlockSound) {
 							AudioServicesPlaySystemSound(unlockSound);
 						}
 						%orig;
@@ -827,8 +834,8 @@ static void performShakeFingerFailAnimation(void) {
 					}
 					if (!manager.isUILocked) {
 						DebugLog(@"manager.isUILocked == NO");
-						if (!useTickAnimation && useUnlockSound && unlockSound && shouldNotDelay) {
-							DebugLog(@"!useTickAnimation && useUnlockSound && unlockSound && shouldNotDelay");
+						if (!useTickAnimation && unlockSoundChoice != 0 && unlockSound && shouldNotDelay) {
+							DebugLog(@"!useTickAnimation && unlockSoundChoice != 0 && unlockSound && shouldNotDelay");
 							AudioServicesPlaySystemSound(unlockSound);
 						}
 					}
