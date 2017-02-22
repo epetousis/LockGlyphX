@@ -8,12 +8,19 @@
 "GENERAL_HEADER_TEXT" = "General";
 "GENERAL_LOCKGLYPHTOGL_LABEL" = "Enable LockGlyph";
 "GENERAL_UNLOCKSNDTOGL_LABEL" = "Enable unlock sound";
+"GENERAL_UNLOCKSNDSELECTION_LABEL" = "Unlock sound";
 "GENERAL_UNLOCKIMEDTOGL_LABEL" = "Unlock immediately";
 "GENERAL_FOOTER_TEXT" = "Enabling Unlock immediately will unlock the device as soon as a fingerprint is recognised or the fingerprint is tapped. Enable this if you would like to unlock as fast as possible.";
 "FAILUNLOCK_HEADER_TEXT" = "Failed unlock action";
 "FAILUNLOCK_VIBRATETOGL_LABEL" = "Vibrate";
 "FAILUNLOCK_SHAKETOGL_LABEL" = "Shake fingerprint";
 "FAILUNLOCK_FOOTER_TEXT" = "These actions will be performed whenever an incorrect finger is used to unlock the device.";
+
+"SOUND_FOOTER" = "Choosing 'Theme' will use the default Apple Pay sound if you do not have a theme with a sound enabled.";
+"SOUND_NONE" = "None";
+"SOUND_DEFAULT" = "Theme (default)";
+"SOUND_APPLE_PAY" = "Apple Pay";
+"SOUND_OLD_APPLE_PAY" = "Classic Apple Pay";
 
 "APPEARANCE_TITLE" = "Appearance";
 "THEMES_HEADER_TEXT" = "Themes";
