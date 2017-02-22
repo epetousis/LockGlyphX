@@ -2,7 +2,9 @@
 //  LockGlyphX.xm
 //  LockGlyphX
 //
-//  evilgoldfish feat. sticktron 2017
+//  (c)2017 evilgoldfish
+//
+//  feat. @sticktron, @AppleBetasDev
 //
 
 #define DEBUG_PREFIX @"[LockGlyphX]"
@@ -29,12 +31,13 @@
 #define kPrefsAppID 					CFSTR("com.evilgoldfish.lockglyphx")
 #define kSettingsChangedNotification 	CFSTR("com.evilgoldfish.lockglyphx.settingschanged")
 
-#define kBundlePath @"/Library/Application Support/LockGlyph/Themes/"
+#define kThemePath 		@"/Library/Application Support/LockGlyph/Themes/"
+#define kDefaultTheme 	@"Default.bundle"
 
 #define kDefaultPrimaryColor 	[UIColor colorWithWhite:188/255.0f alpha:1] //#BCBCBC
 #define kDefaultSecondaryColor 	[UIColor colorWithWhite:119/255.0f alpha:1] //#777777
 
-#define kDefaultYOffset 100.0f
+#define kDefaultYOffset 60.0f
 
 
 @interface PKGlyphView (LockGlyphX)
@@ -57,20 +60,25 @@ SMDelayedBlockHandle unlockBlock;
 static BOOL isObserving;
 
 static BOOL enabled;
+static NSString *themeBundleName;
 static BOOL useUnlockSound;
 static BOOL useTickAnimation;
 static BOOL useFasterAnimations;
 static BOOL vibrateOnIncorrectFinger;
 static BOOL shakeOnIncorrectFinger;
 static BOOL useShine;
+static BOOL shouldNotDelay;
 static UIColor *primaryColor;
 static UIColor *secondaryColor;
 static BOOL enablePortraitY;
 static CGFloat portraitY;
 static BOOL enableLandscapeY;
 static CGFloat landscapeY;
-static NSString *themeBundleName;
-static BOOL shouldNotDelay;
+static BOOL enablePortraitX;
+static CGFloat portraitX;
+static BOOL enableLandscapeX;
+static CGFloat landscapeX;
+static BOOL shouldHideRing;
 
 static UIColor *primaryColorOverride;
 static UIColor *secondaryColorOverride;
@@ -120,27 +128,32 @@ static UIColor *parseColorFromPreferences(NSString* string) {
 static void loadPreferences() {
 	CFPreferencesAppSynchronize(kPrefsAppID);
 	enabled = !CFPreferencesCopyAppValue(CFSTR("enabled"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enabled"), kPrefsAppID)) boolValue];
+	themeBundleName = !CFPreferencesCopyAppValue(CFSTR("currentTheme"), kPrefsAppID) ? kDefaultTheme : CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("currentTheme"), kPrefsAppID));
 	useUnlockSound = !CFPreferencesCopyAppValue(CFSTR("useUnlockSound"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useUnlockSound"), kPrefsAppID)) boolValue];
 	useTickAnimation = !CFPreferencesCopyAppValue(CFSTR("useTickAnimation"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useTickAnimation"), kPrefsAppID)) boolValue];
 	useFasterAnimations = !CFPreferencesCopyAppValue(CFSTR("useFasterAnimations"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useFasterAnimations"), kPrefsAppID)) boolValue];
 	vibrateOnIncorrectFinger = !CFPreferencesCopyAppValue(CFSTR("vibrateOnIncorrectFinger"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("vibrateOnIncorrectFinger"), kPrefsAppID)) boolValue];
 	shakeOnIncorrectFinger = !CFPreferencesCopyAppValue(CFSTR("shakeOnIncorrectFinger"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shakeOnIncorrectFinger"), kPrefsAppID)) boolValue];
 	useShine = !CFPreferencesCopyAppValue(CFSTR("useShine"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useShine"), kPrefsAppID)) boolValue];
+	shouldNotDelay = !CFPreferencesCopyAppValue(CFSTR("shouldNotDelay"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shouldNotDelay"), kPrefsAppID)) boolValue];
 	primaryColor = !CFPreferencesCopyAppValue(CFSTR("primaryColor"), kPrefsAppID) ? kDefaultPrimaryColor : parseColorFromPreferences(CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("primaryColor"), kPrefsAppID)));
 	secondaryColor = !CFPreferencesCopyAppValue(CFSTR("secondaryColor"), kPrefsAppID) ? kDefaultSecondaryColor : parseColorFromPreferences(CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("secondaryColor"), kPrefsAppID)));
 	enablePortraitY = !CFPreferencesCopyAppValue(CFSTR("enablePortraitY"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enablePortraitY"), kPrefsAppID)) boolValue];
 	portraitY = !CFPreferencesCopyAppValue(CFSTR("portraitY"), kPrefsAppID) ? 0 : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("portraitY"), kPrefsAppID)) floatValue];
 	enableLandscapeY = !CFPreferencesCopyAppValue(CFSTR("enableLandscapeY"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enableLandscapeY"), kPrefsAppID)) boolValue];
 	landscapeY = !CFPreferencesCopyAppValue(CFSTR("landscapeY"), kPrefsAppID) ? 0 : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("landscapeY"), kPrefsAppID)) floatValue];
-	themeBundleName = !CFPreferencesCopyAppValue(CFSTR("currentTheme"), kPrefsAppID) ? @"LockGlyph-Default.bundle" : CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("currentTheme"), kPrefsAppID));
-	shouldNotDelay = !CFPreferencesCopyAppValue(CFSTR("shouldNotDelay"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shouldNotDelay"), kPrefsAppID)) boolValue];
+	enablePortraitX = !CFPreferencesCopyAppValue(CFSTR("enablePortraitX"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enablePortraitX"), kPrefsAppID)) boolValue];
+	portraitX = !CFPreferencesCopyAppValue(CFSTR("portraitX"), kPrefsAppID) ? 0 : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("portraitX"), kPrefsAppID)) floatValue];
+	enableLandscapeX = !CFPreferencesCopyAppValue(CFSTR("enableLandscapeX"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enableLandscapeX"), kPrefsAppID)) boolValue];
+	landscapeX = !CFPreferencesCopyAppValue(CFSTR("landscapeX"), kPrefsAppID) ? 0 : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("landscapeX"), kPrefsAppID)) floatValue];
+	shouldHideRing = !CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID)) boolValue];
 	
 	// theme bundle
-	NSURL *bundleURL = [NSURL fileURLWithPath:kBundlePath];
+	NSURL *bundleURL = [NSURL fileURLWithPath:kThemePath];
 	themeAssets = [NSBundle bundleWithURL:[bundleURL URLByAppendingPathComponent:themeBundleName]];
 	DebugLogC(@"found assets for theme (%@): %@", themeBundleName, themeAssets);
 	
-	// sound
+	// load sound - TODO: Move this so sound isn't loading if we are disabled.
 	if (unlockSound) {
 		AudioServicesDisposeSystemSoundID(unlockSound);
 	}
@@ -149,7 +162,7 @@ static void loadPreferences() {
 		AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
 	} else {
 		DebugLogC(@"no sound for theme, using default instead");
-		NSURL *pathURL = [NSURL fileURLWithPath:@"/Library/Application Support/LockGlyph/Themes/LockGlyph-Default.bundle/SuccessSound.wav"];
+		NSURL *pathURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Default.bundle/SuccessSound.wav", kThemePath]];
 		AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
 	}
 }
@@ -200,20 +213,17 @@ static void performShakeFingerFailAnimation(void) {
 	}
 }
 
+//------------------------------------------------------------------------------
 
-// TESTS -----------------------------------------------------------------------
-
-// Custom Unlock Text
+// Custom Unlock Text - TODO: Make this a setting!
 %hook SBUICallToActionLabel
 - (void)setText:(id)arg1 forLanguage:(id)arg2 animated:(BOOL)arg3 {
-	// %orig(@"LockGlyphX", arg2, arg3);
 	arg1 = @"";
 	%orig;
 }
 %end
 
-// END TESTS -------------------------------------------------------------------
-
+//------------------------------------------------------------------------------
 
 %hook SBDashBoardPageViewBase
 - (void)didMoveToWindow {
@@ -270,20 +280,18 @@ static void performShakeFingerFailAnimation(void) {
 		DebugLog(@"using custom image: %@", customImage);
 		
 		// set glyph to custom image mode
-		// TODO: fix image scale?
 		[fingerglyph setCustomImage:customImage.CGImage withAlignmentEdgeInsets:UIEdgeInsetsZero];
 		[fingerglyph setState:kGlyphStateCustom animated:NO completionHandler:nil];
 		
 		// resize the custom glyph to the size of the image?
-		CGRect frame = fingerglyph.frame;
-		frame.size = customImage.size;
-		fingerglyph.frame = frame;
+		// CGRect frame = fingerglyph.frame;
+		// frame.size = customImage.size;
+		// fingerglyph.frame = frame;
 		
 		usingGlyph = NO;
 		
 	} else {
-	// 	// no custom theme, use default
-	// 	[fingerglyph setCustomImage:nil withAlignmentEdgeInsets:UIEdgeInsetsZero];
+		// no custom theme, use default
 		usingGlyph = YES;
 	}
 	
@@ -325,8 +333,6 @@ static void performShakeFingerFailAnimation(void) {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:CCColor object:nil];
 	%orig;
 }
-
-/* Handle tapping on the glyph (fake mode) */
 %new
 - (void)lockGlyphTapHandler:(UITapGestureRecognizer *)recognizer {
 	DebugLog(@"glyph was tapped");
@@ -373,7 +379,6 @@ static void performShakeFingerFailAnimation(void) {
 		fingerglyph.userInteractionEnabled = YES;
 	}
 }
-
 %new
 - (void)glyphView:(PKGlyphView *)arg1 revealingCheckmark:(BOOL)arg2 {
 	DebugLog0;
@@ -422,21 +427,37 @@ static void performShakeFingerFailAnimation(void) {
 	DebugLog(@"updating glyph position for orientation: %ld", (long)orientation);
 	
 	CGRect screen = [[UIScreen mainScreen] bounds];
+	float dx, dy;
+	
 	if (UIInterfaceOrientationIsLandscape(orientation)) {
 		DebugLog(@"in landscape orientation");
 		if (landscapeY == 0 || !enableLandscapeY) {
-			fingerglyph.center = CGPointMake(CGRectGetMidX(screen), screen.size.height - kDefaultYOffset);
+			dy = kDefaultYOffset;
 		} else {
-			fingerglyph.center = CGPointMake(CGRectGetMidY(screen), landscapeY);
+			dy = kDefaultYOffset + landscapeY;
 		}
+		if (landscapeX == 0 || !enableLandscapeX) {
+			dx = 0;
+		} else {
+			dx = landscapeX;
+		}
+		
 	} else {
 		DebugLog(@"in portrait orientation");
 		if (portraitY == 0 || !enablePortraitY) {
-			fingerglyph.center = CGPointMake(CGRectGetMidX(screen), screen.size.height - kDefaultYOffset);
+			dy = kDefaultYOffset;
 		} else {
-			fingerglyph.center = CGPointMake(CGRectGetMidX(screen), portraitY);
+			dy = kDefaultYOffset + portraitY;
+		}
+		if (portraitX == 0 || !enablePortraitX) {
+			dx = 0;
+		} else {
+			dx = portraitX;
 		}
 	}
+	fingerglyph.center = CGPointMake(CGRectGetMidX(screen) + dx, screen.size.height - dy);
+
+
 	DebugLog(@"fingerglyph.frame = %@", NSStringFromCGRect(fingerglyph.frame));
 }
 %new
@@ -486,179 +507,91 @@ static void performShakeFingerFailAnimation(void) {
 	DebugLog0;
 	self.layer.mask = nil;
 }
-
-// test
 - (id)createCustomImageLayer {
 	CALayer *result = %orig;
 	result.contentsScale = 2.0;
+	result.mask = nil;
 	return result;
 }
 - (void)_layoutContentLayer:(id)arg1 {
 	DebugLog0;
 	%orig;
-}
-- (void)updateRasterizationScale:(float)arg1 {
-	DebugLog(@"scale: %f", arg1);
-	%orig;
-}
-%end
-
-//------------------------------------------------------------------------------
-
-// %hook PKSubglyphView
-%hook PKFingerprintGlyphView
-// - (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
-// 	DebugLog0;
-//
-// 	if (enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
-// 		if (authenticated) {
-// 			arg2 = MIN(arg2, 0.1);
-// 		} else {
-// 			arg1 = MIN(arg1, 0.8);
-// 			arg2 *= 0.5;
-// 		}
-// 	}
-// 	%orig;
-// }
-// - (double)_minimumAnimationDurationForStateTransition {
-// 	DebugLog0;
-// 	return enabled && authenticated && useFasterAnimations && (doingTickAnimation || doingScanAnimation) ? 0.1 : %orig;
-// }
-- (void)layoutSubviews {
-	DebugLog0;
-	%orig;
 	
 	if (!usingGlyph) {
-		CALayer *ringLayer = MSHookIvar<CALayer *>(self, "_foregroundRingContainerLayer");
-		ringLayer.opacity = 0;
+		self.clipsToBounds = YES;
+	} else {
+		self.clipsToBounds = NO;
 	}
 }
 %end
 
 //------------------------------------------------------------------------------
 
-// %hook SBLockScreenManager
-// - (void)_finishUIUnlockFromSource:(int)source withOptions:(id)options {
-// 	if (fingerglyph) {
-// 		fingerglyph.delegate = nil;
-// 		usingGlyph = NO;
-// 		// lockView = nil;
-// 	}
-// 	%orig;
-// }
-// %end
+/* iOS 10.2 */
+%hook PKFingerprintGlyphView
+- (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
+	DebugLog0;
 
-//------------------------------------------------------------------------------
+	if (enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
+		if (authenticated) {
+			arg2 = MIN(arg2, 0.1);
+		} else {
+			arg1 = MIN(arg1, 0.8);
+			arg2 *= 0.5;
+		}
+	}
+	%orig;
+}
+- (double)_minimumAnimationDurationForStateTransition {
+	DebugLog0;
+	return enabled && authenticated && useFasterAnimations && (doingTickAnimation || doingScanAnimation) ? 0.1 : %orig;
+}
+- (void)layoutSubviews {
+	%orig;
+	
+	// hide ring?
+	if (shouldHideRing) {
+		CALayer *ringLayer = MSHookIvar<CALayer *>(self, "_foregroundRingContainerLayer");
+		ringLayer.hidden = YES;
+	}
+}
+%end
 
-%hook SBDashBoardViewController
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration {
+/* iOS 10, 10.1 */
+%hook PKSubglyphView
+- (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
 	DebugLog0;
+
+	if (enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
+		if (authenticated) {
+			arg2 = MIN(arg2, 0.1);
+		} else {
+			arg1 = MIN(arg1, 0.8);
+			arg2 *= 0.5;
+		}
+	}
 	%orig;
-	if (enabled) [fingerglyph updatePositionWithOrientation:orientation];
 }
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration {
+- (double)_minimumAnimationDurationForStateTransition {
 	DebugLog0;
+	return enabled && authenticated && useFasterAnimations && (doingTickAnimation || doingScanAnimation) ? 0.1 : %orig;
+}
+- (void)layoutSubviews {
 	%orig;
-	if (enabled) {
-		[UIView animateWithDuration:duration
-							  delay:0
-							options:UIViewAnimationOptionCurveLinear
-						 animations:^(void) { [fingerglyph updatePositionWithOrientation:orientation]; }
-						 completion:nil];
+	
+	// hide ring?
+	if (shouldHideRing) {
+		CALayer *ringLayer = MSHookIvar<CALayer *>(self, "_foregroundRingContainerLayer");
+		ringLayer.hidden = YES;
 	}
 }
-/*
-- (BOOL)mesaUnlockBehavior:(id)arg1 requestsUnlock:(id)arg2 withFeedback:(id)arg3 {
-	DebugLog0;
-	
-	if (!enabled) {
-		return %orig;
-	}
-	// DebugLog(@"behavior: %@", arg1);
-	// DebugLog(@"requestsUnlock: %@", arg2);
-	// DebugLog(@"withFeedback: %@", arg3);
-	DebugLog(@"TouchID wants to unlock");
-	
-	SBLockScreenManager *manager = [%c(SBLockScreenManager) sharedInstance];
-	if ([%c(SBAssistantController) isAssistantVisible] || manager.bioAuthenticatedWhileMenuButtonDown) {
-		DebugLog(@"isAssistantVisible || bioAuthenticatedWhileMenuButtonDown");
-	// 	if (unlockBlock) {
-	// 		cancel_delayed_block(unlockBlock);
-	// 	}
-		return %orig;
-	}
-	
-	// if (lockView && manager.isUILocked && enabled && !authenticated && !shouldNotDelay && ![manager.lockScreenViewController isPasscodeLockVisible]) {
-	// if (!authenticated && !shouldNotDelay && ![manager.lockScreenViewController isPasscodeLockVisible]) {
-	// 	DebugLog(@"!authenticated && !shouldNotDelay && !passcodeVisible");
-	if (manager.isUILocked && !shouldNotDelay && ![manager.lockScreenViewController isPasscodeLockVisible]) {
-		DebugLog(@"!shouldNotDelay && !passcodeVisible");
-		
-		fingerglyph.userInteractionEnabled = NO;
-		//authenticated = YES;
-		performTickAnimation();
-		
-		double delayInSeconds = 1.3;
-		if (!useTickAnimation) {
-			delayInSeconds = 0.3;
-		}
-		if (useFasterAnimations) {
-			delayInSeconds = 0.5;
-			if (!useTickAnimation) {
-				delayInSeconds = 0.1;
-			}
-		}
-		
-		// ........ wait while blocking the UI .........
-		
-		if (!useTickAnimation && useUnlockSound && unlockSound) {
-			AudioServicesPlaySystemSound(unlockSound);
-		}
-		
-		fingerglyph.userInteractionEnabled = YES;
-		
-		return %orig;
-		
-		// unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
-		// 	DebugLog(@"performing block after delay now");
-		// 	if (!useTickAnimation && useUnlockSound && unlockSound) {
-		// 		AudioServicesPlaySystemSound(unlockSound);
-		// 	}
-		// 	if (fingerglyph) {
-		// 		fingerglyph.userInteractionEnabled = YES;
-		// 	// 	fingerglyph.delegate = nil;
-		// 	// 	lockView = nil;
-		// 	}
-		// 	%orig;
-		// });
-	
-	} else {
-		if (manager.bioAuthenticatedWhileMenuButtonDown) {
-			DebugLog(@"bioAuthenticatedWhileMenuButtonDown");
-			return %orig;
-		}
-		if (!manager.isUILocked) {
-			DebugLog(@"manager.isUILocked == NO");
-			if (!useTickAnimation && useUnlockSound && unlockSound && shouldNotDelay) {
-				DebugLog(@"!useTickAnimation && useUnlockSound && unlockSound && shouldNotDelay");
-				AudioServicesPlaySystemSound(unlockSound);
-			}
-		}
-		return %orig;
-	}
-}
-*/
 %end
 
 //------------------------------------------------------------------------------
 
 %hook SBDashBoardMesaUnlockBehavior
-// iOS < 10.2 ??
-// - (void)biometricEventMonitor:(id)arg1 handleBiometricEvent:(unsigned long long)event {
-// 	DebugLog0;
-// 	%orig;
-// }
-// iOS 10.2
+
+/* iOS 10.2 */
 - (void)handleBiometricEvent:(unsigned long long)event {
 	if (!enabled || authenticated) {
 		%orig;
@@ -673,12 +606,12 @@ static void performShakeFingerFailAnimation(void) {
 			case kTouchIDFingerDown:
 				DebugLog(@"TouchID: finger down");
 				performFingerScanAnimation();
-				break;
+			break;
 				
 			case kTouchIDFingerUp:
 				DebugLog(@"TouchID: finger up");
 				resetFingerScanAnimation();
-				break;
+			break;
 				
 			case kTouchIDNotMatched:
 				DebugLog(@"TouchID: match failed");
@@ -688,7 +621,7 @@ static void performShakeFingerFailAnimation(void) {
 				if (vibrateOnIncorrectFinger) {
 					AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 				}
-				break;
+			break;
 				
 			case kTouchIDSuccess:
 				DebugLog(@"TouchID: success");
@@ -724,11 +657,6 @@ static void performShakeFingerFailAnimation(void) {
 						if (!useTickAnimation && useUnlockSound && unlockSound) {
 							AudioServicesPlaySystemSound(unlockSound);
 						}
-						// if (fingerglyph) {
-						// 	fingerglyph.userInteractionEnabled = YES;
-						// 	fingerglyph.delegate = nil;
-						// 	lockView = nil;
-						// }
 						%orig;
 					});
 					
@@ -746,9 +674,126 @@ static void performShakeFingerFailAnimation(void) {
 					}
 					return %orig;
 				}
-				
-				break;
+			break;
 		}
+	}
+}
+
+/* iOS 10, 10.1 */
+- (void)biometricEventMonitor:(id)arg1 handleBiometricEvent:(unsigned long long)event {
+	if (!enabled || authenticated) {
+		%orig;
+		return;
+	}
+	
+	SBLockScreenManager *manager = [%c(SBLockScreenManager) sharedInstance];
+	if ([manager isUILocked]) {
+		DebugLog(@"Biometric event occured: %llu", event);
+		
+		switch (event) {
+			case kTouchIDFingerDown:
+				DebugLog(@"TouchID: finger down");
+				performFingerScanAnimation();
+			break;
+				
+			case kTouchIDFingerUp:
+				DebugLog(@"TouchID: finger up");
+				resetFingerScanAnimation();
+			break;
+				
+			case kTouchIDNotMatched:
+				DebugLog(@"TouchID: match failed");
+				if (shakeOnIncorrectFinger) {
+					performShakeFingerFailAnimation();
+				}
+				if (vibrateOnIncorrectFinger) {
+					AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+				}
+			break;
+				
+			case kTouchIDSuccess:
+				DebugLog(@"TouchID: success");
+				
+				if ([%c(SBAssistantController) isAssistantVisible] || manager.bioAuthenticatedWhileMenuButtonDown) {
+					DebugLog(@"isAssistantVisible || bioAuthenticatedWhileMenuButtonDown");
+					if (unlockBlock) {
+						cancel_delayed_block(unlockBlock);
+					}
+					return %orig;
+				}
+				
+				if (!shouldNotDelay && ![manager.lockScreenViewController isPasscodeLockVisible]) {
+					DebugLog(@"!shouldNotDelay && !passcodeVisible");
+					
+					fingerglyph.userInteractionEnabled = NO;
+					authenticated = YES;
+					performTickAnimation();
+					
+					double delayInSeconds = 1.3;
+					if (!useTickAnimation) {
+						delayInSeconds = 0.3;
+					}
+					if (useFasterAnimations) {
+						delayInSeconds = 0.5;
+						if (!useTickAnimation) {
+							delayInSeconds = 0.1;
+						}
+					}
+					
+					unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
+						DebugLog(@"performing block after delay now");
+						if (!useTickAnimation && useUnlockSound && unlockSound) {
+							AudioServicesPlaySystemSound(unlockSound);
+						}
+						%orig;
+					});
+					
+				} else {
+					if (manager.bioAuthenticatedWhileMenuButtonDown) {
+						DebugLog(@"bioAuthenticatedWhileMenuButtonDown");
+						return %orig;
+					}
+					if (!manager.isUILocked) {
+						DebugLog(@"manager.isUILocked == NO");
+						if (!useTickAnimation && useUnlockSound && unlockSound && shouldNotDelay) {
+							DebugLog(@"!useTickAnimation && useUnlockSound && unlockSound && shouldNotDelay");
+							AudioServicesPlaySystemSound(unlockSound);
+						}
+					}
+					return %orig;
+				}
+			break;
+		}
+	}
+}
+
+%end
+
+//------------------------------------------------------------------------------
+
+// %hook SBLockScreenManager
+// - (void)_finishUIUnlockFromSource:(int)source withOptions:(id)options {
+// 	%orig;
+// }
+// %end
+
+//------------------------------------------------------------------------------
+
+%hook SBDashBoardViewController
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration {
+	DebugLog0;
+	%orig;
+	if (enabled) [fingerglyph updatePositionWithOrientation:orientation];
+}
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration {
+	DebugLog0;
+	%orig;
+	if (enabled) {
+		[UIView animateWithDuration:duration
+							  delay:0
+							options:UIViewAnimationOptionCurveLinear
+						 animations:^(void) { [fingerglyph updatePositionWithOrientation:orientation]; }
+						 completion:nil];
 	}
 }
 %end

@@ -4,16 +4,16 @@
 <dict>
 	<key>title</key>
 	<string>LockGlyphX</string>
-	
 	<key>items</key>
 	<array>
 		
+		<!-- Header -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>headerCellClass</key>
-			<string>LockGlyphXTitleCell</string>
 		</dict>
+		
+		<!-- Behaviour -->
 		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
@@ -24,6 +24,12 @@
 			<key>label</key>
 			<string>FIRST_BEHAVIOUR_LABEL</string>
 		</dict>
+		
+		<!-- Appearance -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
@@ -33,6 +39,12 @@
 			<true/>
 			<key>label</key>
 			<string>FIRST_APPEARANCE_LABEL</string>
+		</dict>
+		
+		<!-- Animations -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -45,24 +57,54 @@
 			<string>FIRST_ANIMATIONS_LABEL</string>
 		</dict>
 		
+		<!-- Support -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>FIRST_DEVELOPER_HEADER_TEXT</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>LGXButtonCell</string>
 			<key>label</key>
-			<string>@evilgoldfish01</string>
+			<string>Report An Issue</string>
 			<key>icon</key>
-			<string>Twitter.png</string>
+			<string>issues.png</string>
 			<key>id</key>
-			<string>twitterButton</string>
+			<string>issueButton</string>
 			<key>action</key>
-			<string>twitterButton</string>
+			<string>issueButton</string>
 		</dict>
+		
+		<!-- Credits -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Credits</string>
+			<key>detail</key>
+			<string>LockGlyphXPrefsCreditsController</string>
+			<key>isController</key>
+			<true/>
+		</dict>
+		
+		<!-- Footer -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerAlignment</key>
+			<string>1</string>
+			<key>footerText</key>
+			<string>/lock glyph ten/
+
+© 2017</string>
+		</dict>
+		
 	</array>
 	
 </dict>

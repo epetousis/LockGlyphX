@@ -1,6 +1,11 @@
-# LockGlyphX
-It's LockGlyph for iOS 10 baby!  
-Initial port of LockGlyph code to iOS 10. Semi-functional. Work in progress :)
+# LockGlyphX (beta)
+The evolution of LockGlyph. For iOS 10.
+
+Join the beta by adding http://sticktron.github.com/repo to Cydia.  
+Please use the issue tracker to report bugs or post suggestions.
+
+## Notes
+There are some differences to PKGlyphView and friends across subversions of iOS 10.
 
 ### PKGlyphView states (iOS 10.2)
 0 - Default (fingerprint)  
