@@ -73,6 +73,8 @@ static BOOL enabled;
 static NSString *themeBundleName;
 static int unlockSoundChoice;
 static BOOL useTickAnimation;
+static BOOL useLoadingStateForScanning;
+static BOOL useHoldToReaderAnimation;
 static BOOL useFasterAnimations;
 static BOOL vibrateOnIncorrectFinger;
 static BOOL shakeOnIncorrectFinger;
@@ -103,6 +105,10 @@ static NSString *CCColor = @"CustomCoverLockScreenColourUpdateNotification";
 
 static CGFloat getDefaultYOffset() {
     return showPressHomeToUnlockLabel ? kDefaultYOffsetWithLockLabel : kDefaultYOffset;
+}
+
+static long long getIdleGlyphState() {
+    return useHoldToReaderAnimation ? kGlyphStateMovePhoneToReader : kGlyphStateDefault;
 }
 
 static void setPrimaryColorOverride(UIColor *color) {
@@ -164,6 +170,9 @@ static void loadPreferences() {
 	shouldHideRing = !CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID)) boolValue];
     showPressHomeToUnlockLabel = !CFPreferencesCopyAppValue(CFSTR("showPressHomeToUnlockLabel"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("showPressHomeToUnlockLabel"), kPrefsAppID)) boolValue];
     pressHomeToUnlockText = !CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID) ? @"" : CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID));
+    useLoadingStateForScanning = !CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID)) boolValue];
+    useHoldToReaderAnimation = !CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID)) boolValue];
+    
 	
 	// theme bundle
 	NSURL *bundleURL = [NSURL fileURLWithPath:kThemePath];
@@ -191,7 +200,7 @@ static void performFingerScanAnimation(void) {
 	
 	if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]) {
 		doingScanAnimation = YES;
-		[fingerglyph setState:kGlyphStateScanning animated:YES completionHandler:^{
+        [fingerglyph setState:(useLoadingStateForScanning ? kGlyphStateLoading : kGlyphStateScanning) animated:YES completionHandler:^{
 			doingScanAnimation = NO;
 		}];
 	}
@@ -204,7 +213,7 @@ static void resetFingerScanAnimation(void) {
         if (fingerglyph.customImage)
             [fingerglyph setState:kGlyphStateCustom animated:YES completionHandler:nil];
         else
-            [fingerglyph setState:kGlyphStateDefault animated:YES completionHandler:nil];
+            [fingerglyph setState:getIdleGlyphState() animated:YES completionHandler:nil];
     }
 }
 
@@ -216,7 +225,7 @@ static void resetFingerScan(void) {
         if (fingerglyph.customImage)
             [fingerglyph setState:kGlyphStateCustom animated:NO completionHandler:nil];
         else
-            [fingerglyph setState:kGlyphStateDefault animated:NO completionHandler:nil];
+            [fingerglyph setState:getIdleGlyphState() animated:NO completionHandler:nil];
     }
 }
 
@@ -342,7 +351,7 @@ static void performShakeFingerFailAnimation(void) {
 	}
 	
 	DebugLog(@"creating new GlyphView to your specifications...");
-	fingerglyph = [[%c(PKGlyphView) alloc] initWithStyle:kGlyphStateDefault]; // 1 = blended
+	fingerglyph = [[%c(PKGlyphView) alloc] initWithStyle:getIdleGlyphState()]; // 1 = blended
 	fingerglyph.delegate = (id<PKGlyphViewDelegate>)self;
 	
 	fingerglyph.primaryColor = activePrimaryColor();

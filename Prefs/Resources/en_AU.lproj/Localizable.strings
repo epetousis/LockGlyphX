@@ -46,3 +46,6 @@
 "ANIM_SHINETOGL_LABEL" = "Use shine animation";
 "ANIM_FASTTOGL_LABEL" = "Use faster animations";
 "ANIM_FOOTER_TEXT" = "Use faster animations will make LockGlyph animate much faster.";
+"ANIM_LOADINGTOGL_LABEL" = "Use loading scan animation";
+"ANIM_HOLDTOREADERTOGL_LABEL" = "Use 'Hold to Reader' idle animation";
+"ANIM_ONLYDEFAULT_LABEL" = "This animation will only be active if you are using the default Apple Pay theme.";
