@@ -252,13 +252,14 @@
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
         
-        <!-- Press home to unlock text -->
+        <!-- [] Press Home To Unlock -->
         <dict>
             <key>cell</key>
             <string>PSGroupCell</string>
             <key>label</key>
-            <string>Press home to unlock text</string>
+            <string>Press Home To Unlock</string>
         </dict>
+		<!-- Show text -->
         <dict>
             <key>cell</key>
             <string>PSSwitchCell</string>
@@ -275,6 +276,24 @@
             <key>PostNotification</key>
             <string>com.evilgoldfish.lockglyphx.settingschanged</string>
         </dict>
+		<!-- Use custom text -->
+		<dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>cellClass</key>
+            <string>LGXSwitchCell</string>
+            <key>default</key>
+            <false/>
+            <key>defaults</key>
+            <string>com.evilgoldfish.lockglyphx</string>
+            <key>key</key>
+            <string>overridePressHomeToUnlockText</string>
+            <key>label</key>
+            <string>LOCKLABEL_CUSTOM_TEXT_ENABLED</string>
+            <key>PostNotification</key>
+            <string>com.evilgoldfish.lockglyphx.settingschanged</string>
+        </dict>
+		
         <dict>
             <key>cell</key>
             <string>PSEditTextCell</string>

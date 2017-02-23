@@ -93,6 +93,7 @@ static CGFloat landscapeX;
 static BOOL shouldHideRing;
 static NSString *pressHomeToUnlockText;
 static BOOL showPressHomeToUnlockLabel;
+static BOOL overridePressHomeToUnlockText;
 
 static UIColor *primaryColorOverride;
 static UIColor *secondaryColorOverride;
@@ -170,6 +171,7 @@ static void loadPreferences() {
 	shouldHideRing = !CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID)) boolValue];
     showPressHomeToUnlockLabel = !CFPreferencesCopyAppValue(CFSTR("showPressHomeToUnlockLabel"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("showPressHomeToUnlockLabel"), kPrefsAppID)) boolValue];
     pressHomeToUnlockText = !CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID) ? @"" : CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID));
+	overridePressHomeToUnlockText = !CFPreferencesCopyAppValue(CFSTR("overridePressHomeToUnlockText"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("overridePressHomeToUnlockText"), kPrefsAppID)) boolValue];
     useLoadingStateForScanning = !CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID)) boolValue];
     useHoldToReaderAnimation = !CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID)) boolValue];
     
@@ -257,7 +259,7 @@ static void performShakeFingerFailAnimation(void) {
 
 %hook SBUICallToActionLabel
 
--(void)didMoveToWindow {
+- (void)didMoveToWindow {
     %orig;
     [self setHidden:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -267,33 +269,33 @@ static void performShakeFingerFailAnimation(void) {
 }
 
 - (void)setText:(id)arg1 {
-    if(![pressHomeToUnlockText isEqualToString:@""]) {
+    if (overridePressHomeToUnlockText && ![pressHomeToUnlockText isEqualToString:@""]) {
         arg1 = pressHomeToUnlockText;
     }
     %orig;
 }
 
--(void)setText:(id)arg1 forLanguage:(id)arg2 animated:(BOOL)arg3 {
-    if(![pressHomeToUnlockText isEqualToString:@""]) {
+- (void)setText:(id)arg1 forLanguage:(id)arg2 animated:(BOOL)arg3 {
+	if (overridePressHomeToUnlockText && ![pressHomeToUnlockText isEqualToString:@""]) {
         arg1 = pressHomeToUnlockText;
     }
     %orig;
 }
 
 %new
--(void)LG_CheckHiddenAndText:(NSNotification *)notification {
+- (void)LG_CheckHiddenAndText:(NSNotification *)notification {
     [self setHidden:NO];
     [self setText:@""];
 }
 
--(BOOL)hidden {
+- (BOOL)hidden {
     if(enabled && !showPressHomeToUnlockLabel) {
         return YES;
     }
     return %orig;
 }
 
--(void)setHidden:(BOOL)hidden {
+- (void)setHidden:(BOOL)hidden {
     if(enabled && !showPressHomeToUnlockLabel) {
         %orig(YES);
         return;
@@ -301,7 +303,7 @@ static void performShakeFingerFailAnimation(void) {
     %orig;
 }
 
--(void)dealloc {
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     %orig;
 }
