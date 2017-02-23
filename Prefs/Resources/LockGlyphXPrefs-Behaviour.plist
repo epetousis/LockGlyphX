@@ -6,8 +6,6 @@
 	<string>BEHAVIOUR_TITLE</string>
 	<key>items</key>
 	<array>
-		
-		<!-- Enabled -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -28,30 +26,33 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
-		
-		<!-- Sound -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 		</dict>
 		<dict>
+			
 			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>cellClass</key>
-			<string>LGXSwitchCell</string>
+			<string>PSLinkListCell</string>
+			<key>label</key>
+			<string>GENERAL_UNLOCKSNDSELECTION_LABEL</string>
+			<key>detail</key>
+			<string>LockGlyphXPrefsSoundItemsController</string>
+			<key>key</key>
+			<string>unlockSound</string>
+			<key>titlesDataSource</key>
+			<string>soundTitles</string>
+			<key>valuesDataSource</key>
+			<string>soundValues</string>
 			<key>default</key>
-			<true/>
+			<integer>1</integer>
 			<key>defaults</key>
 			<string>com.evilgoldfish.lockglyphx</string>
-			<key>key</key>
-			<string>useUnlockSound</string>
-			<key>label</key>
-			<string>GENERAL_UNLOCKSNDTOGL_LABEL</string>
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+			<key>staticTextMessage</key>
+			<string>SOUND_FOOTER</string>
 		</dict>
-		
-		<!-- Unlock Immediately -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -74,8 +75,6 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
-		
-		<!-- Unlock Failure -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -83,8 +82,6 @@
 			<string>FAILUNLOCK_HEADER_TEXT</string>
 			<key>footerText</key>
 			<string>FAILUNLOCK_FOOTER_TEXT</string>
-			<key>footerAlignment</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>cell</key>

@@ -3,9 +3,17 @@ Name: LockGlyphX Beta (iOS 10)
 Depends: firmware (>= 10.0), mobilesubstrate, preferenceloader, org.thebigboss.libcolorpicker (>= 1.1)
 Provides: com.evilgoldfish.lockglyph
 Conflicts: com.evilgoldfish.lockglyph
-Version: 1.0~b1
+Version: 1.0~b2
 Architecture: iphoneos-arm
 Description: LockGlyph for iOS 10.
+ Change Log
+ + Fix: if phone is locked from unlocked lock screen state, fingerprint glyph now resets
+ + Add option to show/hide 'Press home to unlock' label
+ + Add option to change 'Press home to unlock' text
+ + Move lock glyph up if label is showing
+ + Add option to override sound (always use the Apple Pay sound, or the classic LockGlyph sound)
+ + Add option to use 'Hold to Reader' animation while idle
+ + Add option to use alternate animation while scanning fingerprint
 Maintainer: evilgoldfish
 Author: evilgoldfish
 Section: Tweaks

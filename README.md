@@ -1,5 +1,6 @@
 # LockGlyphX (beta)
-The evolution of LockGlyph. For iOS 10.
+The evolution of LockGlyph. For iOS 10.  
+Supports all existing LockGlyph themes.
 
 Join the beta by adding http://sticktron.github.com/repo to Cydia.  
 Please use the issue tracker to report bugs or post suggestions.
@@ -23,5 +24,5 @@ There are some differences to PKGlyphView and friends across subversions of iOS 
 2 - Loading circle (animated)  
 3 - Empty circle  
 4 - Move phone to reader (animated)  
-5 - Custom image (in circle ?)
+5 - Custom image (in circle ?)  
 6 - Success checkmark  
