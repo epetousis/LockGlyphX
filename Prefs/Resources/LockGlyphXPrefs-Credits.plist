@@ -8,12 +8,12 @@
 	<key>items</key>
 	<array>
 		
-		<!-- evilgoldfish -->
+		<!-- [] Creator -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Creator</string>
+			<string>Created By</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -30,12 +30,16 @@
 			<string>twitterButton</string>
 		</dict>
 		
-		<!-- Additional Devs -->
+		<!-- [] Additional Devs -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Additional Developers</string>
+			<string>In Association With</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -50,6 +54,10 @@
 			<string>twitterButton2</string>
 			<key>action</key>
 			<string>twitterButton2</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
 		</dict>
 		<dict>
 			<key>cell</key>
