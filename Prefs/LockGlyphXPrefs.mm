@@ -391,14 +391,16 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(id)identifier specifier:(PSSpecifier *)specifier {
 	// overridde the cell style because we want a detail label on the right side ...
 	if (self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier specifier:specifier]) {
-		NSString *selectedTheme;
-		
-		// check prefs for selected theme
+		// get the selected theme
 		CFPreferencesAppSynchronize(kPrefsAppID);
 		CFPropertyListRef value = CFPreferencesCopyAppValue(kPrefsCurrentThemeKey, kPrefsAppID);
-		selectedTheme = (value) ? (NSString *)CFBridgingRelease(value) : kDefaultThemeName;
-		
-		self.detailTextLabel.text = selectedTheme;
+		if (value) {
+			NSString *selectedTheme = (NSString *)CFBridgingRelease(value);
+			selectedTheme = [selectedTheme stringByReplacingOccurrencesOfString:@".bundle" withString:@""];
+			self.detailTextLabel.text = selectedTheme;
+		} else {
+			self.detailTextLabel.text = kDefaultThemeName;
+		}
 	}
 	return self;
 }
