@@ -59,6 +59,13 @@
 @end
 
 @implementation LockGlyphXPrefsController
+- (id)specifiers {
+	if(_specifiers == nil) {
+		_specifiers = [self loadSpecifiersFromPlistName:@"LockGlyphXPrefs" target:self];
+	}
+	[LGShared parseSpecifiers:_specifiers];
+	return _specifiers;
+}
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
@@ -71,12 +78,15 @@
 	// heartButton.tintColor = kTintColor;
 	// [self.navigationItem setRightBarButtonItem:heartButton];
 }
-- (id)specifiers {
-	if(_specifiers == nil) {
-		_specifiers = [self loadSpecifiersFromPlistName:@"LockGlyphXPrefs" target:self];
-	}
-	[LGShared parseSpecifiers:_specifiers];
-	return _specifiers;
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
 }
 - (void)showLove {
 	// send a nice tweet ;)
@@ -89,25 +99,25 @@
 	// [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/evilgoldfish/LockGlyphX/issues"]];
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/sticktron/LockGlyphX/issues"]];
 }
-- (CGFloat)tableView:(id)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 0 || indexPath.section == 1 || indexPath.section == 2) {
-		return 60;
-	} else {
-		return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-	}
-}
+// - (CGFloat)tableView:(id)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+// 	if (indexPath.section == 0 || indexPath.section == 1 || indexPath.section == 2) {
+// 		return 60;
+// 	} else {
+// 		return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+// 	}
+// }
 - (CGFloat)tableView:(id)tableView heightForHeaderInSection:(NSInteger)section {
 	if (section == 0) {
 		return kHeaderHeight;
 	} else if (section == 1 || section == 2) {
-		return 4;
+		return 0.5;
 	} else {
 		return [super tableView:tableView heightForHeaderInSection:section];
 	}
 }
 - (CGFloat)tableView:(id)tableView heightForFooterInSection:(NSInteger)section {
 	if (section == 0 || section == 1) {
-		return 4;
+		return 0.5;
 	} else {
 		return [super tableView:tableView heightForFooterInSection:section];
 	}
@@ -187,6 +197,16 @@
     }
     return titles;
 }
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
+}
 @end
 
 
@@ -205,11 +225,19 @@
 	return _specifiers;
 }
 - (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	
 	// for libcolorpicker
 	[self clearCache];
 	[self reload];
 	
-	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
 }
 - (void)resetColors {
 	CFPreferencesSetAppValue(CFSTR("primaryColor"), CFSTR("#BCBCBC:1.000000"), CFSTR("com.evilgoldfish.lockglyphx"));
@@ -241,6 +269,16 @@
 	[LGShared parseSpecifiers:_specifiers];
 	[(UINavigationItem *)self.navigationItem setTitle:[LGShared localisedStringForKey:@"ANIMATIONS_TITLE"]];
 	return _specifiers;
+}
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
 }
 @end
 
@@ -284,6 +322,23 @@
 }
 - (void)twitterButton3 {
 	[self openTwitterForUser:@"AppleBetasDev"];
+}
+- (CGFloat)tableView:(id)tableView heightForFooterInSection:(NSInteger)section {
+	if (section == 1) {
+		return 1;
+	} else {
+		return [super tableView:tableView heightForFooterInSection:section];
+	}
+}
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
 }
 @end
 
@@ -336,14 +391,16 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(id)identifier specifier:(PSSpecifier *)specifier {
 	// overridde the cell style because we want a detail label on the right side ...
 	if (self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier specifier:specifier]) {
-		NSString *selectedTheme;
-		
-		// check prefs for selected theme
+		// get the selected theme
 		CFPreferencesAppSynchronize(kPrefsAppID);
 		CFPropertyListRef value = CFPreferencesCopyAppValue(kPrefsCurrentThemeKey, kPrefsAppID);
-		selectedTheme = (value) ? (NSString *)CFBridgingRelease(value) : kDefaultThemeName;
-		
-		self.detailTextLabel.text = selectedTheme;
+		if (value) {
+			NSString *selectedTheme = (NSString *)CFBridgingRelease(value);
+			selectedTheme = [selectedTheme stringByReplacingOccurrencesOfString:@".bundle" withString:@""];
+			self.detailTextLabel.text = selectedTheme;
+		} else {
+			self.detailTextLabel.text = kDefaultThemeName;
+		}
 	}
 	return self;
 }

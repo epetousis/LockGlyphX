@@ -68,7 +68,7 @@
 			<key>cellClass</key>
 			<string>LGXButtonCell</string>
 			<key>label</key>
-			<string>Report An Issue</string>
+			<string>REPORT_ISSUE_BUTTON</string>
 			<key>icon</key>
 			<string>issues.png</string>
 			<key>id</key>
@@ -86,7 +86,7 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Credits</string>
+			<string>FIRST_CREDITS_LABEL</string>
 			<key>detail</key>
 			<string>LockGlyphXPrefsCreditsController</string>
 			<key>isController</key>

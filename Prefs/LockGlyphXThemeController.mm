@@ -15,20 +15,15 @@
 #define kTitleTag 		2
 
 
-@implementation UIImage (Private)
-+ (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)size {
-	UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-	[image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-	UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
-	return newImage;
-}
-+ (UIImage *)imageWithImage:(UIImage *)image scaledToFitSize:(CGSize)size {
-	CGFloat oldWidth = image.size.width;
-	CGFloat oldHeight = image.size.height;
-	// use longest side to determine scale factor
-	CGFloat scaleFactor = (oldWidth > oldHeight) ? size.width / oldWidth : size.height / oldHeight;
-	return [self imageWithImage:image scaledToSize:CGSizeMake(oldWidth * scaleFactor, oldHeight * scaleFactor)];
+@implementation UIImage (LockGlyphX)
++ (UIImage *)imageFromImageView:(UIImageView *)imageView {
+	UIGraphicsBeginImageContextWithOptions(imageView.frame.size, NO, 0); // use screen scale factor
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRotateCTM(context, 2 * M_PI);
+    [imageView.layer renderInContext:context];
+    UIImage *image =  UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 @end
 
@@ -72,10 +67,18 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+	
 	[self updateThemeList];
 }
 - (void)viewWillDisappear:(BOOL)animated {
 	[self.imageCache removeAllObjects];
+	
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
+	
 	[super viewWillDisappear:animated];
 }
 - (void)updateThemeList {
@@ -114,29 +117,16 @@
 		cell.accessoryType = UITableViewCellAccessoryNone;
 		
 		// thumbnail
-		// UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 5, 64, 64)];
 		UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 5, 48, 48)];
-		// imageView.opaque = YES;
-		imageView.opaque = NO;
+		imageView.opaque = YES;
 		imageView.contentMode = UIViewContentModeScaleAspectFit;
-		// UIImage *bgTile = [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/tile99cc.png", kPrefsBundlePath]];
-		// imageView.backgroundColor = [UIColor colorWithPatternImage:bgTile];
-		imageView.backgroundColor = UIColor.clearColor;
-		
-		// imageView.layer.borderColor = [UIColor colorWithWhite:0 alpha:0.5].CGColor;
-		// imageView.layer.borderWidth = 0.5;
-		
-		imageView.layer.shadowOffset = CGSizeMake(0, 1);
-		imageView.layer.shadowRadius = 1;
-		imageView.layer.shadowColor = UIColor.blackColor.CGColor;
-		imageView.layer.shadowOpacity = 0.4;
-		
+		imageView.backgroundColor = UIColor.whiteColor;
 		imageView.tag = kThumbnailTag;
 		[cell.contentView addSubview:imageView];
 		
 		// title
-		CGRect frame = CGRectMake(94, 5, cell.contentView.bounds.size.width - 94, 64);
-		UILabel *titleLabel = [[UILabel alloc] initWithFrame:frame];
+		UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(82, 0, cell.contentView.bounds.size.width - 82, 48)];
+		titleLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
 		titleLabel.opaque = YES;
 		titleLabel.font = [UIFont systemFontOfSize:14];
 		titleLabel.textColor = UIColor.blackColor;
@@ -157,7 +147,7 @@
 		CGRect frame = titleLabel.frame;
 		frame.origin.x = 15;
 		titleLabel.frame = frame;
-		
+				
 	} else {
 		imageView.hidden = NO;
 		CGRect frame = titleLabel.frame;
@@ -170,14 +160,33 @@
 		if (thumbnail) {
 			imageView.image = thumbnail;
 		} else {
-			// image is not yet cached
+			// image is not yet cached, cache it now (on background thread)
 			[self.queue addOperationWithBlock:^{
 				UIImage *image = [UIImage imageWithContentsOfFile:path];
 				if (image) {
-					// add to cache
+					
+					// Bake a CALayer shadow into the thumbnail, using an ImageView ...
+					
+					UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+					imageView.contentMode = UIViewContentModeCenter;
+					imageView.layer.shadowOffset = CGSizeMake(0, 1);
+					imageView.layer.shadowRadius = 1;
+					imageView.layer.shadowColor = UIColor.blackColor.CGColor;
+					imageView.layer.shadowOpacity = 0.4;
+					
+					// add some padding for the shadows
+					CGRect frame = imageView.frame;
+					frame.size.width += 4;
+					frame.size.height += 4;
+					imageView.frame = frame;
+					
+					image = [UIImage imageFromImageView:imageView];
+					
+					
+					// add the new image to cache
 					[self.imageCache setObject:image forKey:path];
 					
-					// display in cell (using main thread)
+					// update the cell (on main thread)
 					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
 						UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 						if (cell) {
