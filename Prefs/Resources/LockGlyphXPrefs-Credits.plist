@@ -8,12 +8,9 @@
 	<key>items</key>
 	<array>
 		
-		<!-- [] Creator -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Created By</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -30,13 +27,6 @@
 			<string>twitterButton</string>
 		</dict>
 		
-		<!-- [] Additional Devs -->
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>In Association With</string>
-		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -55,6 +45,7 @@
 			<key>action</key>
 			<string>twitterButton2</string>
 		</dict>
+		
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
