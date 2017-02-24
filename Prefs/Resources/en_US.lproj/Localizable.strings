@@ -1,4 +1,7 @@
-/* Same as en.lproj (British English), except where they are different. */
+/*
+ * en_US
+ * Only includes values that differ from en.lproj.
+ */
 
 /* Main Page */
 "FIRST_BEHAVIOUR_LABEL" = "Behavior";
