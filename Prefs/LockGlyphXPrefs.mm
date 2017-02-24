@@ -89,25 +89,25 @@
 	// [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/evilgoldfish/LockGlyphX/issues"]];
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/sticktron/LockGlyphX/issues"]];
 }
-- (CGFloat)tableView:(id)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 0 || indexPath.section == 1 || indexPath.section == 2) {
-		return 60;
-	} else {
-		return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-	}
-}
+// - (CGFloat)tableView:(id)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+// 	if (indexPath.section == 0 || indexPath.section == 1 || indexPath.section == 2) {
+// 		return 60;
+// 	} else {
+// 		return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+// 	}
+// }
 - (CGFloat)tableView:(id)tableView heightForHeaderInSection:(NSInteger)section {
 	if (section == 0) {
 		return kHeaderHeight;
 	} else if (section == 1 || section == 2) {
-		return 4;
+		return 0.5;
 	} else {
 		return [super tableView:tableView heightForHeaderInSection:section];
 	}
 }
 - (CGFloat)tableView:(id)tableView heightForFooterInSection:(NSInteger)section {
 	if (section == 0 || section == 1) {
-		return 4;
+		return 0.5;
 	} else {
 		return [super tableView:tableView heightForFooterInSection:section];
 	}
