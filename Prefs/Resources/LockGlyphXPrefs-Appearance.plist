@@ -40,7 +40,7 @@
 			<key>key</key>
 			<string>shouldHideRing</string>
 			<key>label</key>
-			<string>Hide ring</string>
+			<string>APPEARANCE_HIDE_RING_LABEL</string>
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
@@ -58,7 +58,7 @@
 			<key>cellClass</key>
 			<string>PFColorCell</string>
 			<key>label</key>
-			<string>Fingerprint color</string>
+			<string>COLOURS_IDLECOLOUR_LABEL</string>
 			<key>color_defaults</key>
 			<string>com.evilgoldfish.lockglyphx</string>
 			<key>color_key</key>
@@ -113,7 +113,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Position (Portrait)</string>
+			<string>FINGERPOS_PORTRAIT_HEADER_TEXT</string>
 		</dict>
 				
 		<!-- use custom X (portrait) -->
@@ -129,7 +129,7 @@
 			<key>key</key>
 			<string>enablePortraitX</string>
 			<key>label</key>
-			<string>Custom Portrait X</string>
+			<string>FINGERPOS_PORTRAITXTOGL_LABEL</string>
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
@@ -137,13 +137,11 @@
 			<key>cell</key>
 			<string>PSEditTextCell</string>
 			<key>label</key>
-			<string>Portrait X</string>
+			<string>FINGERPOS_PORTRAITX_LABEL</string>
 			<key>defaults</key>
 			<string>com.evilgoldfish.lockglyphx</string>
 			<key>key</key>
 			<string>portraitX</string>
-			<!-- <key>isNumeric</key>
-			<true/> -->
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
@@ -174,8 +172,6 @@
 			<string>com.evilgoldfish.lockglyphx</string>
 			<key>key</key>
 			<string>portraitY</string>
-			<!-- <key>isNumeric</key>
-			<true/> -->
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
@@ -186,7 +182,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Position (Landscape)</string>
+			<string>FINGERPOS_LANDSCAPE_HEADER_TEXT</string>
 		</dict>
 		
 		<!-- use custom X (landscape) -->
@@ -202,7 +198,7 @@
 			<key>key</key>
 			<string>enableLandscapeX</string>
 			<key>label</key>
-			<string>Custom Landscape X</string>
+			<string>FINGERPOS_LANDSCAPEXTOGL_LABEL</string>
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
@@ -214,9 +210,7 @@
 			<key>defaults</key>
 			<string>com.evilgoldfish.lockglyphx</string>
 			<key>key</key>
-			<string>landscapeX</string>
-			<!-- <key>isNumeric</key>
-			<true/> -->
+			<string>FINGERPOS_LANDSCAPEX_LABEL</string>
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
@@ -246,8 +240,6 @@
 			<string>com.evilgoldfish.lockglyphx</string>
 			<key>key</key>
 			<string>landscapeY</string>
-			<!-- <key>isNumeric</key>
-			<true/> -->
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
@@ -257,7 +249,7 @@
             <key>cell</key>
             <string>PSGroupCell</string>
             <key>label</key>
-            <string>Press Home To Unlock</string>
+            <string>LOCKLABEL_HEADER_TEXT</string>
         </dict>
 		<!-- Show text -->
         <dict>
@@ -289,7 +281,7 @@
             <key>key</key>
             <string>overridePressHomeToUnlockText</string>
             <key>label</key>
-            <string>LOCKLABEL_CUSTOM_TEXT_ENABLED</string>
+            <string>LOCKLABEL_CUSTOM_TEXT_ENABLED_LABEL</string>
             <key>PostNotification</key>
             <string>com.evilgoldfish.lockglyphx.settingschanged</string>
         </dict>
