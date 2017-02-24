@@ -10,12 +10,10 @@ Please use the issue tracker to report bugs or post suggestions.
 Please help us translate LockGlyphX into your language.  
 Details: https://gist.github.com/Sticktron/03ed485c6f7f0d1ed6d442720af87821
 
-
-
-### Notes
+## Notes
 There were some API changes in iOS 10.2. States changed, as well as usage of PKFingerprintGlyphView vs PKSubglyphView.
 
-#### new PKGlyphView states (iOS 10.2)
+#### PKGlyphView states (iOS 10.2)
 0 - Default (fingerprint)  
 1 - Fingerprint scanning (animated)  
 2 - ? (blank)  
@@ -25,7 +23,7 @@ There were some API changes in iOS 10.2. States changed, as well as usage of PKF
 6 - Custom image in circle  
 7 - Success checkmark  
 
-#### old PKGlyphView states (iOS < 10.2)
+#### PKGlyphView states (iOS < 10.2)
 0 - Default (fingerprint)  
 1 - Fingerprint scanning (animated)  
 2 - Loading circle (animated)  
