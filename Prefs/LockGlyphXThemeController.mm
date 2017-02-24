@@ -125,8 +125,7 @@
 		[cell.contentView addSubview:imageView];
 		
 		// title
-		UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(82, 0, cell.contentView.bounds.size.width - 82, 48)];
-		titleLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+		UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(78, 20, cell.contentView.bounds.size.width - 78, 20)];
 		titleLabel.opaque = YES;
 		titleLabel.font = [UIFont systemFontOfSize:14];
 		titleLabel.textColor = UIColor.blackColor;
