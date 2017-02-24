@@ -59,6 +59,13 @@
 @end
 
 @implementation LockGlyphXPrefsController
+- (id)specifiers {
+	if(_specifiers == nil) {
+		_specifiers = [self loadSpecifiersFromPlistName:@"LockGlyphXPrefs" target:self];
+	}
+	[LGShared parseSpecifiers:_specifiers];
+	return _specifiers;
+}
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
@@ -71,12 +78,15 @@
 	// heartButton.tintColor = kTintColor;
 	// [self.navigationItem setRightBarButtonItem:heartButton];
 }
-- (id)specifiers {
-	if(_specifiers == nil) {
-		_specifiers = [self loadSpecifiersFromPlistName:@"LockGlyphXPrefs" target:self];
-	}
-	[LGShared parseSpecifiers:_specifiers];
-	return _specifiers;
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
 }
 - (void)showLove {
 	// send a nice tweet ;)
@@ -187,6 +197,16 @@
     }
     return titles;
 }
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
+}
 @end
 
 
@@ -205,11 +225,19 @@
 	return _specifiers;
 }
 - (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	
 	// for libcolorpicker
 	[self clearCache];
 	[self reload];
 	
-	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
 }
 - (void)resetColors {
 	CFPreferencesSetAppValue(CFSTR("primaryColor"), CFSTR("#BCBCBC:1.000000"), CFSTR("com.evilgoldfish.lockglyphx"));
@@ -241,6 +269,16 @@
 	[LGShared parseSpecifiers:_specifiers];
 	[(UINavigationItem *)self.navigationItem setTitle:[LGShared localisedStringForKey:@"ANIMATIONS_TITLE"]];
 	return _specifiers;
+}
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
 }
 @end
 
@@ -291,6 +329,16 @@
 	} else {
 		return [super tableView:tableView heightForFooterInSection:section];
 	}
+}
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
 }
 @end
 

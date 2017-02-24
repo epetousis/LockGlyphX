@@ -72,10 +72,18 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+	
 	[self updateThemeList];
 }
 - (void)viewWillDisappear:(BOOL)animated {
 	[self.imageCache removeAllObjects];
+	
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
+	
 	[super viewWillDisappear:animated];
 }
 - (void)updateThemeList {
