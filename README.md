@@ -1,9 +1,14 @@
-# LockGlyphX (beta)
+# LockGlyphX
 The evolution of LockGlyph. For iOS 10.  
 Supports all existing LockGlyph themes.
 
+## Beta
 Join the beta by adding http://sticktron.github.com/repo to Cydia.  
 Please use the issue tracker to report bugs or post suggestions.
+
+## Localization
+Please help us translate LockGlyphX into your language.  
+Details: https://gist.github.com/Sticktron/03ed485c6f7f0d1ed6d442720af87821
 
 ## Notes
 There are some differences to PKGlyphView and friends across subversions of iOS 10.
