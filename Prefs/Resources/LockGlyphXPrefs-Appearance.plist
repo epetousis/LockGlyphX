@@ -206,11 +206,11 @@
 			<key>cell</key>
 			<string>PSEditTextCell</string>
 			<key>label</key>
-			<string>Landscape X</string>
+			<string>FINGERPOS_LANDSCAPEX_LABEL</string>
 			<key>defaults</key>
 			<string>com.evilgoldfish.lockglyphx</string>
 			<key>key</key>
-			<string>FINGERPOS_LANDSCAPEX_LABEL</string>
+			<string>landscapeX</string>
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
