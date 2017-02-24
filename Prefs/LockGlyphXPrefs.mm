@@ -285,6 +285,13 @@
 - (void)twitterButton3 {
 	[self openTwitterForUser:@"AppleBetasDev"];
 }
+- (CGFloat)tableView:(id)tableView heightForFooterInSection:(NSInteger)section {
+	if (section == 1) {
+		return 1;
+	} else {
+		return [super tableView:tableView heightForFooterInSection:section];
+	}
+}
 @end
 
 
