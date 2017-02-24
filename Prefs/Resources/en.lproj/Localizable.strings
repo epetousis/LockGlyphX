@@ -1,3 +1,9 @@
+/*
+ * en (British English)
+ * This is the default localization for LockGlyphX.
+ * If a translation is missing, the value from here will be used.
+ */
+
 /* Main Page */
 "FIRST_BEHAVIOUR_LABEL" = "Behaviour";
 "FIRST_APPEARANCE_LABEL" = "Appearance";
@@ -7,7 +13,7 @@
 
 /* Behaviour Page */
 "BEHAVIOUR_TITLE" = "Behaviour";
-"GENERAL_LOCKGLYPHTOGL_LABEL" = "Enable LockGlyph";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Enabled";
 "GENERAL_UNLOCKSNDSELECTION_LABEL" = "Unlock sound";
 "SOUND_NONE" = "None";
 "SOUND_DEFAULT" = "Theme (default)";

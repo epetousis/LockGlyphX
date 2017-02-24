@@ -1,1 +1,4 @@
-/* Same as en.lproj (British English), no need to override those localizations. */
+/*
+ * en_AU
+ * Only includes values that differ from en.lproj.
+ */
