@@ -1,55 +1,16 @@
+/* Same as en.lproj (British English), except where they are different. */
+
 /* Main Page */
 "FIRST_BEHAVIOUR_LABEL" = "Behavior";
-"FIRST_APPEARANCE_LABEL" = "Appearance";
-"FIRST_ANIMATIONS_LABEL" = "Animations";
-"FIRST_CREDITS_LABEL" = "Credits";
-"REPORT_ISSUE_BUTTON" = "Report an issue";
 
 /* Behaviour Page */
 "BEHAVIOUR_TITLE" = "Behavior";
-"GENERAL_LOCKGLYPHTOGL_LABEL" = "Enable LockGlyph";
-"GENERAL_UNLOCKSNDSELECTION_LABEL" = "Unlock sound";
-"SOUND_NONE" = "None";
-"SOUND_DEFAULT" = "Theme (default)";
-"SOUND_APPLE_PAY" = "Apple Pay";
-"SOUND_OLD_APPLE_PAY" = "Classic Apple Pay";
-"SOUND_FOOTER" = "If the current theme doesn't include sound the 'Apple Pay' sound will be played.";
-"GENERAL_UNLOCKIMEDTOGL_LABEL" = "Unlock immediately";
 "GENERAL_FOOTER_TEXT" = "Enabling Unlock immediately will unlock the device as soon as a fingerprint is recognized or the fingerprint is tapped. Enable this if you would like to unlock as fast as possible.";
-"FAILUNLOCK_HEADER_TEXT" = "Failed unlock action";
-"FAILUNLOCK_VIBRATETOGL_LABEL" = "Vibrate";
-"FAILUNLOCK_SHAKETOGL_LABEL" = "Shake fingerprint";
-"FAILUNLOCK_FOOTER_TEXT" = "These actions will be performed whenever an incorrect finger is used to unlock the device.";
 
 /* Appearance Page */
-"APPEARANCE_TITLE" = "Appearance";
-"THEMES_THEMESELECT_LABEL" = "Theme";
-"APPEARANCE_HIDE_RING_LABEL" = "Hide ring";
 "COLOURS_HEADER_TEXT" = "Colors";
 "COLOURS_IDLECOLOUR_LABEL" = "Fingerprint color";
 "COLOURS_SCANCOLOUR_LABEL" = "Scanning color";
 "COLOURS_RESET_LABEL" = "Reset colors to default";
-"FINGERPOS_PORTRAIT_HEADER_TEXT" = "Position (Portrait)";
-"FINGERPOS_PORTRAITXTOGL_LABEL" = "Use custom X offset";
-"FINGERPOS_PORTRAITX_LABEL" = "X offset";
-"FINGERPOS_PORTRAITYTOGL_LABEL" = "Use custom Y offset";
-"FINGERPOS_PORTRAITY_LABEL" = "Y offset";
-"FINGERPOS_LANDSCAPE_HEADER_TEXT" = "Position (Portrait)";
-"FINGERPOS_LANDSCAPEXTOGL_LABEL" = "Use custom X offset";
-"FINGERPOS_LANDSCAPEX_LABEL" = "X offset";
-"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Use custom Y offset";
-"FINGERPOS_LANDSCAPEY_LABEL" = "Y offset";
-"LOCKLABEL_HEADER_TEXT" = "Press Home To Unlock";
-"LOCKLABEL_ENABLED_LABEL" = "Show text";
-"LOCKLABEL_CUSTOM_TEXT_ENABLED_LABEL" = "Use custom text";
-"LOCKLABEL_CUSTOM_TEXT_LABEL" = "Custom text";
 
 /* Animations Page */
-"ANIMATIONS_TITLE" = "Animations";
-"ANIM_TICKTOGL_LABEL" = "Use tick animation";
-"ANIM_SHINETOGL_LABEL" = "Use shine animation";
-"ANIM_FASTTOGL_LABEL" = "Use faster animations";
-"ANIM_LOADINGTOGL_LABEL" = "Use alternate scanning animation";
-"ANIM_LOADINGTOGL_FOOTER_TEXT" = "Shows an animated ring while scanning. Requires 'Hide ring' setting to be off.";
-"ANIM_HOLDTOREADERTOGL_LABEL" = "Use alternate idle animation";
-"ANIM_ONLYDEFAULT_LABEL" = "Shows the Apple Pay hold-phone-to-reader animation while idle. Requires the default theme be selected.";
