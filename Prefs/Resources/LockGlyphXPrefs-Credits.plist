@@ -8,10 +8,14 @@
 	<key>items</key>
 	<array>
 		
+		<!-- [] BY -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>CREDITS_BY</string>
 		</dict>
+		<!-- @evilgoldfish01 -->
 		<dict>
 			<key>cell</key>
 			<string>PSButtonCell</string>
@@ -27,10 +31,14 @@
 			<string>twitterButton</string>
 		</dict>
 		
+		<!-- [] Also By -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>CREDITS_ALSO_BY</string>
 		</dict>
+		<!-- @sticktron -->
 		<dict>
 			<key>cell</key>
 			<string>PSButtonCell</string>
@@ -45,7 +53,7 @@
 			<key>action</key>
 			<string>twitterButton2</string>
 		</dict>
-		
+		<!-- @AppleBetasDev -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
