@@ -505,7 +505,8 @@ static void performShakeFingerFailAnimation(void) {
 	setPrimaryColorOverride(primaryColor);
 	setSecondaryColorOverride(secondaryColor);
 	
-	if (enabled && usingDefaultGlyph && fingerglyph) {
+	// if (enabled && usingDefaultGlyph && fingerglyph) {
+	if (enabled && fingerglyph) {
 		fingerglyph.primaryColor = activePrimaryColor();
 		fingerglyph.secondaryColor = activeSecondaryColor();
 	}
