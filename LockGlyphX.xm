@@ -61,7 +61,7 @@ static PKGlyphView *fingerglyph;
 static SystemSoundID unlockSound;
 
 static BOOL authenticated;
-static BOOL usingGlyph;
+static BOOL usingDefaultGlyph;
 static BOOL doingScanAnimation;
 static BOOL doingTickAnimation;
 static NSBundle *themeAssets;
@@ -384,11 +384,10 @@ static void performShakeFingerFailAnimation(void) {
 		// frame.size = customImage.size;
 		// fingerglyph.frame = frame;
 		
-		usingGlyph = NO;
-		
+		usingDefaultGlyph = NO;
 	} else {
 		// no custom theme, use default
-		usingGlyph = YES;
+		usingDefaultGlyph = YES;
 	}
 	
 	// position glyph
@@ -483,7 +482,7 @@ static void performShakeFingerFailAnimation(void) {
 - (void)LG_RevertUI:(NSNotification *)notification {
 	setPrimaryColorOverride(nil);
 	setSecondaryColorOverride(nil);
-	if (enabled && usingGlyph && fingerglyph) {
+	if (enabled && usingDefaultGlyph && fingerglyph) {
 		fingerglyph.primaryColor = activePrimaryColor();
 		fingerglyph.secondaryColor = activeSecondaryColor();
 	}
@@ -505,7 +504,8 @@ static void performShakeFingerFailAnimation(void) {
 	}
 	setPrimaryColorOverride(primaryColor);
 	setSecondaryColorOverride(secondaryColor);
-	if (enabled && usingGlyph && fingerglyph) {
+	
+	if (enabled && usingDefaultGlyph && fingerglyph) {
 		fingerglyph.primaryColor = activePrimaryColor();
 		fingerglyph.secondaryColor = activeSecondaryColor();
 	}
@@ -609,7 +609,7 @@ static void performShakeFingerFailAnimation(void) {
 - (void)_layoutContentLayer:(id)arg1 {
 	%orig;
 	
-	if (!usingGlyph) {
+	if (!usingDefaultGlyph) {
 		self.clipsToBounds = YES;
 	} else {
 		self.clipsToBounds = NO;
@@ -622,7 +622,7 @@ static void performShakeFingerFailAnimation(void) {
 /* iOS 10.2 */
 %hook PKFingerprintGlyphView
 - (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
-	if (enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
+	if (enabled && useFasterAnimations && usingDefaultGlyph && (doingTickAnimation || doingScanAnimation)) {
 		if (authenticated) {
 			arg2 = MIN(arg2, 0.1);
 		} else {
@@ -649,7 +649,7 @@ static void performShakeFingerFailAnimation(void) {
 /* iOS 10, 10.1 */
 %hook PKSubglyphView
 - (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
-	if (enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
+	if (enabled && useFasterAnimations && usingDefaultGlyph && (doingTickAnimation || doingScanAnimation)) {
 		if (authenticated) {
 			arg2 = MIN(arg2, 0.1);
 		} else {
