@@ -173,12 +173,10 @@ static void loadPreferences() {
 	overridePressHomeToUnlockText = !CFPreferencesCopyAppValue(CFSTR("overridePressHomeToUnlockText"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("overridePressHomeToUnlockText"), kPrefsAppID)) boolValue];
     useLoadingStateForScanning = !CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID)) boolValue];
     useHoldToReaderAnimation = !CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID)) boolValue];
-    
 	
-	// theme bundle
+	// load theme bundle
 	NSURL *bundleURL = [NSURL fileURLWithPath:kThemePath];
 	themeAssets = [NSBundle bundleWithURL:[bundleURL URLByAppendingPathComponent:themeBundleName]];
-	DebugLogC(@"found assets for theme (%@): %@", themeBundleName, themeAssets);
 	
 	// dispose of old sound
 	if (unlockSound) {
@@ -395,7 +393,6 @@ static void performShakeFingerFailAnimation(void) {
 	
 	// position glyph
 	[fingerglyph updatePositionWithOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
-	DebugLog(@"fingerglyph.frame = %@", NSStringFromCGRect(fingerglyph.frame));
 	
 	// add shine animation
 	if (useShine) {
@@ -404,10 +401,10 @@ static void performShakeFingerFailAnimation(void) {
 		[fingerglyph removeShineAnimation];
 	}
 	
-	// add tap recognizer
+	// add tap recognizer to glyph
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lockGlyphTapHandler:)];
 	[fingerglyph addGestureRecognizer:tap];
-	
+		
 	[self addSubview:fingerglyph];
 	
 	// listen for notifications from ColorFlow/CustomCover
@@ -610,7 +607,6 @@ static void performShakeFingerFailAnimation(void) {
 	return result;
 }
 - (void)_layoutContentLayer:(id)arg1 {
-	DebugLog0;
 	%orig;
 	
 	if (!usingGlyph) {
@@ -626,8 +622,6 @@ static void performShakeFingerFailAnimation(void) {
 /* iOS 10.2 */
 %hook PKFingerprintGlyphView
 - (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
-	DebugLog0;
-
 	if (enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
 		if (authenticated) {
 			arg2 = MIN(arg2, 0.1);
@@ -639,7 +633,6 @@ static void performShakeFingerFailAnimation(void) {
 	%orig;
 }
 - (double)_minimumAnimationDurationForStateTransition {
-	DebugLog0;
 	return enabled && authenticated && useFasterAnimations && (doingTickAnimation || doingScanAnimation) ? 0.1 : %orig;
 }
 - (void)layoutSubviews {
@@ -656,8 +649,6 @@ static void performShakeFingerFailAnimation(void) {
 /* iOS 10, 10.1 */
 %hook PKSubglyphView
 - (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
-	DebugLog0;
-
 	if (enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
 		if (authenticated) {
 			arg2 = MIN(arg2, 0.1);
@@ -669,7 +660,6 @@ static void performShakeFingerFailAnimation(void) {
 	%orig;
 }
 - (double)_minimumAnimationDurationForStateTransition {
-	DebugLog0;
 	return enabled && authenticated && useFasterAnimations && (doingTickAnimation || doingScanAnimation) ? 0.1 : %orig;
 }
 - (void)layoutSubviews {
