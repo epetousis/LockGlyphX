@@ -8,13 +8,14 @@
 	<key>items</key>
 	<array>
 		
-		<!-- [] Creator -->
+		<!-- [] BY -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Created By</string>
+			<string>CREDITS_BY</string>
 		</dict>
+		<!-- @evilgoldfish01 -->
 		<dict>
 			<key>cell</key>
 			<string>PSButtonCell</string>
@@ -30,17 +31,14 @@
 			<string>twitterButton</string>
 		</dict>
 		
-		<!-- [] Additional Devs -->
+		<!-- [] Also By -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>In Association With</string>
+			<string>CREDITS_ALSO_BY</string>
 		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-		</dict>
+		<!-- @sticktron -->
 		<dict>
 			<key>cell</key>
 			<string>PSButtonCell</string>
@@ -55,6 +53,7 @@
 			<key>action</key>
 			<string>twitterButton2</string>
 		</dict>
+		<!-- @AppleBetasDev -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>

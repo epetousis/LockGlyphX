@@ -27,6 +27,8 @@
 @end
 
 
+// Localization Helper ---------------------------------------------------------
+
 @interface LGShared : NSObject
 + (NSString *)localisedStringForKey:(NSString *)key;
 + (void)parseSpecifiers:(NSArray *)specifiers;
@@ -99,13 +101,6 @@
 	// [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/evilgoldfish/LockGlyphX/issues"]];
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/sticktron/LockGlyphX/issues"]];
 }
-// - (CGFloat)tableView:(id)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-// 	if (indexPath.section == 0 || indexPath.section == 1 || indexPath.section == 2) {
-// 		return 60;
-// 	} else {
-// 		return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-// 	}
-// }
 - (CGFloat)tableView:(id)tableView heightForHeaderInSection:(NSInteger)section {
 	if (section == 0) {
 		return kHeaderHeight;
@@ -188,10 +183,10 @@
 	return _specifiers;
 }
 - (NSArray *)soundValues {
-    return @[@0, @1, @2, @3];
+    return @[ @0, @1, @2 ];
 }
 - (NSArray *)soundTitles {
-    NSMutableArray *titles = [@[@"SOUND_NONE", @"SOUND_DEFAULT", @"SOUND_APPLE_PAY", @"SOUND_OLD_APPLE_PAY"] mutableCopy];
+    NSMutableArray *titles = [@[ @"SOUND_NONE", @"SOUND_DEFAULT", @"SOUND_APPLE_PAY" ] mutableCopy];
     for (int i = 0; i < titles.count; i++) {
         titles[i] = [LGShared localisedStringForKey:titles[i]];
     }
@@ -227,12 +222,12 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+	
 	// for libcolorpicker
 	[self clearCache];
 	[self reload];
-	
-	// tint navbar
-	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
 }
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
@@ -293,8 +288,8 @@
 	if (_specifiers == nil) {
 		_specifiers = [self loadSpecifiersFromPlistName:@"LockGlyphXPrefs-Credits" target:self];
 	}
-	// [LGShared parseSpecifiers:_specifiers];
-	// [(UINavigationItem *)self.navigationItem setTitle:[LGShared localisedStringForKey:@"ANIMATIONS_TITLE"]];
+	[LGShared parseSpecifiers:_specifiers];
+	[(UINavigationItem *)self.navigationItem setTitle:[LGShared localisedStringForKey:@"CREDITS_TITLE"]];
 	return _specifiers;
 }
 - (void)openTwitterForUser:(NSString *)user {
@@ -323,13 +318,6 @@
 - (void)twitterButton3 {
 	[self openTwitterForUser:@"AppleBetasDev"];
 }
-- (CGFloat)tableView:(id)tableView heightForFooterInSection:(NSInteger)section {
-	if (section == 1) {
-		return 1;
-	} else {
-		return [super tableView:tableView heightForFooterInSection:section];
-	}
-}
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	// tint navbar
@@ -339,6 +327,22 @@
 	[super viewWillDisappear:animated];
 	// un-tint navbar
 	self.navigationController.navigationController.navigationBar.tintColor = nil;
+}
+- (CGFloat)tableView:(id)tableView heightForHeaderInSection:(NSInteger)section {
+	if (section == 2) {
+		return 0.5;
+	} else {
+		return [super tableView:tableView heightForHeaderInSection:section];
+	}
+}
+- (CGFloat)tableView:(id)tableView heightForFooterInSection:(NSInteger)section {
+	if (section == 0) {
+		return 44;
+	} if (section == 1) {
+			return 0.5;
+	} else {
+		return [super tableView:tableView heightForFooterInSection:section];
+	}
 }
 @end
 

@@ -1,3 +1,9 @@
+/*
+ * en (British English)
+ * This is the default localization for LockGlyphX.
+ * If a translation is missing, the value from here will be used.
+ */
+
 /* Main Page */
 "FIRST_BEHAVIOUR_LABEL" = "Behaviour";
 "FIRST_APPEARANCE_LABEL" = "Appearance";
@@ -7,13 +13,12 @@
 
 /* Behaviour Page */
 "BEHAVIOUR_TITLE" = "Behaviour";
-"GENERAL_LOCKGLYPHTOGL_LABEL" = "Enable LockGlyph";
+"GENERAL_LOCKGLYPHTOGL_LABEL" = "Enabled";
 "GENERAL_UNLOCKSNDSELECTION_LABEL" = "Unlock sound";
 "SOUND_NONE" = "None";
 "SOUND_DEFAULT" = "Theme (default)";
 "SOUND_APPLE_PAY" = "Apple Pay";
-"SOUND_OLD_APPLE_PAY" = "Classic Apple Pay";
-"SOUND_FOOTER" = "If the current theme doesn't include sound the 'Apple Pay' sound will be played.";
+"SOUND_FOOTER" = "If the current theme doesn't include sound the default sound will be played.";
 "GENERAL_UNLOCKIMEDTOGL_LABEL" = "Unlock immediately";
 "GENERAL_FOOTER_TEXT" = "Enabling Unlock immediately will unlock the device as soon as a fingerprint is recognised or the fingerprint is tapped. Enable this if you would like to unlock as fast as possible.";
 "FAILUNLOCK_HEADER_TEXT" = "Failed unlock action";
@@ -53,3 +58,8 @@
 "ANIM_LOADINGTOGL_FOOTER_TEXT" = "Shows an animated ring while scanning. Requires 'Hide ring' setting to be off.";
 "ANIM_HOLDTOREADERTOGL_LABEL" = "Use alternate idle animation";
 "ANIM_ONLYDEFAULT_LABEL" = "Shows the Apple Pay hold-phone-to-reader animation while idle. Requires the default theme be selected.";
+
+/* Credits Page */
+"CREDITS_TITLE" = "Credits";
+"CREDITS_BY" = "Created By";
+"CREDITS_ALSO_BY" = "iOS 10 Port By";

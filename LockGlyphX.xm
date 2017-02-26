@@ -47,7 +47,6 @@
 #define kSoundNone  		0
 #define kSoundTheme 		1
 #define kSoundApplePay 		2
-#define kSoundOldApplePay   3
 
 
 @interface PKGlyphView (LockGlyphX)
@@ -62,12 +61,12 @@ static PKGlyphView *fingerglyph;
 static SystemSoundID unlockSound;
 
 static BOOL authenticated;
-static BOOL usingGlyph;
+static BOOL usingDefaultGlyph;
 static BOOL doingScanAnimation;
 static BOOL doingTickAnimation;
 static NSBundle *themeAssets;
 SMDelayedBlockHandle unlockBlock;
-static BOOL isObserving;
+static BOOL isObservingForCCCF;
 
 static BOOL enabled;
 static NSString *themeBundleName;
@@ -174,27 +173,36 @@ static void loadPreferences() {
 	overridePressHomeToUnlockText = !CFPreferencesCopyAppValue(CFSTR("overridePressHomeToUnlockText"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("overridePressHomeToUnlockText"), kPrefsAppID)) boolValue];
     useLoadingStateForScanning = !CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID)) boolValue];
     useHoldToReaderAnimation = !CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID)) boolValue];
-    
 	
-	// theme bundle
+	// load theme bundle
 	NSURL *bundleURL = [NSURL fileURLWithPath:kThemePath];
 	themeAssets = [NSBundle bundleWithURL:[bundleURL URLByAppendingPathComponent:themeBundleName]];
-	DebugLogC(@"found assets for theme (%@): %@", themeBundleName, themeAssets);
 	
-	// load sound
+	// dispose of old sound
 	if (unlockSound) {
 		AudioServicesDisposeSystemSoundID(unlockSound);
 	}
-    if(unlockSoundChoice != 0) {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]] && unlockSoundChoice == 1) {
-            NSURL *pathURL = [NSURL fileURLWithPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]];
-            AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
-        } else {
-            DebugLogC(@"no sound for theme or user doesn't want it, using default instead");
-            NSURL *pathURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Default.bundle/%@.wav", kThemePath, (unlockSoundChoice != 3 ? @"SuccessSound" : @"ClassicSuccessSound")]];
-            AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
-        }
-    }
+	
+	// load new sound
+	if (unlockSoundChoice == kSoundTheme || unlockSoundChoice == kSoundApplePay) {
+		NSURL *pathURL;
+		
+		if (unlockSoundChoice == kSoundTheme) {
+		    if ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]]) {
+				// found theme sound
+	            pathURL = [NSURL fileURLWithPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]];
+			}
+		}
+		
+		// if we couldn't find a theme sound, or didn't want to use the theme sound, load the default sound
+		if (!pathURL) {
+			// use ApplePay sound
+	        pathURL = [NSURL fileURLWithPath:@"/System/Library/Audio/UISounds/payment_success.caf"];
+		}
+		
+		// create the new sound
+		AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
+	}
 }
 
 static void performFingerScanAnimation(void) {
@@ -321,23 +329,15 @@ static void performShakeFingerFailAnimation(void) {
 		return;
 	}
     
-    // We still need to send this if disabled so we can adjust accordingly in our other classes
-    [[NSNotificationCenter defaultCenter] postNotificationName:kLockGlyphLockScreenActivatedNotification object:nil];
-	
-	if (!enabled) {
-		DebugLog(@"LockGlyphX is disabled :/");
-		return;
-	}
-    
 	// main page is leaving it's window, do some clean up
 	if (!self.window) {
 		DebugLog(@"main page has left window");
 		
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:CFRevert object:nil];
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:CFColor object:nil];
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:CCRevert object:nil];
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:CCColor object:nil];
-		isObserving = NO;
+		// revert CustomCover override once we've been removed from the window
+		if (overrideIsForCustomCover) {
+			setPrimaryColorOverride(nil);
+			setSecondaryColorOverride(nil);
+		}
 		
 		[fingerglyph removeFromSuperview];
 		fingerglyph = nil;
@@ -347,15 +347,21 @@ static void performShakeFingerFailAnimation(void) {
 	
 	DebugLog(@"Main page has moved to window");
 	
+	// We still need to send this if disabled so we can adjust accordingly in our other classes
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLockGlyphLockScreenActivatedNotification object:nil];
+	
+	if (!enabled) {
+		DebugLog(@"LockGlyphX is disabled :/");
+		return;
+	}
+	
 	if (fingerglyph) {
 		DebugLog(@"ERROR: fingerglyph already exists!");
 		return;
 	}
 	
-	DebugLog(@"creating new GlyphView to your specifications...");
 	fingerglyph = [[%c(PKGlyphView) alloc] initWithStyle:getIdleGlyphState()]; // 1 = blended
 	fingerglyph.delegate = (id<PKGlyphViewDelegate>)self;
-	
 	fingerglyph.primaryColor = activePrimaryColor();
 	fingerglyph.secondaryColor = activeSecondaryColor();
 	
@@ -378,16 +384,14 @@ static void performShakeFingerFailAnimation(void) {
 		// frame.size = customImage.size;
 		// fingerglyph.frame = frame;
 		
-		usingGlyph = NO;
-		
+		usingDefaultGlyph = NO;
 	} else {
 		// no custom theme, use default
-		usingGlyph = YES;
+		usingDefaultGlyph = YES;
 	}
 	
 	// position glyph
 	[fingerglyph updatePositionWithOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
-	DebugLog(@"fingerglyph.frame = %@", NSStringFromCGRect(fingerglyph.frame));
 	
 	// add shine animation
 	if (useShine) {
@@ -396,19 +400,19 @@ static void performShakeFingerFailAnimation(void) {
 		[fingerglyph removeShineAnimation];
 	}
 	
-	// add tap recognizer
+	// add tap recognizer to glyph
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lockGlyphTapHandler:)];
 	[fingerglyph addGestureRecognizer:tap];
-	
+		
 	[self addSubview:fingerglyph];
 	
 	// listen for notifications from ColorFlow/CustomCover
-	if (!isObserving) {
+	if (!isObservingForCCCF) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LG_RevertUI:) name:CFRevert object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LG_ColorizeUI:) name:CFColor object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LG_RevertUI:) name:CCRevert object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LG_ColorizeUI:) name:CCColor object:nil];
-		isObserving = YES;
+		isObservingForCCCF = YES;
 	}
 	
 	// lockView = (UIView *)self;
@@ -417,10 +421,8 @@ static void performShakeFingerFailAnimation(void) {
 	DebugLog(@"fingerglyph = %@", fingerglyph);
 }
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CFRevert object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CFColor object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CCRevert object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CCColor object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	isObservingForCCCF = NO;
 	%orig;
 }
 %new
@@ -480,7 +482,7 @@ static void performShakeFingerFailAnimation(void) {
 - (void)LG_RevertUI:(NSNotification *)notification {
 	setPrimaryColorOverride(nil);
 	setSecondaryColorOverride(nil);
-	if (enabled && usingGlyph && fingerglyph) {
+	if (enabled && usingDefaultGlyph && fingerglyph) {
 		fingerglyph.primaryColor = activePrimaryColor();
 		fingerglyph.secondaryColor = activeSecondaryColor();
 	}
@@ -502,7 +504,9 @@ static void performShakeFingerFailAnimation(void) {
 	}
 	setPrimaryColorOverride(primaryColor);
 	setSecondaryColorOverride(secondaryColor);
-	if (enabled && usingGlyph && fingerglyph) {
+	
+	// if (enabled && usingDefaultGlyph && fingerglyph) {
+	if (enabled && fingerglyph) {
 		fingerglyph.primaryColor = activePrimaryColor();
 		fingerglyph.secondaryColor = activeSecondaryColor();
 	}
@@ -604,10 +608,9 @@ static void performShakeFingerFailAnimation(void) {
 	return result;
 }
 - (void)_layoutContentLayer:(id)arg1 {
-	DebugLog0;
 	%orig;
 	
-	if (!usingGlyph) {
+	if (!usingDefaultGlyph) {
 		self.clipsToBounds = YES;
 	} else {
 		self.clipsToBounds = NO;
@@ -620,9 +623,7 @@ static void performShakeFingerFailAnimation(void) {
 /* iOS 10.2 */
 %hook PKFingerprintGlyphView
 - (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
-	DebugLog0;
-
-	if (enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
+	if (enabled && useFasterAnimations && usingDefaultGlyph && (doingTickAnimation || doingScanAnimation)) {
 		if (authenticated) {
 			arg2 = MIN(arg2, 0.1);
 		} else {
@@ -633,7 +634,6 @@ static void performShakeFingerFailAnimation(void) {
 	%orig;
 }
 - (double)_minimumAnimationDurationForStateTransition {
-	DebugLog0;
 	return enabled && authenticated && useFasterAnimations && (doingTickAnimation || doingScanAnimation) ? 0.1 : %orig;
 }
 - (void)layoutSubviews {
@@ -650,9 +650,7 @@ static void performShakeFingerFailAnimation(void) {
 /* iOS 10, 10.1 */
 %hook PKSubglyphView
 - (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
-	DebugLog0;
-
-	if (enabled && useFasterAnimations && usingGlyph && (doingTickAnimation || doingScanAnimation)) {
+	if (enabled && useFasterAnimations && usingDefaultGlyph && (doingTickAnimation || doingScanAnimation)) {
 		if (authenticated) {
 			arg2 = MIN(arg2, 0.1);
 		} else {
@@ -663,7 +661,6 @@ static void performShakeFingerFailAnimation(void) {
 	%orig;
 }
 - (double)_minimumAnimationDurationForStateTransition {
-	DebugLog0;
 	return enabled && authenticated && useFasterAnimations && (doingTickAnimation || doingScanAnimation) ? 0.1 : %orig;
 }
 - (void)layoutSubviews {
