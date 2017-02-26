@@ -18,8 +18,7 @@
 "SOUND_NONE" = "None";
 "SOUND_DEFAULT" = "Theme (default)";
 "SOUND_APPLE_PAY" = "Apple Pay";
-"SOUND_OLD_APPLE_PAY" = "Classic Apple Pay";
-"SOUND_FOOTER" = "If the current theme doesn't include sound the 'Apple Pay' sound will be played.";
+"SOUND_FOOTER" = "If the current theme doesn't include sound the default sound will be played.";
 "GENERAL_UNLOCKIMEDTOGL_LABEL" = "Unlock immediately";
 "GENERAL_FOOTER_TEXT" = "Enabling Unlock immediately will unlock the device as soon as a fingerprint is recognised or the fingerprint is tapped. Enable this if you would like to unlock as fast as possible.";
 "FAILUNLOCK_HEADER_TEXT" = "Failed unlock action";

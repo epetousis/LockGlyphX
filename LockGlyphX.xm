@@ -47,7 +47,6 @@
 #define kSoundNone  		0
 #define kSoundTheme 		1
 #define kSoundApplePay 		2
-#define kSoundOldApplePay   3
 
 
 @interface PKGlyphView (LockGlyphX)
@@ -181,20 +180,31 @@ static void loadPreferences() {
 	themeAssets = [NSBundle bundleWithURL:[bundleURL URLByAppendingPathComponent:themeBundleName]];
 	DebugLogC(@"found assets for theme (%@): %@", themeBundleName, themeAssets);
 	
-	// load sound
+	// dispose of old sound
 	if (unlockSound) {
 		AudioServicesDisposeSystemSoundID(unlockSound);
 	}
-    if(unlockSoundChoice != 0) {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]] && unlockSoundChoice == 1) {
-            NSURL *pathURL = [NSURL fileURLWithPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]];
-            AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
-        } else {
-            DebugLogC(@"no sound for theme or user doesn't want it, using default instead");
-            NSURL *pathURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Default.bundle/%@.wav", kThemePath, (unlockSoundChoice != 3 ? @"SuccessSound" : @"ClassicSuccessSound")]];
-            AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
-        }
-    }
+	
+	// load new sound
+	if (unlockSoundChoice == kSoundTheme || unlockSoundChoice == kSoundApplePay) {
+		NSURL *pathURL;
+		
+		if (unlockSoundChoice == kSoundTheme) {
+		    if ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]]) {
+				// found theme sound
+	            pathURL = [NSURL fileURLWithPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]];
+			}
+		}
+		
+		// if we couldn't find a theme sound, or didn't want to use the theme sound, load the default sound
+		if (!pathURL) {
+			// use ApplePay sound
+	        pathURL = [NSURL fileURLWithPath:@"/System/Library/Audio/UISounds/payment_success.caf"];
+		}
+		
+		// create the new sound
+		AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
+	}
 }
 
 static void performFingerScanAnimation(void) {

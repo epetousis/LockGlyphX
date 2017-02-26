@@ -190,10 +190,10 @@
 	return _specifiers;
 }
 - (NSArray *)soundValues {
-    return @[@0, @1, @2, @3];
+    return @[ @0, @1, @2 ];
 }
 - (NSArray *)soundTitles {
-    NSMutableArray *titles = [@[@"SOUND_NONE", @"SOUND_DEFAULT", @"SOUND_APPLE_PAY", @"SOUND_OLD_APPLE_PAY"] mutableCopy];
+    NSMutableArray *titles = [@[ @"SOUND_NONE", @"SOUND_DEFAULT", @"SOUND_APPLE_PAY" ] mutableCopy];
     for (int i = 0; i < titles.count; i++) {
         titles[i] = [LGShared localisedStringForKey:titles[i]];
     }
