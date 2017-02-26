@@ -74,26 +74,27 @@
 	[self updateThemeList];
 }
 - (void)viewWillDisappear:(BOOL)animated {
-	[self.imageCache removeAllObjects];
+	[super viewWillDisappear:animated];
 	
 	// un-tint navbar
 	self.navigationController.navigationController.navigationBar.tintColor = nil;
 	
-	[super viewWillDisappear:animated];
+	// empty the thumbnail cache
+	[self.imageCache removeAllObjects];
 }
 - (void)updateThemeList {
+	// create the theme list, starting with the default "pseudo" theme
 	NSDictionary *defaultTheme = @{ @"theme":kDefaultTheme, @"name":kDefaultThemeName };
 	NSMutableArray *themes = [NSMutableArray arrayWithArray:@[ defaultTheme ]];
 	
 	NSMutableArray *folders = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:kThemePath error:nil] mutableCopy];
     for (int i = 0; i < folders.count; i++) {
     	NSString *path = [folders objectAtIndex:i];
-		if (![path isEqualToString:kDefaultTheme]) {
+		if (![path isEqualToString:kDefaultTheme]) { // skip the default theme, it's already in the list
 			NSString *name = [path stringByReplacingOccurrencesOfString:@".bundle" withString:@""];
-			[themes addObject:@{ @"theme":path, @"name":name }];
+			[themes addObject:@{ @"theme":path, @"name":name }]; // add theme name and path to list
 		}
     }
-	
 	self.themes = themes;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -125,8 +126,7 @@
 		[cell.contentView addSubview:imageView];
 		
 		// title
-		UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(82, 0, cell.contentView.bounds.size.width - 82, 48)];
-		titleLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+		UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(78, 20, cell.contentView.bounds.size.width - 78, 20)];
 		titleLabel.opaque = YES;
 		titleLabel.font = [UIFont systemFontOfSize:14];
 		titleLabel.textColor = UIColor.blackColor;
