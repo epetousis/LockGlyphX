@@ -66,7 +66,7 @@ static BOOL doingScanAnimation;
 static BOOL doingTickAnimation;
 static NSBundle *themeAssets;
 SMDelayedBlockHandle unlockBlock;
-static BOOL isObserving;
+static BOOL isObservingForCCCF;
 
 static BOOL enabled;
 static NSString *themeBundleName;
@@ -331,23 +331,15 @@ static void performShakeFingerFailAnimation(void) {
 		return;
 	}
     
-    // We still need to send this if disabled so we can adjust accordingly in our other classes
-    [[NSNotificationCenter defaultCenter] postNotificationName:kLockGlyphLockScreenActivatedNotification object:nil];
-	
-	if (!enabled) {
-		DebugLog(@"LockGlyphX is disabled :/");
-		return;
-	}
-    
 	// main page is leaving it's window, do some clean up
 	if (!self.window) {
 		DebugLog(@"main page has left window");
 		
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:CFRevert object:nil];
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:CFColor object:nil];
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:CCRevert object:nil];
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:CCColor object:nil];
-		isObserving = NO;
+		// revert CustomCover override once we've been removed from the window
+		if (overrideIsForCustomCover) {
+			setPrimaryColorOverride(nil);
+			setSecondaryColorOverride(nil);
+		}
 		
 		[fingerglyph removeFromSuperview];
 		fingerglyph = nil;
@@ -357,15 +349,21 @@ static void performShakeFingerFailAnimation(void) {
 	
 	DebugLog(@"Main page has moved to window");
 	
+	// We still need to send this if disabled so we can adjust accordingly in our other classes
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLockGlyphLockScreenActivatedNotification object:nil];
+	
+	if (!enabled) {
+		DebugLog(@"LockGlyphX is disabled :/");
+		return;
+	}
+	
 	if (fingerglyph) {
 		DebugLog(@"ERROR: fingerglyph already exists!");
 		return;
 	}
 	
-	DebugLog(@"creating new GlyphView to your specifications...");
 	fingerglyph = [[%c(PKGlyphView) alloc] initWithStyle:getIdleGlyphState()]; // 1 = blended
 	fingerglyph.delegate = (id<PKGlyphViewDelegate>)self;
-	
 	fingerglyph.primaryColor = activePrimaryColor();
 	fingerglyph.secondaryColor = activeSecondaryColor();
 	
@@ -413,12 +411,12 @@ static void performShakeFingerFailAnimation(void) {
 	[self addSubview:fingerglyph];
 	
 	// listen for notifications from ColorFlow/CustomCover
-	if (!isObserving) {
+	if (!isObservingForCCCF) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LG_RevertUI:) name:CFRevert object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LG_ColorizeUI:) name:CFColor object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LG_RevertUI:) name:CCRevert object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LG_ColorizeUI:) name:CCColor object:nil];
-		isObserving = YES;
+		isObservingForCCCF = YES;
 	}
 	
 	// lockView = (UIView *)self;
@@ -427,10 +425,8 @@ static void performShakeFingerFailAnimation(void) {
 	DebugLog(@"fingerglyph = %@", fingerglyph);
 }
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CFRevert object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CFColor object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CCRevert object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CCColor object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	isObservingForCCCF = NO;
 	%orig;
 }
 %new
