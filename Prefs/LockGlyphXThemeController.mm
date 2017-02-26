@@ -52,7 +52,7 @@
 		// check prefs for selected theme
 		CFPreferencesAppSynchronize(kPrefsAppID);
 		CFPropertyListRef value = CFPreferencesCopyAppValue(kPrefsCurrentThemeKey, kPrefsAppID);
-		_selectedTheme = (value) ? (NSString *)CFBridgingRelease(value) : kDefaultTheme;
+		_selectedTheme = (value) ? (NSString *)CFBridgingRelease(value) : kDefaultThemeBundle;
 	}
 	return self;
 }
@@ -83,16 +83,17 @@
 	[self.imageCache removeAllObjects];
 }
 - (void)updateThemeList {
-	// create the theme list, starting with the default "pseudo" theme
-	NSDictionary *defaultTheme = @{ @"theme":kDefaultTheme, @"name":kDefaultThemeName };
+	// create the theme list, starting with the default theme
+	NSDictionary *defaultTheme = @{ @"bundle":kDefaultThemeBundle, @"name":kDefaultThemeName, @"hasSound":@YES };
 	NSMutableArray *themes = [NSMutableArray arrayWithArray:@[ defaultTheme ]];
 	
 	NSMutableArray *folders = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:kThemePath error:nil] mutableCopy];
     for (int i = 0; i < folders.count; i++) {
     	NSString *path = [folders objectAtIndex:i];
-		if (![path isEqualToString:kDefaultTheme]) { // skip the default theme, it's already in the list
+		if (![path isEqualToString:kDefaultThemeBundle]) { // skip the default theme, it's already in the list
 			NSString *name = [path stringByReplacingOccurrencesOfString:@".bundle" withString:@""];
-			[themes addObject:@{ @"theme":path, @"name":name }]; // add theme name and path to list
+			BOOL hasSound = [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/%@/SuccessSound.wav", kThemePath, path]];
+			[themes addObject:@{ @"theme":path, @"name":name, @"hasSound":hasSound?@YES:@NO }];
 		}
     }
 	self.themes = themes;
@@ -111,8 +112,7 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CustomCellIdentifier];
 	
 	if (!cell) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-									  reuseIdentifier:CustomCellIdentifier];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CustomCellIdentifier];
 		cell.opaque = YES;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.accessoryType = UITableViewCellAccessoryNone;
@@ -142,63 +142,55 @@
 	titleLabel.text = themeInfo[@"name"];
 	UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:kThumbnailTag];
 	
+	// get thumbnail from cache, or create and cache new one
+	NSString *path;
 	if ([themeInfo[@"name"] isEqualToString:kDefaultThemeName]) {
-		imageView.hidden = YES;
-		CGRect frame = titleLabel.frame;
-		frame.origin.x = 15;
-		titleLabel.frame = frame;
-				
+		path = [NSString stringWithFormat:@"/Applications/StoreKitUIService.app/MesaGlyph.png"];
 	} else {
-		imageView.hidden = NO;
-		CGRect frame = titleLabel.frame;
-		frame.origin.x = 94;
-		titleLabel.frame = frame;
-		
-		// get thumbnail from cache, or create and cache new one...
-		NSString *path = [NSString stringWithFormat:@"%@/%@/IdleImage.png", kThemePath, themeInfo[@"theme"]];
-		UIImage *thumbnail = [self.imageCache objectForKey:path];
-		if (thumbnail) {
-			imageView.image = thumbnail;
-		} else {
-			// image is not yet cached, cache it now (on background thread)
-			[self.queue addOperationWithBlock:^{
-				UIImage *image = [UIImage imageWithContentsOfFile:path];
-				if (image) {
-					
-					// Bake a CALayer shadow into the thumbnail, using an ImageView ...
-					
-					UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-					imageView.contentMode = UIViewContentModeCenter;
-					imageView.layer.shadowOffset = CGSizeMake(0, 1);
-					imageView.layer.shadowRadius = 1;
-					imageView.layer.shadowColor = UIColor.blackColor.CGColor;
-					imageView.layer.shadowOpacity = 0.4;
-					
-					// add some padding for the shadows
-					CGRect frame = imageView.frame;
-					frame.size.width += 4;
-					frame.size.height += 4;
-					imageView.frame = frame;
-					
-					image = [UIImage imageFromImageView:imageView];
-					
-					
-					// add the new image to cache
-					[self.imageCache setObject:image forKey:path];
-					
-					// update the cell (on main thread)
-					[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-						UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-						if (cell) {
-							UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:kThumbnailTag];
-							imageView.image = image;
-						}
-					}];
-				} else {
-					// image not found
-				}
-			}];
-		}
+		path = [NSString stringWithFormat:@"%@/%@/IdleImage.png", kThemePath, themeInfo[@"theme"]];
+	}
+	UIImage *thumbnail = [self.imageCache objectForKey:path];
+	if (thumbnail) {
+		imageView.image = thumbnail;
+	} else {
+		// image is not yet cached, cache it now (on background thread)
+		[self.queue addOperationWithBlock:^{
+			UIImage *image = [UIImage imageWithContentsOfFile:path];
+			if (image) {
+				
+				// Bake a CALayer shadow into the thumbnail, using an ImageView ...
+				
+				UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+				imageView.contentMode = UIViewContentModeCenter;
+				imageView.layer.shadowOffset = CGSizeMake(0, 1);
+				imageView.layer.shadowRadius = 1;
+				imageView.layer.shadowColor = UIColor.blackColor.CGColor;
+				imageView.layer.shadowOpacity = 0.4;
+				
+				// add some padding for the shadows
+				CGRect frame = imageView.frame;
+				frame.size.width += 4;
+				frame.size.height += 4;
+				imageView.frame = frame;
+				
+				image = [UIImage imageFromImageView:imageView];
+				
+				
+				// add the new image to cache
+				[self.imageCache setObject:image forKey:path];
+				
+				// update the cell (on main thread)
+				[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+					UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+					if (cell) {
+						UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:kThumbnailTag];
+						imageView.image = image;
+					}
+				}];
+			} else {
+				// image not found
+			}
+		}];
 	}
 	
 	// do we know which row should be checked?
