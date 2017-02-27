@@ -76,7 +76,7 @@
 - (BOOL)fadeOnRecognized;
 - (id)initWithCoder:(id)arg1;
 - (id)initWithFrame:(CGRect)arg1;
-// - (id)initWithStyle:(int)arg1;
+- (id)initWithStyle:(UITableViewStyle)arg1;
 - (void)layoutSubviews;
 - (id)primaryColor;
 - (id)secondaryColor;
