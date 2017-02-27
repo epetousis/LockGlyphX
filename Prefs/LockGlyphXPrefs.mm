@@ -74,11 +74,11 @@
 	self.title = @"";
 	
 	// add a heart button to the navbar
-	// UIImage *heartImage = [[UIImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/heart.png", kPrefsBundlePath]];
-	// UIBarButtonItem *heartButton = [[UIBarButtonItem alloc] initWithImage:heartImage style:UIBarButtonItemStylePlain target:self action:@selector(showLove)];
-	// heartButton.imageInsets = (UIEdgeInsets){2, 0, -2, 0};
-	// heartButton.tintColor = kTintColor;
-	// [self.navigationItem setRightBarButtonItem:heartButton];
+	UIImage *heartImage = [[UIImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/heart.png", kPrefsBundlePath]];
+	UIBarButtonItem *heartButton = [[UIBarButtonItem alloc] initWithImage:heartImage style:UIBarButtonItemStylePlain target:self action:@selector(showLove)];
+	heartButton.imageInsets = (UIEdgeInsets){2, 0, -2, 0};
+	heartButton.tintColor = kTintColor;
+	[self.navigationItem setRightBarButtonItem:heartButton];
 }
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
@@ -92,29 +92,19 @@
 }
 - (void)showLove {
 	// send a nice tweet ;)
-	// NSString *tweet = @"Bless your lockscreen with LockGlyphX, free for iOS 10!";
-	// SLComposeViewController *composeController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-	// [composeController setInitialText:tweet];
-	// [self presentViewController:composeController animated:YES completion:nil];
+	NSString *tweet = @"Unlock in style with LockGlyphX. Get it free in Cydia!";
+	SLComposeViewController *composeController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+	[composeController setInitialText:tweet];
+	[self presentViewController:composeController animated:YES completion:nil];
 }
 - (void)issueButton {
-	// [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/evilgoldfish/LockGlyphX/issues"]];
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/sticktron/LockGlyphX/issues"]];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/evilgoldfish/LockGlyphX/issues"]];
 }
 - (CGFloat)tableView:(id)tableView heightForHeaderInSection:(NSInteger)section {
 	if (section == 0) {
 		return kHeaderHeight;
-	} else if (section == 1 || section == 2) {
-		return 0.5;
 	} else {
 		return [super tableView:tableView heightForHeaderInSection:section];
-	}
-}
-- (CGFloat)tableView:(id)tableView heightForFooterInSection:(NSInteger)section {
-	if (section == 0 || section == 1) {
-		return 0.5;
-	} else {
-		return [super tableView:tableView heightForFooterInSection:section];
 	}
 }
 - (id)tableView:(id)tableView viewForHeaderInSection:(NSInteger)section {
