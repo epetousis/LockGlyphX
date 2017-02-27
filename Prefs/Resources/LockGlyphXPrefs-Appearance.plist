@@ -251,7 +251,7 @@
             <key>label</key>
             <string>LOCKLABEL_HEADER_TEXT</string>
         </dict>
-		<!-- Show text -->
+		<!-- Hide text -->
         <dict>
             <key>cell</key>
             <string>PSSwitchCell</string>
@@ -262,9 +262,9 @@
             <key>defaults</key>
             <string>com.evilgoldfish.lockglyphx</string>
             <key>key</key>
-            <string>showPressHomeToUnlockLabel</string>
+            <string>hidePressHomeToUnlockLabel</string>
             <key>label</key>
-            <string>LOCKLABEL_ENABLED_LABEL</string>
+            <string>LOCKLABEL_DISABLED_LABEL</string>
             <key>PostNotification</key>
             <string>com.evilgoldfish.lockglyphx.settingschanged</string>
         </dict>

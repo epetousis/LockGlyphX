@@ -320,7 +320,7 @@
 }
 - (CGFloat)tableView:(id)tableView heightForHeaderInSection:(NSInteger)section {
 	if (section == 2) {
-		return 0.5;
+		return 2;
 	} else {
 		return [super tableView:tableView heightForHeaderInSection:section];
 	}
@@ -329,7 +329,7 @@
 	if (section == 0) {
 		return 44;
 	} if (section == 1) {
-			return 0.5;
+			return 2;
 	} else {
 		return [super tableView:tableView heightForFooterInSection:section];
 	}
@@ -347,6 +347,16 @@
     NSArray *specifiers = [super specifiers];
     [LGShared parseSpecifiers:specifiers butOnlyFooter:YES];
     return specifiers;
+}
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
 }
 @end
 
