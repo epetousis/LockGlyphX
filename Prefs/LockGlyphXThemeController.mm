@@ -153,44 +153,29 @@
 	if (thumbnail) {
 		imageView.image = thumbnail;
 	} else {
-		// image is not yet cached, cache it now (on background thread)
-		[self.queue addOperationWithBlock:^{
-			UIImage *image = [UIImage imageWithContentsOfFile:path];
-			if (image) {
-				
-				// Bake a CALayer shadow into the thumbnail, using an ImageView ...
-				
-				UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-				imageView.contentMode = UIViewContentModeCenter;
-				imageView.layer.shadowOffset = CGSizeMake(0, 1);
-				imageView.layer.shadowRadius = 1;
-				imageView.layer.shadowColor = UIColor.blackColor.CGColor;
-				imageView.layer.shadowOpacity = 0.4;
-				
-				// add some padding for the shadows
-				CGRect frame = imageView.frame;
-				frame.size.width += 4;
-				frame.size.height += 4;
-				imageView.frame = frame;
-				
-				image = [UIImage imageFromImageView:imageView];
-				
-				
-				// add the new image to cache
-				[self.imageCache setObject:image forKey:path];
-				
-				// update the cell (on main thread)
-				[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-					UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-					if (cell) {
-						UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:kThumbnailTag];
-						imageView.image = image;
-					}
-				}];
-			} else {
-				// image not found
-			}
-		}];
+		// image is not yet cached, cache it now
+		UIImage *image = [UIImage imageWithContentsOfFile:path];
+		if (image) {
+			// Bake a CALayer shadow into the thumbnail image,
+			// using a temporary ImageView.
+			UIImageView *dummyView = [[UIImageView alloc] initWithImage:image];
+			dummyView.contentMode = UIViewContentModeCenter;
+			dummyView.layer.shadowOffset = CGSizeMake(0, 1);
+			dummyView.layer.shadowRadius = 1;
+			dummyView.layer.shadowColor = UIColor.blackColor.CGColor;
+			dummyView.layer.shadowOpacity = 0.4;
+
+			// add some padding for the shadow
+			CGRect frame = dummyView.frame;
+			frame.size.width += 4;
+			frame.size.height += 4;
+			dummyView.frame = frame;
+			
+			image = [UIImage imageFromImageView:dummyView];
+			[self.imageCache setObject:image forKey:path];
+			
+			imageView.image = image;
+		}
 	}
 	
 	// do we know which row should be checked?
