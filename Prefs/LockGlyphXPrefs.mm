@@ -135,7 +135,7 @@
 		CGRect subtitleFrame = CGRectMake(0, 102, headerView.bounds.size.width, 30);
 		UILabel *tweakSubtitle = [[UILabel alloc] initWithFrame:subtitleFrame];
 		tweakSubtitle.font = [UIFont systemFontOfSize:16 weight:UIFontWeightUltraLight];
-		tweakSubtitle.text = @"custom lockscreen glyphs";
+		tweakSubtitle.text = @"themeable lockscreen glyph";
 		tweakSubtitle.textColor = [UIColor colorWithWhite:0 alpha:0.33];
 		tweakSubtitle.textAlignment = NSTextAlignmentCenter;
 		tweakSubtitle.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
