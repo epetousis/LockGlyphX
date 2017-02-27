@@ -98,7 +98,8 @@
 	[self presentViewController:composeController animated:YES completion:nil];
 }
 - (void)issueButton {
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/evilgoldfish/LockGlyphX/issues"]];
+	// [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/evilgoldfish/LockGlyphX/issues"]];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/sticktron/LockGlyphX/issues"]]
 }
 - (CGFloat)tableView:(id)tableView heightForHeaderInSection:(NSInteger)section {
 	if (section == 0) {
