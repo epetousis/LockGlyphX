@@ -143,7 +143,7 @@
 		UILabel *betaLabel = [[UILabel alloc] initWithFrame:headerView.bounds];
 		betaLabel.font = [UIFont systemFontOfSize:120 weight:UIFontWeightBold];
 		betaLabel.text = @"BETA";
-		betaLabel.textColor = [UIColor colorWithRed:0.5 green:0 blue:1 alpha:0.05];
+		betaLabel.textColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:0.04];
 		betaLabel.textAlignment = NSTextAlignmentCenter;
 		betaLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 		[headerView addSubview:betaLabel];
