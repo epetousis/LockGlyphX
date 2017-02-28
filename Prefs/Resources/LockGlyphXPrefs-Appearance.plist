@@ -258,7 +258,7 @@
             <key>cellClass</key>
             <string>LGXSwitchCell</string>
             <key>default</key>
-            <false/>
+            <true/>
             <key>defaults</key>
             <string>com.evilgoldfish.lockglyphx</string>
             <key>key</key>
