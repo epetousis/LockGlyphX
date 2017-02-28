@@ -6,12 +6,12 @@
 	<string>APPEARANCE_TITLE</string>
 	<key>items</key>
 	<array>
+		
+		<!-- Theme Chooser -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 		</dict>
-		
-		<!-- Theme Chooser -->
 		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
@@ -23,7 +23,7 @@
 			<string>LockGlyphXThemeController</string>
 		</dict>
 		
-		<!-- Ring -->
+		<!-- Hide Ring -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -66,8 +66,9 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>COLOURS_HEADER_TEXT</string>
+            <string>COLOURS_HEADER_TEXT</string>
 		</dict>
+		<!-- Fingerprint Color -->
 		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
@@ -80,9 +81,9 @@
 			<key>color_key</key>
 			<string>secondaryColor</string>
 			<key>title</key>
-			<string>Idle colour</string>
+			<string>COLOURS_IDLECOLOUR_LABEL</string>
 			<key>color_fallback</key>
-			<string>#777777</string>
+			<string>#CCCCCC</string>
 			<key>usesRGB</key>
 			<true/>
 			<key>usesAlpha</key>
@@ -90,6 +91,7 @@
 			<key>color_postNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		<!-- Scan Color -->
 		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
@@ -102,9 +104,9 @@
 			<key>color_key</key>
 			<string>primaryColor</string>
 			<key>title</key>
-			<string>Scanning Colour</string>
+			<string>COLOURS_SCANCOLOUR_LABEL</string>
 			<key>color_fallback</key>
-			<string>#BCBCBC</string>
+			<string>#FFFFFF</string>
 			<key>usesRGB</key>
 			<true/>
 			<key>usesAlpha</key>
@@ -112,6 +114,7 @@
 			<key>color_postNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		<!-- Reset Colors -->
 		<dict>
 			<key>cell</key>
 			<string>PSButtonCell</string>
@@ -164,7 +167,7 @@
             <key>PostNotification</key>
             <string>com.evilgoldfish.lockglyphx.settingschanged</string>
         </dict>
-		
+		<!-- Custom text -->
         <dict>
             <key>cell</key>
             <string>PSEditTextCell</string>
