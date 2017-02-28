@@ -188,17 +188,22 @@ static void loadPreferences() {
 		NSURL *pathURL;
 		
 		if (unlockSoundChoice == kSoundTheme) {
+			DebugLogC(@"checking for theme sound...");
 		    if ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]]) {
 				// found theme sound
 	            pathURL = [NSURL fileURLWithPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]];
+				DebugLogC(@"found it.");
 			}
 		}
 		
 		// if we couldn't find a theme sound, or didn't want to use the theme sound, load the default sound
 		if (!pathURL) {
+			DebugLogC(@"looking for default sound");
 			// use ApplePay sound
 	        pathURL = [NSURL fileURLWithPath:@"/System/Library/Audio/UISounds/payment_success.caf"];
 		}
+		
+		DebugLogC(@"loading sound: %@", pathURL);
 		
 		// create the new sound
 		AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
@@ -223,7 +228,6 @@ static void resetFingerScanAnimation(void) {
     }
 }
 
-// Reset finger scan without animation. I'll clean this up later
 static void resetFingerScan(void) {
     if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]){
         if (fingerglyph.customImage)
@@ -654,7 +658,7 @@ static void performShakeFingerFailAnimation(void) {
 					
 					unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
 						DebugLog(@"performing block after delay now");
-						if (!useTickAnimation && unlockSoundChoice != kSoundNone && unlockSound) {
+						if (unlockSoundChoice != kSoundNone && unlockSound) {
 							AudioServicesPlaySystemSound(unlockSound);
 						}
 						%orig;
@@ -667,7 +671,7 @@ static void performShakeFingerFailAnimation(void) {
 					}
 					if (!manager.isUILocked) {
 						DebugLog(@"manager.isUILocked == NO");
-						if (!useTickAnimation && unlockSoundChoice != kSoundNone && unlockSound && shouldNotDelay) {
+						if (unlockSoundChoice != kSoundNone && unlockSound && shouldNotDelay) {
 							DebugLog(@"!useTickAnimation && unlockSoundChoice != 0 && unlockSound && shouldNotDelay");
 							AudioServicesPlaySystemSound(unlockSound);
 						}
