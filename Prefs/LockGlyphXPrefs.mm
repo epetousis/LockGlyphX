@@ -16,9 +16,6 @@
 #import <Social/Social.h>
 
 
-#define kResetColorsAlertTag 	1
-#define kApplyThemeAlertTag 	2
-
 #define kHeaderHeight 148.0f
 
 
