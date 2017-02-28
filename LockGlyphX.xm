@@ -42,7 +42,7 @@
 #define kDefaultSecondaryColor 	[UIColor colorWithWhite:119/255.0f alpha:1] //#777777
 
 #define kDefaultYOffset 					90.0f
-#define kDefaultYOffsetWithLockLabelHidden 	60.0f
+#define kDefaultYOffsetWithLockLabelHidden 	64.0f
 
 #define kSoundNone  		0
 #define kSoundTheme 		1
