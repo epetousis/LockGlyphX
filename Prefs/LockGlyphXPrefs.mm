@@ -16,9 +16,6 @@
 #import <Social/Social.h>
 
 
-#define kResetColorsAlertTag 	1
-#define kApplyThemeAlertTag 	2
-
 #define kHeaderHeight 148.0f
 
 
@@ -55,7 +52,7 @@
 @end
 
 
-// Main Controller -------------------------------------------------------------
+// Main Page -------------------------------------------------------------------
 
 @interface LockGlyphXPrefsController : PSListController
 @end
@@ -74,11 +71,11 @@
 	self.title = @"";
 	
 	// add a heart button to the navbar
-	// UIImage *heartImage = [[UIImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/heart.png", kPrefsBundlePath]];
-	// UIBarButtonItem *heartButton = [[UIBarButtonItem alloc] initWithImage:heartImage style:UIBarButtonItemStylePlain target:self action:@selector(showLove)];
-	// heartButton.imageInsets = (UIEdgeInsets){2, 0, -2, 0};
-	// heartButton.tintColor = kTintColor;
-	// [self.navigationItem setRightBarButtonItem:heartButton];
+	UIImage *heartImage = [[UIImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/heart.png", kPrefsBundlePath]];
+	UIBarButtonItem *heartButton = [[UIBarButtonItem alloc] initWithImage:heartImage style:UIBarButtonItemStylePlain target:self action:@selector(showLove)];
+	heartButton.imageInsets = (UIEdgeInsets){2, 0, -2, 0};
+	heartButton.tintColor = kTintColor;
+	[self.navigationItem setRightBarButtonItem:heartButton];
 }
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
@@ -92,10 +89,10 @@
 }
 - (void)showLove {
 	// send a nice tweet ;)
-	// NSString *tweet = @"Bless your lockscreen with LockGlyphX, free for iOS 10!";
-	// SLComposeViewController *composeController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-	// [composeController setInitialText:tweet];
-	// [self presentViewController:composeController animated:YES completion:nil];
+	NSString *tweet = @"Unlock in style with LockGlyphX. Get it free in Cydia!";
+	SLComposeViewController *composeController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+	[composeController setInitialText:tweet];
+	[self presentViewController:composeController animated:YES completion:nil];
 }
 - (void)issueButton {
 	// [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/evilgoldfish/LockGlyphX/issues"]];
@@ -104,17 +101,8 @@
 - (CGFloat)tableView:(id)tableView heightForHeaderInSection:(NSInteger)section {
 	if (section == 0) {
 		return kHeaderHeight;
-	} else if (section == 1 || section == 2) {
-		return 0.5;
 	} else {
 		return [super tableView:tableView heightForHeaderInSection:section];
-	}
-}
-- (CGFloat)tableView:(id)tableView heightForFooterInSection:(NSInteger)section {
-	if (section == 0 || section == 1) {
-		return 0.5;
-	} else {
-		return [super tableView:tableView heightForFooterInSection:section];
 	}
 }
 - (id)tableView:(id)tableView viewForHeaderInSection:(NSInteger)section {
@@ -145,7 +133,7 @@
 		CGRect subtitleFrame = CGRectMake(0, 102, headerView.bounds.size.width, 30);
 		UILabel *tweakSubtitle = [[UILabel alloc] initWithFrame:subtitleFrame];
 		tweakSubtitle.font = [UIFont systemFontOfSize:16 weight:UIFontWeightUltraLight];
-		tweakSubtitle.text = @"custom lockscreen glyphs";
+		tweakSubtitle.text = @"themeable lockscreen glyph";
 		tweakSubtitle.textColor = [UIColor colorWithWhite:0 alpha:0.33];
 		tweakSubtitle.textAlignment = NSTextAlignmentCenter;
 		tweakSubtitle.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
@@ -155,7 +143,7 @@
 		UILabel *betaLabel = [[UILabel alloc] initWithFrame:headerView.bounds];
 		betaLabel.font = [UIFont systemFontOfSize:120 weight:UIFontWeightBold];
 		betaLabel.text = @"BETA";
-		betaLabel.textColor = [UIColor colorWithRed:0.5 green:1 blue:0 alpha:0.05];
+		betaLabel.textColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:0.04];
 		betaLabel.textAlignment = NSTextAlignmentCenter;
 		betaLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 		[headerView addSubview:betaLabel];
@@ -168,7 +156,7 @@
 @end
 
 
-// Behaviour Controller --------------------------------------------------------
+// Behaviour Page --------------------------------------------------------------
 
 @interface LockGlyphXPrefsBehaviourController : PSListController
 @end
@@ -204,8 +192,29 @@
 }
 @end
 
+@interface LockGlyphXPrefsSoundItemsController : PSListItemsController
+@end
 
-// Appearance Controller -------------------------------------------------------
+@implementation LockGlyphXPrefsSoundItemsController
+- (NSArray *)specifiers {
+    NSArray *specifiers = [super specifiers];
+    [LGShared parseSpecifiers:specifiers butOnlyFooter:YES];
+    return specifiers;
+}
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
+}
+@end
+
+
+// Appearance Page -------------------------------------------------------------
 
 @interface LockGlyphXPrefsAppearanceController : PSListController
 @end
@@ -221,7 +230,6 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	
 	// tint navbar
 	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
 	
@@ -235,8 +243,8 @@
 	self.navigationController.navigationController.navigationBar.tintColor = nil;
 }
 - (void)resetColors {
-	CFPreferencesSetAppValue(CFSTR("primaryColor"), CFSTR("#BCBCBC:1.000000"), CFSTR("com.evilgoldfish.lockglyphx"));
-    CFPreferencesSetAppValue(CFSTR("secondaryColor"), CFSTR("#777777:1.000000"), CFSTR("com.evilgoldfish.lockglyphx"));
+	CFPreferencesSetAppValue(CFSTR("primaryColor"), CFSTR("#FFFFFF:1.000000"), kPrefsAppID);
+    CFPreferencesSetAppValue(CFSTR("secondaryColor"), CFSTR("#CCCCCC:1.000000"), kPrefsAppID);
     CFPreferencesAppSynchronize(CFSTR("com.evilgoldfish.lockglyphx"));
     CFNotificationCenterPostNotification(
     	CFNotificationCenterGetDarwinNotifyCenter(),
@@ -251,7 +259,24 @@
 @end
 
 
-// Animations Controller -------------------------------------------------------
+// Appearance > Position Page --------------------------------------------------
+
+@interface LockGlyphXPrefsPositionController : PSListController
+@end
+
+@implementation LockGlyphXPrefsPositionController
+- (id)specifiers {
+	if (_specifiers == nil) {
+		_specifiers = [self loadSpecifiersFromPlistName:@"LockGlyphXPrefs-Position" target:self];
+	}
+	[LGShared parseSpecifiers:_specifiers];
+	[(UINavigationItem *)self.navigationItem setTitle:[LGShared localisedStringForKey:@"POSITION_TITLE"]];
+	return _specifiers;
+}
+@end
+
+
+// Animations Page -------------------------------------------------------------
 
 @interface LockGlyphXPrefsAnimationsController : PSListController
 @end
@@ -278,7 +303,7 @@
 @end
 
 
-// Credits Controller ----------------------------------------------------------
+// Credits Page ----------------------------------------------------------------
 
 @interface LockGlyphXPrefsCreditsController : PSListController
 @end
@@ -330,7 +355,7 @@
 }
 - (CGFloat)tableView:(id)tableView heightForHeaderInSection:(NSInteger)section {
 	if (section == 2) {
-		return 0.5;
+		return 2;
 	} else {
 		return [super tableView:tableView heightForHeaderInSection:section];
 	}
@@ -339,24 +364,10 @@
 	if (section == 0) {
 		return 44;
 	} if (section == 1) {
-			return 0.5;
+			return 2;
 	} else {
 		return [super tableView:tableView heightForFooterInSection:section];
 	}
-}
-@end
-
-
-// Sound Items Controller ------------------------------------------------------
-
-@interface LockGlyphXPrefsSoundItemsController : PSListItemsController
-@end
-
-@implementation LockGlyphXPrefsSoundItemsController
-- (NSArray *)specifiers {
-    NSArray *specifiers = [super specifiers];
-    [LGShared parseSpecifiers:specifiers butOnlyFooter:YES];
-    return specifiers;
 }
 @end
 
@@ -373,7 +384,6 @@
 }
 @end
 
-
 @interface LGXSwitchCell : PSSwitchTableCell
 @end
 
@@ -386,7 +396,6 @@
 	return self;
 }
 @end
-
 
 @interface LGXThemeLinkCell : PSTableCell
 @end

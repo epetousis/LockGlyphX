@@ -31,3 +31,8 @@ There were some API changes in iOS 10.2. States changed, as well as usage of PKF
 4 - Move phone to reader (animated)  
 5 - Custom image (in circle ?)  
 6 - Success checkmark  
+
+#### PKGlyphView styles
+(passed as the argument in initWithStyle:)  
+0 - Normal, no colour blending  
+1 - Blend colours into background
