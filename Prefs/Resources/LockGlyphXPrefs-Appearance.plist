@@ -45,7 +45,23 @@
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 		
-		<!-- Colors -->
+		<!-- Position -->
+		<dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+        </dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>LockGlyphXPrefsPositionController</string>
+			<key>isController</key>
+			<true/>
+			<key>label</key>
+			<string>POSITION_LABEL</string>
+		</dict>
+		
+		<!-- Custom Colors -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -106,145 +122,8 @@
 			<key>label</key>
 			<string>COLOURS_RESET_LABEL</string>
 		</dict>
-		
-		
-		<!-- Position (Portrait) -->
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>FINGERPOS_PORTRAIT_HEADER_TEXT</string>
-		</dict>
-				
-		<!-- use custom X (portrait) -->
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>cellClass</key>
-			<string>LGXSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>com.evilgoldfish.lockglyphx</string>
-			<key>key</key>
-			<string>enablePortraitX</string>
-			<key>label</key>
-			<string>FINGERPOS_PORTRAITXTOGL_LABEL</string>
-			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSEditTextCell</string>
-			<key>label</key>
-			<string>FINGERPOS_PORTRAITX_LABEL</string>
-			<key>defaults</key>
-			<string>com.evilgoldfish.lockglyphx</string>
-			<key>key</key>
-			<string>portraitX</string>
-			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
-		</dict>
-		
-		<!-- use custom Y (portrait) -->
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>cellClass</key>
-			<string>LGXSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>com.evilgoldfish.lockglyphx</string>
-			<key>key</key>
-			<string>enablePortraitY</string>
-			<key>label</key>
-			<string>FINGERPOS_PORTRAITYTOGL_LABEL</string>
-			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSEditTextCell</string>
-			<key>label</key>
-			<string>FINGERPOS_PORTRAITY_LABEL</string>
-			<key>defaults</key>
-			<string>com.evilgoldfish.lockglyphx</string>
-			<key>key</key>
-			<string>portraitY</string>
-			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
-		</dict>
-		
-		
-		<!-- Position (Landscape) -->
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>FINGERPOS_LANDSCAPE_HEADER_TEXT</string>
-		</dict>
-		
-		<!-- use custom X (landscape) -->
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>cellClass</key>
-			<string>LGXSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>com.evilgoldfish.lockglyphx</string>
-			<key>key</key>
-			<string>enableLandscapeX</string>
-			<key>label</key>
-			<string>FINGERPOS_LANDSCAPEXTOGL_LABEL</string>
-			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSEditTextCell</string>
-			<key>label</key>
-			<string>FINGERPOS_LANDSCAPEX_LABEL</string>
-			<key>defaults</key>
-			<string>com.evilgoldfish.lockglyphx</string>
-			<key>key</key>
-			<string>landscapeX</string>
-			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
-		</dict>
-		<!-- use custom Y (landscape) -->
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>cellClass</key>
-			<string>LGXSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>com.evilgoldfish.lockglyphx</string>
-			<key>key</key>
-			<string>enableLandscapeY</string>
-			<key>label</key>
-			<string>FINGERPOS_LANDSCAPEYTOGL_LABEL</string>
-			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSEditTextCell</string>
-			<key>label</key>
-			<string>FINGERPOS_LANDSCAPEY_LABEL</string>
-			<key>defaults</key>
-			<string>com.evilgoldfish.lockglyphx</string>
-			<key>key</key>
-			<string>landscapeY</string>
-			<key>PostNotification</key>
-			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
-		</dict>
-        
-        <!-- [] Press Home To Unlock -->
+
+        <!-- Press Home To Unlock -->
         <dict>
             <key>cell</key>
             <string>PSGroupCell</string>

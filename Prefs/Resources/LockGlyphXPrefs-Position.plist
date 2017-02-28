@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string>POSITION_TITLE</string>
+	
+	<key>items</key>
+	<array>
+		
+		<!-- Position (Portrait) -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>FINGERPOS_PORTRAIT_HEADER_TEXT</string>
+		</dict>
+		<!-- Use Custom Portrait X -->
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>enablePortraitX</string>
+			<key>label</key>
+			<string>FINGERPOS_PORTRAITXTOGL_LABEL</string>
+			<key>PostNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+		<!-- Portrait X Offset -->
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>label</key>
+			<string>FINGERPOS_PORTRAITX_LABEL</string>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>portraitX</string>
+			<key>PostNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+		<!-- Use Custom Portrait Y -->
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>enablePortraitY</string>
+			<key>label</key>
+			<string>FINGERPOS_PORTRAITYTOGL_LABEL</string>
+			<key>PostNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+		<!-- Portrait Y Offset -->
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>label</key>
+			<string>FINGERPOS_PORTRAITY_LABEL</string>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>portraitY</string>
+			<key>PostNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+				
+		<!-- Position (Landscape) -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>FINGERPOS_LANDSCAPE_HEADER_TEXT</string>
+		</dict>
+		<!-- Use Custom Landscape X -->
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>enableLandscapeX</string>
+			<key>label</key>
+			<string>FINGERPOS_LANDSCAPEXTOGL_LABEL</string>
+			<key>PostNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+		<!-- Landscape X Offset -->
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>label</key>
+			<string>FINGERPOS_LANDSCAPEX_LABEL</string>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>landscapeX</string>
+			<key>PostNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+		<!-- Use Custom Landscape Y -->
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>enableLandscapeY</string>
+			<key>label</key>
+			<string>FINGERPOS_LANDSCAPEYTOGL_LABEL</string>
+			<key>PostNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+		<!-- Landscape Y Offset -->
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>label</key>
+			<string>FINGERPOS_LANDSCAPEY_LABEL</string>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>landscapeY</string>
+			<key>PostNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+		
+	</array>
+</dict>
+</plist>
