@@ -38,11 +38,11 @@
 #define kThemePath 		@"/Library/Application Support/LockGlyph/Themes/"
 #define kDefaultTheme 	@"Default.bundle"
 
-#define kDefaultPrimaryColor 	[UIColor colorWithWhite:188/255.0f alpha:1] //#BCBCBC
-#define kDefaultSecondaryColor 	[UIColor colorWithWhite:119/255.0f alpha:1] //#777777
+#define kDefaultPrimaryColor 	[UIColor colorWithWhite:1 alpha:1]
+#define kDefaultSecondaryColor 	[UIColor colorWithWhite:0.8 alpha:1] //#cccccc
 
-#define kDefaultYOffset 				60.0f
-#define kDefaultYOffsetWithLockLabel 	100.0f
+#define kDefaultYOffset 					90.0f
+#define kDefaultYOffsetWithLockLabelHidden 	64.0f
 
 #define kSoundNone  		0
 #define kSoundTheme 		1
@@ -91,7 +91,7 @@ static BOOL enableLandscapeX;
 static CGFloat landscapeX;
 static BOOL shouldHideRing;
 static NSString *pressHomeToUnlockText;
-static BOOL showPressHomeToUnlockLabel;
+static BOOL hidePressHomeToUnlockLabel;
 static BOOL overridePressHomeToUnlockText;
 
 static UIColor *primaryColorOverride;
@@ -104,7 +104,7 @@ static NSString *CCRevert = @"CustomCoverLockScreenColourResetNotification";
 static NSString *CCColor = @"CustomCoverLockScreenColourUpdateNotification";
 
 static CGFloat getDefaultYOffset() {
-    return showPressHomeToUnlockLabel ? kDefaultYOffsetWithLockLabel : kDefaultYOffset;
+    return hidePressHomeToUnlockLabel ? kDefaultYOffsetWithLockLabelHidden : kDefaultYOffset;
 }
 
 static long long getIdleGlyphState() {
@@ -168,7 +168,7 @@ static void loadPreferences() {
 	enableLandscapeX = !CFPreferencesCopyAppValue(CFSTR("enableLandscapeX"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enableLandscapeX"), kPrefsAppID)) boolValue];
 	landscapeX = !CFPreferencesCopyAppValue(CFSTR("landscapeX"), kPrefsAppID) ? 0 : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("landscapeX"), kPrefsAppID)) floatValue];
 	shouldHideRing = !CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID)) boolValue];
-    showPressHomeToUnlockLabel = !CFPreferencesCopyAppValue(CFSTR("showPressHomeToUnlockLabel"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("showPressHomeToUnlockLabel"), kPrefsAppID)) boolValue];
+    hidePressHomeToUnlockLabel = !CFPreferencesCopyAppValue(CFSTR("hidePressHomeToUnlockLabel"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("hidePressHomeToUnlockLabel"), kPrefsAppID)) boolValue];
     pressHomeToUnlockText = !CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID) ? @"" : CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID));
 	overridePressHomeToUnlockText = !CFPreferencesCopyAppValue(CFSTR("overridePressHomeToUnlockText"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("overridePressHomeToUnlockText"), kPrefsAppID)) boolValue];
     useLoadingStateForScanning = !CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID)) boolValue];
@@ -188,17 +188,22 @@ static void loadPreferences() {
 		NSURL *pathURL;
 		
 		if (unlockSoundChoice == kSoundTheme) {
+			DebugLogC(@"checking for theme sound...");
 		    if ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]]) {
 				// found theme sound
 	            pathURL = [NSURL fileURLWithPath:[themeAssets pathForResource:@"SuccessSound" ofType:@"wav"]];
+				DebugLogC(@"found it.");
 			}
 		}
 		
 		// if we couldn't find a theme sound, or didn't want to use the theme sound, load the default sound
 		if (!pathURL) {
+			DebugLogC(@"looking for default sound");
 			// use ApplePay sound
 	        pathURL = [NSURL fileURLWithPath:@"/System/Library/Audio/UISounds/payment_success.caf"];
 		}
+		
+		DebugLogC(@"loading sound: %@", pathURL);
 		
 		// create the new sound
 		AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
@@ -206,8 +211,6 @@ static void loadPreferences() {
 }
 
 static void performFingerScanAnimation(void) {
-	DebugLogC(@"performFingerScanAnimation()");
-	
 	if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]) {
 		doingScanAnimation = YES;
         [fingerglyph setState:(useLoadingStateForScanning ? kGlyphStateLoading : kGlyphStateScanning) animated:YES completionHandler:^{
@@ -217,8 +220,6 @@ static void performFingerScanAnimation(void) {
 }
 
 static void resetFingerScanAnimation(void) {
-    DebugLogC(@"resetFingerScanAnimation()");
-    
     if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]){
         if (fingerglyph.customImage)
             [fingerglyph setState:kGlyphStateCustom animated:YES completionHandler:nil];
@@ -227,10 +228,7 @@ static void resetFingerScanAnimation(void) {
     }
 }
 
-// Reset finger scan without animation. I'll clean this up later
 static void resetFingerScan(void) {
-    DebugLogC(@"resetFingerScan()");
-    
     if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]){
         if (fingerglyph.customImage)
             [fingerglyph setState:kGlyphStateCustom animated:NO completionHandler:nil];
@@ -240,7 +238,6 @@ static void resetFingerScan(void) {
 }
 
 static void performTickAnimation(void) {
-	DebugLogC(@"performTickAnimation on fingerglyph: %@", fingerglyph);
 	if (fingerglyph) {
 		doingTickAnimation = YES;
 		[fingerglyph setState:kGlyphStateTicked animated:YES completionHandler:^{
@@ -250,8 +247,6 @@ static void performTickAnimation(void) {
 }
 
 static void performShakeFingerFailAnimation(void) {
-	DebugLogC(@"performShakeFingerFailAnimation()");
-	
 	if (fingerglyph) {
 		CABasicAnimation *shakeanimation = [CABasicAnimation animationWithKeyPath:@"position"];
 		[shakeanimation setDuration:0.05];
@@ -263,60 +258,6 @@ static void performShakeFingerFailAnimation(void) {
 	}
 }
 
-//------------------------------------------------------------------------------
-
-%hook SBUICallToActionLabel
-
-- (void)didMoveToWindow {
-    %orig;
-    [self setHidden:NO];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(LG_CheckHiddenAndText:)
-                                                 name:kLockGlyphLockScreenActivatedNotification
-                                               object:nil];
-}
-
-- (void)setText:(id)arg1 {
-    if (overridePressHomeToUnlockText && ![pressHomeToUnlockText isEqualToString:@""]) {
-        arg1 = pressHomeToUnlockText;
-    }
-    %orig;
-}
-
-- (void)setText:(id)arg1 forLanguage:(id)arg2 animated:(BOOL)arg3 {
-	if (overridePressHomeToUnlockText && ![pressHomeToUnlockText isEqualToString:@""]) {
-        arg1 = pressHomeToUnlockText;
-    }
-    %orig;
-}
-
-%new
-- (void)LG_CheckHiddenAndText:(NSNotification *)notification {
-    [self setHidden:NO];
-    [self setText:@""];
-}
-
-- (BOOL)hidden {
-    if(enabled && !showPressHomeToUnlockLabel) {
-        return YES;
-    }
-    return %orig;
-}
-
-- (void)setHidden:(BOOL)hidden {
-    if(enabled && !showPressHomeToUnlockLabel) {
-        %orig(YES);
-        return;
-    }
-    %orig;
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    %orig;
-}
-
-%end
 
 //------------------------------------------------------------------------------
 
@@ -324,14 +265,14 @@ static void performShakeFingerFailAnimation(void) {
 - (void)didMoveToWindow {
 	%orig;
 	
-	// we are only interested in the "main" page
 	if (![self.pageViewController isKindOfClass:[%c(SBDashBoardMainPageViewController) class]]) {
 		return;
 	}
     
 	// main page is leaving it's window, do some clean up
 	if (!self.window) {
-		DebugLog(@"main page has left window");
+		[fingerglyph removeFromSuperview];
+		fingerglyph = nil;
 		
 		// revert CustomCover override once we've been removed from the window
 		if (overrideIsForCustomCover) {
@@ -339,41 +280,30 @@ static void performShakeFingerFailAnimation(void) {
 			setSecondaryColorOverride(nil);
 		}
 		
-		[fingerglyph removeFromSuperview];
-		fingerglyph = nil;
-		
 		return;
 	}
-	
-	DebugLog(@"Main page has moved to window");
-	
-	// We still need to send this if disabled so we can adjust accordingly in our other classes
-    [[NSNotificationCenter defaultCenter] postNotificationName:kLockGlyphLockScreenActivatedNotification object:nil];
 	
 	if (!enabled) {
-		DebugLog(@"LockGlyphX is disabled :/");
+		NSLog(@"LockGlyphX is disabled");
 		return;
 	}
+	
+	authenticated = NO;
 	
 	if (fingerglyph) {
-		DebugLog(@"ERROR: fingerglyph already exists!");
+		DebugLog(@"WARNING: fingerglyph shouldn't exist right now!");
 		return;
 	}
 	
-	fingerglyph = [[%c(PKGlyphView) alloc] initWithStyle:getIdleGlyphState()]; // 1 = blended
+	// create the glyph
+	fingerglyph = [[%c(PKGlyphView) alloc] initWithStyle:0];
 	fingerglyph.delegate = (id<PKGlyphViewDelegate>)self;
 	fingerglyph.primaryColor = activePrimaryColor();
 	fingerglyph.secondaryColor = activeSecondaryColor();
 	
-	// set blend mode?
-	// [fingerglyph _setDrawsAsBackdropOverlayWithBlendMode:kCGBlendModePlusDarker];
-	// fingerglyph.tintColor = [UIColor colorWithWhite:0 alpha:0.50];
-	
 	// check for theme
 	if (themeAssets && ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]] || [[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage@2x" ofType:@"png"]])) {
-		DebugLog(@"found active theme: %@", themeAssets);
 		UIImage *customImage = [UIImage imageWithContentsOfFile:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]];
-		DebugLog(@"using custom image: %@", customImage);
 		
 		// set glyph to custom image mode
 		[fingerglyph setCustomImage:customImage.CGImage withAlignmentEdgeInsets:UIEdgeInsetsZero];
@@ -386,9 +316,13 @@ static void performShakeFingerFailAnimation(void) {
 		
 		usingDefaultGlyph = NO;
 	} else {
-		// no custom theme, use default
+		[fingerglyph setState:getIdleGlyphState() animated:NO completionHandler:nil];
 		usingDefaultGlyph = YES;
 	}
+	
+	// set blend mode?
+	// [fingerglyph _setDrawsAsBackdropOverlayWithBlendMode:kCGBlendModePlusDarker];
+	// fingerglyph.tintColor = [UIColor colorWithWhite:0 alpha:0.50];
 	
 	// position glyph
 	[fingerglyph updatePositionWithOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
@@ -403,8 +337,10 @@ static void performShakeFingerFailAnimation(void) {
 	// add tap recognizer to glyph
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lockGlyphTapHandler:)];
 	[fingerglyph addGestureRecognizer:tap];
-		
+	
+	// add the glyph (behind other content)
 	[self addSubview:fingerglyph];
+	[self sendSubviewToBack:fingerglyph];
 	
 	// listen for notifications from ColorFlow/CustomCover
 	if (!isObservingForCCCF) {
@@ -414,11 +350,12 @@ static void performShakeFingerFailAnimation(void) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LG_ColorizeUI:) name:CCColor object:nil];
 		isObservingForCCCF = YES;
 	}
-	
-	// lockView = (UIView *)self;
-	authenticated = NO;
-	
-	DebugLog(@"fingerglyph = %@", fingerglyph);
+}
+- (void)glyphView:(PKGlyphView *)arg1 revealingCheckmark:(BOOL)arg2 {
+	DebugLog0;
+	if (enabled && unlockSoundChoice != kSoundNone && useTickAnimation && unlockSound) {
+		AudioServicesPlaySystemSound(unlockSound);
+	}
 }
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -427,10 +364,7 @@ static void performShakeFingerFailAnimation(void) {
 }
 %new
 - (void)lockGlyphTapHandler:(UITapGestureRecognizer *)recognizer {
-	DebugLog(@"glyph was tapped");
-	
 	fingerglyph.userInteractionEnabled = NO;
-	
 	performFingerScanAnimation();
 	
 	if (!shouldNotDelay) {
@@ -452,30 +386,20 @@ static void performShakeFingerFailAnimation(void) {
 						AudioServicesPlaySystemSound(unlockSound);
 					}
 					authenticated = NO;
-					// [[%c(SBLockScreenManager) sharedInstance] unlockUIFromSource:0 withOptions:nil];
 					[[%c(SBLockScreenManager) sharedInstance] unlockUIFromSource:2 withOptions:nil];
 					resetFingerScanAnimation();
 					fingerglyph.userInteractionEnabled = YES;
 				});
 			} else {
-				// [[%c(SBLockScreenManager) sharedInstance] unlockUIFromSource:0 withOptions:nil];
 				[[%c(SBLockScreenManager) sharedInstance] unlockUIFromSource:2 withOptions:nil];
 				resetFingerScanAnimation();
 				fingerglyph.userInteractionEnabled = YES;
 			}
 		});
 	} else {
-		// [[%c(SBLockScreenManager) sharedInstance] unlockUIFromSource:0 withOptions:nil];
 		[[%c(SBLockScreenManager) sharedInstance] unlockUIFromSource:2 withOptions:nil];
 		resetFingerScanAnimation();
 		fingerglyph.userInteractionEnabled = YES;
-	}
-}
-%new
-- (void)glyphView:(PKGlyphView *)arg1 revealingCheckmark:(BOOL)arg2 {
-	DebugLog0;
-	if (enabled && unlockSoundChoice != 0 && useTickAnimation && unlockSound) {
-		AudioServicesPlaySystemSound(unlockSound);
 	}
 }
 %new
@@ -518,8 +442,6 @@ static void performShakeFingerFailAnimation(void) {
 %hook PKGlyphView
 %new
 - (void)updatePositionWithOrientation:(UIInterfaceOrientation)orientation {
-	DebugLog(@"updating glyph position for orientation: %ld", (long)orientation);
-	
 	CGRect screen = [[UIScreen mainScreen] bounds];
 	float dx, dy;
 	
@@ -550,9 +472,6 @@ static void performShakeFingerFailAnimation(void) {
 		}
 	}
 	fingerglyph.center = CGPointMake(CGRectGetMidX(screen) + dx, screen.size.height - dy);
-
-
-	DebugLog(@"fingerglyph.frame = %@", NSStringFromCGRect(fingerglyph.frame));
 }
 %new
 - (void)addShineAnimation {
@@ -598,23 +517,24 @@ static void performShakeFingerFailAnimation(void) {
 }
 %new
 - (void)removeShineAnimation {
-	DebugLog0;
 	self.layer.mask = nil;
 }
 - (id)createCustomImageLayer {
 	CALayer *result = %orig;
-	result.contentsScale = 2.0;
-	result.mask = nil;
+	if (enabled) {
+		result.contentsScale = 2.0;
+		result.mask = nil;
+	}
 	return result;
 }
 - (void)_layoutContentLayer:(id)arg1 {
 	%orig;
 	
-	if (!usingDefaultGlyph) {
-		self.clipsToBounds = YES;
-	} else {
-		self.clipsToBounds = NO;
-	}
+	// if (!usingDefaultGlyph) {
+	// 	self.clipsToBounds = YES;
+	// } else {
+	// 	self.clipsToBounds = NO;
+	// }
 }
 %end
 
@@ -639,8 +559,7 @@ static void performShakeFingerFailAnimation(void) {
 - (void)layoutSubviews {
 	%orig;
 	
-	// hide ring?
-	if (shouldHideRing) {
+	if (enabled && shouldHideRing) {
 		CALayer *ringLayer = MSHookIvar<CALayer *>(self, "_foregroundRingContainerLayer");
 		ringLayer.hidden = YES;
 	}
@@ -666,8 +585,7 @@ static void performShakeFingerFailAnimation(void) {
 - (void)layoutSubviews {
 	%orig;
 	
-	// hide ring?
-	if (shouldHideRing) {
+	if (enabled && shouldHideRing) {
 		CALayer *ringLayer = MSHookIvar<CALayer *>(self, "_foregroundRingContainerLayer");
 		ringLayer.hidden = YES;
 	}
@@ -705,13 +623,15 @@ static void performShakeFingerFailAnimation(void) {
 				if (shakeOnIncorrectFinger) {
 					performShakeFingerFailAnimation();
 				}
-				if (vibrateOnIncorrectFinger) {
+				if (vibrateOnIncorrectFinger && ![manager.lockScreenViewController isPasscodeLockVisible]) {
 					AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 				}
 			break;
 				
 			case kTouchIDSuccess:
 				DebugLog(@"TouchID: success");
+				
+				authenticated = YES;
 				
 				if ([%c(SBAssistantController) isAssistantVisible] || manager.bioAuthenticatedWhileMenuButtonDown) {
 					DebugLog(@"isAssistantVisible || bioAuthenticatedWhileMenuButtonDown");
@@ -725,7 +645,6 @@ static void performShakeFingerFailAnimation(void) {
 					DebugLog(@"!shouldNotDelay && !passcodeVisible");
 					
 					fingerglyph.userInteractionEnabled = NO;
-					authenticated = YES;
 					performTickAnimation();
 					
 					double delayInSeconds = 1.3;
@@ -741,7 +660,7 @@ static void performShakeFingerFailAnimation(void) {
 					
 					unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
 						DebugLog(@"performing block after delay now");
-						if (!useTickAnimation && unlockSoundChoice != 0 && unlockSound) {
+						if (unlockSoundChoice != kSoundNone && unlockSound) {
 							AudioServicesPlaySystemSound(unlockSound);
 						}
 						%orig;
@@ -754,7 +673,7 @@ static void performShakeFingerFailAnimation(void) {
 					}
 					if (!manager.isUILocked) {
 						DebugLog(@"manager.isUILocked == NO");
-						if (!useTickAnimation && unlockSoundChoice != 0 && unlockSound && shouldNotDelay) {
+						if (unlockSoundChoice != kSoundNone && unlockSound && shouldNotDelay) {
 							DebugLog(@"!useTickAnimation && unlockSoundChoice != 0 && unlockSound && shouldNotDelay");
 							AudioServicesPlaySystemSound(unlockSound);
 						}
@@ -801,6 +720,8 @@ static void performShakeFingerFailAnimation(void) {
 			case kTouchIDSuccess:
 				DebugLog(@"TouchID: success");
 				
+				authenticated = YES;
+				
 				if ([%c(SBAssistantController) isAssistantVisible] || manager.bioAuthenticatedWhileMenuButtonDown) {
 					DebugLog(@"isAssistantVisible || bioAuthenticatedWhileMenuButtonDown");
 					if (unlockBlock) {
@@ -813,7 +734,6 @@ static void performShakeFingerFailAnimation(void) {
 					DebugLog(@"!shouldNotDelay && !passcodeVisible");
 					
 					fingerglyph.userInteractionEnabled = NO;
-					authenticated = YES;
 					performTickAnimation();
 					
 					double delayInSeconds = 1.3;
@@ -829,7 +749,7 @@ static void performShakeFingerFailAnimation(void) {
 					
 					unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
 						DebugLog(@"performing block after delay now");
-						if (!useTickAnimation && unlockSoundChoice != 0 && unlockSound) {
+						if (!useTickAnimation && unlockSoundChoice != kSoundNone && unlockSound) {
 							AudioServicesPlaySystemSound(unlockSound);
 						}
 						%orig;
@@ -842,7 +762,7 @@ static void performShakeFingerFailAnimation(void) {
 					}
 					if (!manager.isUILocked) {
 						DebugLog(@"manager.isUILocked == NO");
-						if (!useTickAnimation && unlockSoundChoice != 0 && unlockSound && shouldNotDelay) {
+						if (!useTickAnimation && unlockSoundChoice != kSoundNone && unlockSound && shouldNotDelay) {
 							DebugLog(@"!useTickAnimation && unlockSoundChoice != 0 && unlockSound && shouldNotDelay");
 							AudioServicesPlaySystemSound(unlockSound);
 						}
@@ -858,22 +778,12 @@ static void performShakeFingerFailAnimation(void) {
 
 //------------------------------------------------------------------------------
 
-// %hook SBLockScreenManager
-// - (void)_finishUIUnlockFromSource:(int)source withOptions:(id)options {
-// 	%orig;
-// }
-// %end
-
-//------------------------------------------------------------------------------
-
 %hook SBDashBoardViewController
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration {
-	DebugLog0;
 	%orig;
 	if (enabled) [fingerglyph updatePositionWithOrientation:orientation];
 }
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)orientation duration:(NSTimeInterval)duration {
-	DebugLog0;
 	%orig;
 	if (enabled) {
 		[UIView animateWithDuration:duration
@@ -883,22 +793,19 @@ static void performShakeFingerFailAnimation(void) {
 						 completion:nil];
 	}
 }
-
--(void)setAuthenticated:(BOOL)arg1 {
+- (void)setAuthenticated:(BOOL)arg1 {
     %orig;
-    if(!arg1) {
+    if (enabled && !arg1) {
         authenticated = NO;
         resetFingerScan();
     }
 }
-
 %end
 
 //------------------------------------------------------------------------------
 
 %hook SBLockScreenViewController
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	DebugLog0;
 	%orig;
 	if (enabled) {
 		[UIView animateWithDuration:duration
@@ -914,14 +821,12 @@ static void performShakeFingerFailAnimation(void) {
 
 %hook SBAssistantController
 - (void)_viewWillDisappearOnMainScreen:(BOOL)arg1 {
-	DebugLog0;
 	if (enabled && fingerglyph) {
 		resetFingerScanAnimation();
 	}
 	%orig;
 }
 - (void)_viewDidDisappearOnMainScreen:(BOOL)arg1 {
-	DebugLog0;
 	if (enabled && fingerglyph) {
 		resetFingerScanAnimation();
 	}
@@ -930,6 +835,28 @@ static void performShakeFingerFailAnimation(void) {
 %end
 
 //------------------------------------------------------------------------------
+
+%hook SBUICallToActionLabel
+- (void)setText:(id)text {
+	if (enabled && hidePressHomeToUnlockLabel) {
+		text = @"";
+	} else if (enabled && !authenticated && overridePressHomeToUnlockText && ![pressHomeToUnlockText isEqualToString:@""]) {
+        text = pressHomeToUnlockText;
+    }
+	%orig;
+}
+- (void)setText:(id)text forLanguage:(id)language animated:(BOOL)animated {
+	if (enabled && hidePressHomeToUnlockLabel) {
+		text = @"";
+	} else if (enabled && !authenticated && overridePressHomeToUnlockText && ![pressHomeToUnlockText isEqualToString:@""]) {
+        text = pressHomeToUnlockText;
+    }
+	%orig;
+}
+%end
+
+//------------------------------------------------------------------------------
+
 
 %ctor {
 	@autoreleasepool {

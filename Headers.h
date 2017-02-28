@@ -19,17 +19,11 @@
 @property (nonatomic,readonly) UIView * contentView;
 @end
 
-@interface SBLockScreenView : UIView
-// - (void)setSlideToUnlockHidden:(BOOL)arg1 forRequester:(id)arg2;
-@end
-
 @interface SBLockScreenViewControllerBase : UIViewController
 - (BOOL)isPasscodeLockVisible;
 @end
 
 @interface SBLockScreenViewController : SBLockScreenViewControllerBase
-- (SBLockScreenView *)lockScreenView;
-- (void)biometricEventMonitor:(id)arg1 handleBiometricEvent:(unsigned long long)arg2;
 @end
 
 @interface SBLockScreenManager : NSObject
@@ -83,5 +77,5 @@
 @end
 
 @interface SBUICallToActionLabel : UIView
--(void)setText:(NSString *)arg1;
+- (void)setText:(NSString *)arg1;
 @end

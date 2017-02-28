@@ -34,20 +34,24 @@
 "COLOURS_IDLECOLOUR_LABEL" = "Fingerprint colour";
 "COLOURS_SCANCOLOUR_LABEL" = "Scanning colour";
 "COLOURS_RESET_LABEL" = "Reset colours to default";
-"FINGERPOS_PORTRAIT_HEADER_TEXT" = "Position (Portrait)";
-"FINGERPOS_PORTRAITXTOGL_LABEL" = "Use custom X offset";
-"FINGERPOS_PORTRAITX_LABEL" = "X offset";
-"FINGERPOS_PORTRAITYTOGL_LABEL" = "Use custom Y offset";
-"FINGERPOS_PORTRAITY_LABEL" = "Y offset";
-"FINGERPOS_LANDSCAPE_HEADER_TEXT" = "Position (Landscape)";
-"FINGERPOS_LANDSCAPEXTOGL_LABEL" = "Use custom X offset";
-"FINGERPOS_LANDSCAPEX_LABEL" = "X offset";
-"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Use custom Y offset";
-"FINGERPOS_LANDSCAPEY_LABEL" = "Y offset";
 "LOCKLABEL_HEADER_TEXT" = "Press Home To Unlock";
-"LOCKLABEL_ENABLED_LABEL" = "Show text";
+"LOCKLABEL_DISABLED_LABEL" = "Hide text";
 "LOCKLABEL_CUSTOM_TEXT_ENABLED_LABEL" = "Use custom text";
 "LOCKLABEL_CUSTOM_TEXT_LABEL" = "Custom text";
+"POSITION_LABEL" = "Position";
+
+/* Appearance > Position Page */
+"POSITION_TITLE" = "Position";
+"FINGERPOS_PORTRAIT_HEADER_TEXT" = "Position (Portrait)";
+"FINGERPOS_PORTRAITXTOGL_LABEL" = "Use custom X";
+"FINGERPOS_PORTRAITX_LABEL" = "X offset";
+"FINGERPOS_PORTRAITYTOGL_LABEL" = "Use custom Y";
+"FINGERPOS_PORTRAITY_LABEL" = "Y offset";
+"FINGERPOS_LANDSCAPE_HEADER_TEXT" = "Position (Landscape)";
+"FINGERPOS_LANDSCAPEXTOGL_LABEL" = "Use custom X";
+"FINGERPOS_LANDSCAPEX_LABEL" = "X offset";
+"FINGERPOS_LANDSCAPEYTOGL_LABEL" = "Use custom Y";
+"FINGERPOS_LANDSCAPEY_LABEL" = "Y offset";
 
 /* Animations Page */
 "ANIMATIONS_TITLE" = "Animations";

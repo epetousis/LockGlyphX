@@ -11,8 +11,11 @@
 #import <Preferences/PSViewController.h>
 
 
+#define kMesaThumbnailPath @"/Applications/StoreKitUIService.app/MesaGlyph.png"
+
 #define kThumbnailTag 	1
 #define kTitleTag 		2
+#define kSoundTag 		3
 
 
 @implementation UIImage (LockGlyphX)
@@ -27,8 +30,6 @@
 }
 @end
 
-
-// Theme List Controller -------------------------------------------------------
 
 @interface LockGlyphXThemeController : PSViewController <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -58,7 +59,7 @@
 }
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	
+
 	self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
 	self.tableView.delegate = self;
 	self.tableView.dataSource = self;
@@ -74,13 +75,13 @@
 	[self updateThemeList];
 }
 - (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-	
 	// un-tint navbar
 	self.navigationController.navigationController.navigationBar.tintColor = nil;
-	
+
 	// empty the thumbnail cache
 	[self.imageCache removeAllObjects];
+
+	[super viewWillDisappear:animated];
 }
 - (void)updateThemeList {
 	// create the theme list, starting with the default theme
@@ -93,16 +94,13 @@
 		if (![path isEqualToString:kDefaultThemeBundle]) { // skip the default theme, it's already in the list
 			NSString *name = [path stringByReplacingOccurrencesOfString:@".bundle" withString:@""];
 			BOOL hasSound = [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/%@/SuccessSound.wav", kThemePath, path]];
-			[themes addObject:@{ @"theme":path, @"name":name, @"hasSound":hasSound?@YES:@NO }];
+			[themes addObject:@{ @"bundle":path, @"name":name, @"hasSound":[NSNumber numberWithBool:hasSound] }];
 		}
     }
 	self.themes = themes;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	return 1;
-}
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return nil;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return self.themes.count;
@@ -113,15 +111,14 @@
 	
 	if (!cell) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CustomCellIdentifier];
-		cell.opaque = YES;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.accessoryType = UITableViewCellAccessoryNone;
 		
 		// thumbnail
 		UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 5, 48, 48)];
 		imageView.opaque = YES;
-		imageView.contentMode = UIViewContentModeScaleAspectFit;
 		imageView.backgroundColor = UIColor.whiteColor;
+		imageView.contentMode = UIViewContentModeScaleAspectFit;
 		imageView.tag = kThumbnailTag;
 		[cell.contentView addSubview:imageView];
 		
@@ -133,70 +130,70 @@
 		titleLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
 		titleLabel.tag = kTitleTag;
 		[cell.contentView addSubview:titleLabel];
+		
+		// sound icon
+		UIImage *soundIcon = [[UIImage alloc] initWithContentsOfFile:[NSString stringWithFormat:@"%@/sound.png", kPrefsBundlePath]];
+		UIImageView *soundIconView = [[UIImageView alloc] initWithImage:soundIcon];
+		soundIconView.frame = (CGRect){{80, 43}, soundIconView.frame.size};
+		soundIconView.tag = kSoundTag;
+		soundIconView.hidden = YES;
+		[cell.contentView addSubview:soundIconView];
 	}
 	
-	// populate cell...
+	// reset and populate cell...
+	
+	UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:kTitleTag];
+	UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:kThumbnailTag];
+	UILabel *soundIconView = (UILabel *)[cell.contentView viewWithTag:kSoundTag];
+		
+	titleLabel.text = nil;
+	imageView.image = nil;
+	soundIconView.hidden = YES;
 	
 	NSDictionary *themeInfo = self.themes[indexPath.row];
-	UILabel *titleLabel = (UILabel *)[cell.contentView viewWithTag:kTitleTag];
 	titleLabel.text = themeInfo[@"name"];
-	UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:kThumbnailTag];
+	if (themeInfo[@"hasSound"] && [themeInfo[@"hasSound"] boolValue]) soundIconView.hidden = NO;
 	
 	// get thumbnail from cache, or create and cache new one
 	NSString *path;
 	if ([themeInfo[@"name"] isEqualToString:kDefaultThemeName]) {
-		path = [NSString stringWithFormat:@"/Applications/StoreKitUIService.app/MesaGlyph.png"];
+		path = kMesaThumbnailPath;
 	} else {
-		path = [NSString stringWithFormat:@"%@/%@/IdleImage.png", kThemePath, themeInfo[@"theme"]];
+		path = [NSString stringWithFormat:@"%@/%@/IdleImage.png", kThemePath, themeInfo[@"bundle"]];
 	}
 	UIImage *thumbnail = [self.imageCache objectForKey:path];
 	if (thumbnail) {
 		imageView.image = thumbnail;
 	} else {
-		// image is not yet cached, cache it now (on background thread)
-		[self.queue addOperationWithBlock:^{
-			UIImage *image = [UIImage imageWithContentsOfFile:path];
-			if (image) {
-				
-				// Bake a CALayer shadow into the thumbnail, using an ImageView ...
-				
-				UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-				imageView.contentMode = UIViewContentModeCenter;
-				imageView.layer.shadowOffset = CGSizeMake(0, 1);
-				imageView.layer.shadowRadius = 1;
-				imageView.layer.shadowColor = UIColor.blackColor.CGColor;
-				imageView.layer.shadowOpacity = 0.4;
-				
-				// add some padding for the shadows
-				CGRect frame = imageView.frame;
-				frame.size.width += 4;
-				frame.size.height += 4;
-				imageView.frame = frame;
-				
-				image = [UIImage imageFromImageView:imageView];
-				
-				
-				// add the new image to cache
-				[self.imageCache setObject:image forKey:path];
-				
-				// update the cell (on main thread)
-				[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-					UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-					if (cell) {
-						UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:kThumbnailTag];
-						imageView.image = image;
-					}
-				}];
-			} else {
-				// image not found
-			}
-		}];
+		// image is not yet cached, cache it now
+		UIImage *image = [UIImage imageWithContentsOfFile:path];
+		if (image) {
+			// Bake a CALayer shadow into the thumbnail image,
+			// using a temporary ImageView.
+			UIImageView *dummyView = [[UIImageView alloc] initWithImage:image];
+			dummyView.contentMode = UIViewContentModeCenter;
+			dummyView.layer.shadowOffset = CGSizeMake(0, 1);
+			dummyView.layer.shadowRadius = 1;
+			dummyView.layer.shadowColor = UIColor.blackColor.CGColor;
+			dummyView.layer.shadowOpacity = 0.4;
+
+			// add some padding for the shadow
+			CGRect frame = dummyView.frame;
+			frame.size.width += 4;
+			frame.size.height += 4;
+			dummyView.frame = frame;
+			
+			image = [UIImage imageFromImageView:dummyView];
+			[self.imageCache setObject:image forKey:path];
+			
+			imageView.image = image;
+		}
 	}
 	
 	// do we know which row should be checked?
 	if (!self.checkedIndexPath) {
 		// not yet; is it this row?
-		if ([themeInfo[@"theme"] isEqualToString:self.selectedTheme]) {
+		if ([themeInfo[@"bundle"] isEqualToString:self.selectedTheme]) {
 			self.checkedIndexPath = indexPath;
 		}
 	}
@@ -227,12 +224,16 @@
 		themeInfo = self.themes[indexPath.row];
 		
 		// save selection to prefs
-		self.selectedTheme = themeInfo[@"theme"];
+		self.selectedTheme = themeInfo[@"bundle"];
 		CFPreferencesSetAppValue(kPrefsCurrentThemeKey, (CFStringRef)self.selectedTheme, kPrefsAppID);
 		CFPreferencesAppSynchronize(kPrefsAppID);
 		
 		// notify tweak
 		CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), kSettingsChangedNotification, NULL, NULL, true);
 	}
+}
+- (void)didReceiveMemoryWarning {
+	[self.imageCache removeAllObjects];
+	[super didReceiveMemoryWarning];
 }
 @end
