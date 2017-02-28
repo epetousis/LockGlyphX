@@ -279,9 +279,6 @@ static void performShakeFingerFailAnimation(void) {
 		return;
 	}
 	
-	// We still need to send this if disabled so we can adjust accordingly in our other classes
-    // [[NSNotificationCenter defaultCenter] postNotificationName:kLockGlyphLockScreenActivatedNotification object:nil];
-	
 	if (!enabled) {
 		NSLog(@"LockGlyphX is disabled");
 		return;
