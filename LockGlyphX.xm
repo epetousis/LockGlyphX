@@ -337,8 +337,10 @@ static void performShakeFingerFailAnimation(void) {
 	// add tap recognizer to glyph
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lockGlyphTapHandler:)];
 	[fingerglyph addGestureRecognizer:tap];
-		
+	
+	// add the glyph (behind other content)
 	[self addSubview:fingerglyph];
+	[self sendSubviewToBack:fingerglyph];
 	
 	// listen for notifications from ColorFlow/CustomCover
 	if (!isObservingForCCCF) {
@@ -854,6 +856,7 @@ static void performShakeFingerFailAnimation(void) {
 %end
 
 //------------------------------------------------------------------------------
+
 
 %ctor {
 	@autoreleasepool {
