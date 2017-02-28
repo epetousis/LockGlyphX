@@ -52,7 +52,7 @@
 @end
 
 
-// Main Controller -------------------------------------------------------------
+// Main Page -------------------------------------------------------------------
 
 @interface LockGlyphXPrefsController : PSListController
 @end
@@ -143,7 +143,7 @@
 		UILabel *betaLabel = [[UILabel alloc] initWithFrame:headerView.bounds];
 		betaLabel.font = [UIFont systemFontOfSize:120 weight:UIFontWeightBold];
 		betaLabel.text = @"BETA";
-		betaLabel.textColor = [UIColor colorWithRed:0.5 green:1 blue:0 alpha:0.05];
+		betaLabel.textColor = [UIColor colorWithRed:0.5 green:0 blue:1 alpha:0.05];
 		betaLabel.textAlignment = NSTextAlignmentCenter;
 		betaLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 		[headerView addSubview:betaLabel];
@@ -156,7 +156,7 @@
 @end
 
 
-// Behaviour Controller --------------------------------------------------------
+// Behaviour Page --------------------------------------------------------------
 
 @interface LockGlyphXPrefsBehaviourController : PSListController
 @end
@@ -192,8 +192,29 @@
 }
 @end
 
+@interface LockGlyphXPrefsSoundItemsController : PSListItemsController
+@end
 
-// Appearance Controller -------------------------------------------------------
+@implementation LockGlyphXPrefsSoundItemsController
+- (NSArray *)specifiers {
+    NSArray *specifiers = [super specifiers];
+    [LGShared parseSpecifiers:specifiers butOnlyFooter:YES];
+    return specifiers;
+}
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	// tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
+}
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	// un-tint navbar
+	self.navigationController.navigationController.navigationBar.tintColor = nil;
+}
+@end
+
+
+// Appearance Page -------------------------------------------------------------
 
 @interface LockGlyphXPrefsAppearanceController : PSListController
 @end
@@ -209,7 +230,6 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	
 	// tint navbar
 	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
 	
@@ -239,7 +259,24 @@
 @end
 
 
-// Animations Controller -------------------------------------------------------
+// Appearance > Position Page --------------------------------------------------
+
+@interface LockGlyphXPrefsPositionController : PSListController
+@end
+
+@implementation LockGlyphXPrefsPositionController
+- (id)specifiers {
+	if (_specifiers == nil) {
+		_specifiers = [self loadSpecifiersFromPlistName:@"LockGlyphXPrefs-Position" target:self];
+	}
+	[LGShared parseSpecifiers:_specifiers];
+	[(UINavigationItem *)self.navigationItem setTitle:[LGShared localisedStringForKey:@"POSITION_TITLE"]];
+	return _specifiers;
+}
+@end
+
+
+// Animations Page -------------------------------------------------------------
 
 @interface LockGlyphXPrefsAnimationsController : PSListController
 @end
@@ -266,7 +303,7 @@
 @end
 
 
-// Credits Controller ----------------------------------------------------------
+// Credits Page ----------------------------------------------------------------
 
 @interface LockGlyphXPrefsCreditsController : PSListController
 @end
@@ -335,30 +372,6 @@
 @end
 
 
-// Sound Items Controller ------------------------------------------------------
-
-@interface LockGlyphXPrefsSoundItemsController : PSListItemsController
-@end
-
-@implementation LockGlyphXPrefsSoundItemsController
-- (NSArray *)specifiers {
-    NSArray *specifiers = [super specifiers];
-    [LGShared parseSpecifiers:specifiers butOnlyFooter:YES];
-    return specifiers;
-}
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	// tint navbar
-	self.navigationController.navigationController.navigationBar.tintColor = kTintColor;
-}
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-	// un-tint navbar
-	self.navigationController.navigationController.navigationBar.tintColor = nil;
-}
-@end
-
-
 // Custom Cells ----------------------------------------------------------------
 
 @interface LGXButtonCell : PSTableCell
@@ -370,7 +383,6 @@
 	[self.textLabel setTextColor:UIColor.blackColor];
 }
 @end
-
 
 @interface LGXSwitchCell : PSSwitchTableCell
 @end
@@ -384,7 +396,6 @@
 	return self;
 }
 @end
-
 
 @interface LGXThemeLinkCell : PSTableCell
 @end
