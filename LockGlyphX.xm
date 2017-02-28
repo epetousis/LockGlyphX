@@ -38,8 +38,8 @@
 #define kThemePath 		@"/Library/Application Support/LockGlyph/Themes/"
 #define kDefaultTheme 	@"Default.bundle"
 
-#define kDefaultPrimaryColor 	[UIColor colorWithWhite:188/255.0f alpha:1] //#BCBCBC
-#define kDefaultSecondaryColor 	[UIColor colorWithWhite:119/255.0f alpha:1] //#777777
+#define kDefaultPrimaryColor 	[UIColor colorWithWhite:1 alpha:1]
+#define kDefaultSecondaryColor 	[UIColor colorWithWhite:0.8 alpha:1] //#cccccc
 
 #define kDefaultYOffset 					90.0f
 #define kDefaultYOffsetWithLockLabelHidden 	64.0f

@@ -243,8 +243,8 @@
 	self.navigationController.navigationController.navigationBar.tintColor = nil;
 }
 - (void)resetColors {
-	CFPreferencesSetAppValue(CFSTR("primaryColor"), CFSTR("#BCBCBC:1.000000"), CFSTR("com.evilgoldfish.lockglyphx"));
-    CFPreferencesSetAppValue(CFSTR("secondaryColor"), CFSTR("#777777:1.000000"), CFSTR("com.evilgoldfish.lockglyphx"));
+	CFPreferencesSetAppValue(CFSTR("primaryColor"), CFSTR("#FFFFFF:1.000000"), kPrefsAppID);
+    CFPreferencesSetAppValue(CFSTR("secondaryColor"), CFSTR("#CCCCCC:1.000000"), kPrefsAppID);
     CFPreferencesAppSynchronize(CFSTR("com.evilgoldfish.lockglyphx"));
     CFNotificationCenterPostNotification(
     	CFNotificationCenterGetDarwinNotifyCenter(),
