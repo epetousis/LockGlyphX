@@ -25,6 +25,9 @@
 "FAILUNLOCK_VIBRATETOGL_LABEL" = "Vibrate";
 "FAILUNLOCK_SHAKETOGL_LABEL" = "Shake fingerprint";
 "FAILUNLOCK_FOOTER_TEXT" = "These actions will be performed whenever an incorrect finger is used to unlock the device.";
+"MUSICCONTROLS_HEADER_TEXT" = "When music controls are visible";
+"MUSICCONTROLS_HIDE_LABEL" = "Hide glyph";
+"MUSICCONTROLS_MOVEBACK_LABEL" = "Move glyph to back";
 
 /* Appearance Page */
 "APPEARANCE_TITLE" = "Appearance";
