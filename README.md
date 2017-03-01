@@ -3,7 +3,7 @@ The evolution of LockGlyph. For iOS 10.
 Supports all existing LockGlyph themes.
 
 ## Localization
-Please help us translate LockGlyphX into your language.  
+Please help us translate LockGlyphX into your language :)  
 Details: https://gist.github.com/Sticktron/03ed485c6f7f0d1ed6d442720af87821
 
 ## Notes
