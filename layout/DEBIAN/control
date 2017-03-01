@@ -1,14 +1,11 @@
 Package: com.evilgoldfish.lockglyphx
-Name: LockGlyphX Beta (iOS 10)
+Name: LockGlyphX (iOS 10)
 Depends: firmware (>= 10.0), mobilesubstrate, preferenceloader, org.thebigboss.libcolorpicker (>= 1.1)
 Provides: com.evilgoldfish.lockglyph
 Conflicts: com.evilgoldfish.lockglyph
-Version: 1.0~b4
+Version: 1.0
 Architecture: iphoneos-arm
-Description: LockGlyph for iOS 10.
- Change Log
- + Added settings to deal with the glyph when the music controls are visible. You can hide the glyph, move it behind the controls, or leave it in front. The default behavior is to hide the glyph.
- + Fixed regression with tapping the glyph to unlock.
+Description: Themeable LockScreen Glyph.
 Maintainer: evilgoldfish
 Author: evilgoldfish
 Section: Tweaks
