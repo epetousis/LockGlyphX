@@ -93,6 +93,8 @@ static BOOL shouldHideRing;
 static NSString *pressHomeToUnlockText;
 static BOOL hidePressHomeToUnlockLabel;
 static BOOL overridePressHomeToUnlockText;
+static BOOL hideWhenMusicControlsAreVisible;
+static BOOL moveBackWhenMusicControlsAreVisible;
 
 static UIColor *primaryColorOverride;
 static UIColor *secondaryColorOverride;
@@ -173,6 +175,8 @@ static void loadPreferences() {
 	overridePressHomeToUnlockText = !CFPreferencesCopyAppValue(CFSTR("overridePressHomeToUnlockText"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("overridePressHomeToUnlockText"), kPrefsAppID)) boolValue];
     useLoadingStateForScanning = !CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID)) boolValue];
     useHoldToReaderAnimation = !CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID)) boolValue];
+	hideWhenMusicControlsAreVisible = !CFPreferencesCopyAppValue(CFSTR("hideWhenMusicControlsAreVisible"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("hideWhenMusicControlsAreVisible"), kPrefsAppID)) boolValue];
+	moveBackWhenMusicControlsAreVisible = !CFPreferencesCopyAppValue(CFSTR("moveBackWhenMusicControlsAreVisible"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("moveBackWhenMusicControlsAreVisible"), kPrefsAppID)) boolValue];
 	
 	// load theme bundle
 	NSURL *bundleURL = [NSURL fileURLWithPath:kThemePath];
@@ -338,9 +342,17 @@ static void performShakeFingerFailAnimation(void) {
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lockGlyphTapHandler:)];
 	[fingerglyph addGestureRecognizer:tap];
 	
-	// add the glyph (behind other content)
 	[self addSubview:fingerglyph];
-	[self sendSubviewToBack:fingerglyph];
+	
+	// handle when music controls are showing
+	SBDashBoardMainPageViewController *pvc = (SBDashBoardMainPageViewController *)self.pageViewController;	
+	if (pvc.contentViewController.showingMediaControls) {
+		if (hideWhenMusicControlsAreVisible) {
+			fingerglyph.hidden = YES;
+		} else if (moveBackWhenMusicControlsAreVisible) {
+			[self sendSubviewToBack:fingerglyph];
+		}
+	}
 	
 	// listen for notifications from ColorFlow/CustomCover
 	if (!isObservingForCCCF) {

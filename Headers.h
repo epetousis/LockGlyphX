@@ -57,10 +57,12 @@
 @interface SBDashBoardTodayPageView : SBDashBoardPageViewBase
 @end
 
-@interface SBDashBoardMainPageViewController : UIViewController
+@interface SBDashBoardMainPageContentViewController : UIViewController
+@property(readonly, nonatomic, getter=isShowingMediaControls) _Bool showingMediaControls;
 @end
 
-@interface SBDashBoardMainPageContentViewController : UIViewController
+@interface SBDashBoardMainPageViewController : UIViewController
+@property(readonly, nonatomic) SBDashBoardMainPageContentViewController *contentViewController;
 @end
 
 @interface UIView (Private)
