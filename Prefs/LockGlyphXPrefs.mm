@@ -95,8 +95,7 @@
 	[self presentViewController:composeController animated:YES completion:nil];
 }
 - (void)issueButton {
-	// [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/evilgoldfish/LockGlyphX/issues"]];
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/sticktron/LockGlyphX/issues"]];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://github.com/evilgoldfish/LockGlyphX/issues"]];
 }
 - (CGFloat)tableView:(id)tableView heightForHeaderInSection:(NSInteger)section {
 	if (section == 0) {
@@ -138,15 +137,6 @@
 		tweakSubtitle.textAlignment = NSTextAlignmentCenter;
 		tweakSubtitle.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 		[headerView addSubview:tweakSubtitle];
-		
-		// beta tag
-		UILabel *betaLabel = [[UILabel alloc] initWithFrame:headerView.bounds];
-		betaLabel.font = [UIFont systemFontOfSize:120 weight:UIFontWeightBold];
-		betaLabel.text = @"BETA";
-		betaLabel.textColor = [UIColor colorWithRed:0 green:0.5 blue:1 alpha:0.04];
-		betaLabel.textAlignment = NSTextAlignmentCenter;
-		betaLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-		[headerView addSubview:betaLabel];
 		
 		return headerView;
 	} else {
