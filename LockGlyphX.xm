@@ -423,9 +423,20 @@ static void performShakeFingerFailAnimation(void) {
 - (void)LG_RevertUI:(NSNotification *)notification {
 	setPrimaryColorOverride(nil);
 	setSecondaryColorOverride(nil);
-	if (enabled && usingDefaultGlyph && fingerglyph) {
+	if (enabled && fingerglyph) {
 		fingerglyph.primaryColor = activePrimaryColor();
 		fingerglyph.secondaryColor = activeSecondaryColor();
+	
+		// if using custom glyph it needs re-tinting
+		if (!usingDefaultGlyph) {
+			if (themeAssets && ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]] || [[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage@2x" ofType:@"png"]])) {
+				UIImage *customImage = [UIImage imageWithContentsOfFile:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]];
+				if (customImage && applyColorToCustomGlyphs && fingerglyph.secondaryColor) {
+					customImage = [customImage _flatImageWithColor:fingerglyph.secondaryColor];
+					[fingerglyph setCustomImage:customImage.CGImage withAlignmentEdgeInsets:UIEdgeInsetsZero];
+				}
+			}
+		}
 	}
 }
 %new
@@ -446,10 +457,20 @@ static void performShakeFingerFailAnimation(void) {
 	setPrimaryColorOverride(primaryColor);
 	setSecondaryColorOverride(secondaryColor);
 	
-	// if (enabled && usingDefaultGlyph && fingerglyph) {
 	if (enabled && fingerglyph) {
 		fingerglyph.primaryColor = activePrimaryColor();
 		fingerglyph.secondaryColor = activeSecondaryColor();
+		
+		// if using custom glyph it needs re-tinting
+		if (!usingDefaultGlyph) {
+			if (themeAssets && ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]] || [[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage@2x" ofType:@"png"]])) {
+				UIImage *customImage = [UIImage imageWithContentsOfFile:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]];
+				if (customImage && applyColorToCustomGlyphs && fingerglyph.secondaryColor) {
+					customImage = [customImage _flatImageWithColor:fingerglyph.secondaryColor];
+					[fingerglyph setCustomImage:customImage.CGImage withAlignmentEdgeInsets:UIEdgeInsetsZero];
+				}
+			}
+		}
 	}
 }
 %end
@@ -543,15 +564,6 @@ static void performShakeFingerFailAnimation(void) {
 		result.mask = nil;
 	}
 	return result;
-}
-- (void)_layoutContentLayer:(id)arg1 {
-	%orig;
-	
-	// if (!usingDefaultGlyph) {
-	// 	self.clipsToBounds = YES;
-	// } else {
-	// 	self.clipsToBounds = NO;
-	// }
 }
 %end
 
