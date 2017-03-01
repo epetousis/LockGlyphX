@@ -6,6 +6,8 @@
 	<string>BEHAVIOUR_TITLE</string>
 	<key>items</key>
 	<array>
+		
+		<!-- Enabled -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -26,12 +28,13 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		
+		<!-- Unlock Sound -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 		</dict>
 		<dict>
-			
 			<key>cell</key>
 			<string>PSLinkListCell</string>
 			<key>label</key>
@@ -53,6 +56,8 @@
 			<key>staticTextMessage</key>
 			<string>SOUND_FOOTER</string>
 		</dict>
+		
+		<!-- Unlock Immediately -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
@@ -75,6 +80,8 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		
+		<!-- Failed Unlock Action -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
