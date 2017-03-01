@@ -12,7 +12,7 @@
 
 /* Appearance Page */
 "COLOURS_HEADER_TEXT" = "Colors";
-"COLOURS_IDLECOLOUR_LABEL" = "Fingerprint color";
+"COLOURS_IDLECOLOUR_LABEL" = "Glyph color";
 "COLOURS_SCANCOLOUR_LABEL" = "Scanning color";
 "COLOURS_RESET_LABEL" = "Reset colors to default";
 

@@ -95,7 +95,7 @@ static BOOL hidePressHomeToUnlockLabel;
 static BOOL overridePressHomeToUnlockText;
 static BOOL hideWhenMusicControlsAreVisible;
 static BOOL moveBackWhenMusicControlsAreVisible;
-
+static BOOL applyColorToCustomGlyphs;
 static UIColor *primaryColorOverride;
 static UIColor *secondaryColorOverride;
 static BOOL overrideIsForCustomCover;
@@ -104,6 +104,7 @@ static NSString *CFRevert = @"ColorFlowLockScreenColorReversionNotification";
 static NSString *CFColor = @"ColorFlowLockScreenColorizationNotification";
 static NSString *CCRevert = @"CustomCoverLockScreenColourResetNotification";
 static NSString *CCColor = @"CustomCoverLockScreenColourUpdateNotification";
+
 
 static CGFloat getDefaultYOffset() {
     return hidePressHomeToUnlockLabel ? kDefaultYOffsetWithLockLabelHidden : kDefaultYOffset;
@@ -177,6 +178,7 @@ static void loadPreferences() {
     useHoldToReaderAnimation = !CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID)) boolValue];
 	hideWhenMusicControlsAreVisible = !CFPreferencesCopyAppValue(CFSTR("hideWhenMusicControlsAreVisible"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("hideWhenMusicControlsAreVisible"), kPrefsAppID)) boolValue];
 	moveBackWhenMusicControlsAreVisible = !CFPreferencesCopyAppValue(CFSTR("moveBackWhenMusicControlsAreVisible"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("moveBackWhenMusicControlsAreVisible"), kPrefsAppID)) boolValue];
+	applyColorToCustomGlyphs = !CFPreferencesCopyAppValue(CFSTR("applyColorToCustomGlyphs"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("applyColorToCustomGlyphs"), kPrefsAppID)) boolValue];
 	
 	// load theme bundle
 	NSURL *bundleURL = [NSURL fileURLWithPath:kThemePath];
@@ -212,6 +214,10 @@ static void loadPreferences() {
 		// create the new sound
 		AudioServicesCreateSystemSoundID((__bridge CFURLRef)pathURL, &unlockSound);
 	}
+}
+
+static void prefsCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+	loadPreferences();
 }
 
 static void performFingerScanAnimation(void) {
@@ -305,28 +311,27 @@ static void performShakeFingerFailAnimation(void) {
 	fingerglyph.primaryColor = activePrimaryColor();
 	fingerglyph.secondaryColor = activeSecondaryColor();
 	
-	// check for theme
+	// check for theme image
 	if (themeAssets && ([[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]] || [[NSFileManager defaultManager] fileExistsAtPath:[themeAssets pathForResource:@"IdleImage@2x" ofType:@"png"]])) {
 		UIImage *customImage = [UIImage imageWithContentsOfFile:[themeAssets pathForResource:@"IdleImage" ofType:@"png"]];
 		
-		// set glyph to custom image mode
-		[fingerglyph setCustomImage:customImage.CGImage withAlignmentEdgeInsets:UIEdgeInsetsZero];
-		[fingerglyph setState:kGlyphStateCustom animated:NO completionHandler:nil];
+		// apply color override if required
+		if (applyColorToCustomGlyphs && fingerglyph.secondaryColor) {
+			customImage = [customImage _flatImageWithColor:fingerglyph.secondaryColor];
+		}
 		
 		// resize the custom glyph to the size of the image?
 		// CGRect frame = fingerglyph.frame;
 		// frame.size = customImage.size;
 		// fingerglyph.frame = frame;
 		
+		[fingerglyph setCustomImage:customImage.CGImage withAlignmentEdgeInsets:UIEdgeInsetsZero];
+		[fingerglyph setState:kGlyphStateCustom animated:NO completionHandler:nil];
 		usingDefaultGlyph = NO;
 	} else {
 		[fingerglyph setState:getIdleGlyphState() animated:NO completionHandler:nil];
 		usingDefaultGlyph = YES;
 	}
-	
-	// set blend mode?
-	// [fingerglyph _setDrawsAsBackdropOverlayWithBlendMode:kCGBlendModePlusDarker];
-	// fingerglyph.tintColor = [UIColor colorWithWhite:0 alpha:0.50];
 	
 	// position glyph
 	[fingerglyph updatePositionWithOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
@@ -345,7 +350,7 @@ static void performShakeFingerFailAnimation(void) {
 	[self addSubview:fingerglyph];
 	
 	// handle when music controls are showing
-	SBDashBoardMainPageViewController *pvc = (SBDashBoardMainPageViewController *)self.pageViewController;	
+	SBDashBoardMainPageViewController *pvc = (SBDashBoardMainPageViewController *)self.pageViewController;
 	if (pvc.contentViewController.showingMediaControls) {
 		if (hideWhenMusicControlsAreVisible) {
 			fingerglyph.hidden = YES;
@@ -878,7 +883,7 @@ static void performShakeFingerFailAnimation(void) {
 		
 		CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
 			NULL,
-			(CFNotificationCallback)loadPreferences,
+			(CFNotificationCallback)prefsCallback,
 			kSettingsChangedNotification,
 			NULL,
 			CFNotificationSuspensionBehaviorDeliverImmediately

@@ -34,8 +34,10 @@
 "THEMES_THEMESELECT_LABEL" = "Theme";
 "APPEARANCE_HIDE_RING_LABEL" = "Hide ring";
 "COLOURS_HEADER_TEXT" = "Colours";
-"COLOURS_IDLECOLOUR_LABEL" = "Fingerprint colour";
+"COLOURS_IDLECOLOUR_LABEL" = "Glyph colour";
+"COLOURS_IDLECOLOUR_OVERRIDE_LABEL" = "Apply to custom glyphs";
 "COLOURS_SCANCOLOUR_LABEL" = "Scanning colour";
+
 "COLOURS_RESET_LABEL" = "Reset colours to default";
 "LOCKLABEL_HEADER_TEXT" = "Press Home To Unlock";
 "LOCKLABEL_DISABLED_LABEL" = "Hide text";
