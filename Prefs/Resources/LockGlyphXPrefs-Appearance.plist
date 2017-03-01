@@ -68,7 +68,7 @@
 			<key>label</key>
             <string>COLOURS_HEADER_TEXT</string>
 		</dict>
-		<!-- Fingerprint Color -->
+		<!-- Glyph Color -->
 		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
@@ -112,6 +112,23 @@
 			<key>usesAlpha</key>
 			<true/>
 			<key>color_postNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+		<!-- Apply To Custom Glyphs -->
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>applyColorToCustomGlyphs</string>
+			<key>label</key>
+			<string>COLOURS_IDLECOLOUR_OVERRIDE_LABEL</string>
+			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
 		<!-- Reset Colors -->
