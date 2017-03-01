@@ -70,6 +70,10 @@
 - (void)_setDrawsAsBackdropOverlay:(_Bool)arg1;
 @end
 
+@interface UIImage (Private)
+- (UIImage *)_flatImageWithColor:(UIColor *)color;
+@end
+
 @interface SBDashBoardViewController : UIViewController
 @end
 
