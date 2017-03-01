@@ -122,6 +122,47 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
+		
+		<!-- Music Controls -->
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>MUSICCONTROLS_HEADER_TEXT</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>hideWhenMusicControlsAreVisible</string>
+			<key>label</key>
+			<string>MUSICCONTROLS_HIDE_LABEL</string>
+			<key>PostNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>moveBackWhenMusicControlsAreVisible</string>
+			<key>label</key>
+			<string>MUSICCONTROLS_MOVEBACK_LABEL</string>
+			<key>PostNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+				
 	</array>
 </dict>
 </plist>
