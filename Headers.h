@@ -85,9 +85,3 @@
 @interface SBUICallToActionLabel : UIView
 - (void)setText:(NSString *)arg1;
 @end
-
-@interface SBLockScreenMesaCoordinator : NSObject
--(BOOL)isUnlockingDisabled;
--(BOOL)isEnabled;
--(BOOL)_isMatchingEffectivelyDisabled;
-@end
