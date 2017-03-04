@@ -67,6 +67,7 @@
 "ANIM_LOADINGTOGL_FOOTER_TEXT" = "Shows an animated ring while scanning. Requires 'Hide ring' setting to be off.";
 "ANIM_HOLDTOREADERTOGL_LABEL" = "Use alternate idle animation";
 "ANIM_ONLYDEFAULT_LABEL" = "Shows the Apple Pay hold-phone-to-reader animation while idle. Requires the default theme be selected.";
+"ANIM_FADEONRECOGNIZED_LABEL" = "Fade when recognized";
 
 /* Credits Page */
 "CREDITS_TITLE" = "Credits";
