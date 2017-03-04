@@ -776,12 +776,13 @@ static void performShakeFingerFailAnimation(void) {
 							delayInSeconds = 0.1;
 						}
 					}
-
+                    
+                    if (unlockSoundChoice != kSoundNone && unlockSound) {
+                        AudioServicesPlaySystemSound(unlockSound);
+                    }
+                    
 					unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
 						DebugLog(@"performing block after delay now");
-						if (unlockSoundChoice != kSoundNone && unlockSound) {
-							AudioServicesPlaySystemSound(unlockSound);
-						}
 						%orig;
 					});
 
