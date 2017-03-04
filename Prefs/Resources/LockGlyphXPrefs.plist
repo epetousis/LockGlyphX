@@ -12,8 +12,30 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 		</dict>
+        
+        <!-- Enabled -->
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>cellClass</key>
+            <string>LGXSwitchCell</string>
+            <key>default</key>
+            <true/>
+            <key>defaults</key>
+            <string>com.evilgoldfish.lockglyphx</string>
+            <key>key</key>
+            <string>enabled</string>
+            <key>label</key>
+            <string>GENERAL_LOCKGLYPHTOGL_LABEL</string>
+            <key>PostNotification</key>
+            <string>com.evilgoldfish.lockglyphx.settingschanged</string>
+        </dict>
 		
-		<!-- Behaviour -->
+        <!-- Behaviour -->
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+        </dict>
 		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
