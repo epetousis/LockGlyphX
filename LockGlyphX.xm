@@ -45,6 +45,8 @@
 #define kDefaultYOffset 					90.0f
 #define kDefaultYOffsetWithLockLabelHidden 	64.0f
 
+#define kDefaultGlyphSize 	63.0f
+
 #define kSoundNone  		0
 #define kSoundTheme 		1
 #define kSoundApplePay 		2
@@ -91,6 +93,8 @@ static BOOL enablePortraitX;
 static CGFloat portraitX;
 static BOOL enableLandscapeX;
 static CGFloat landscapeX;
+static BOOL enableSize;
+static CGFloat customSize;
 static BOOL shouldHideRing;
 static NSString *pressHomeToUnlockText;
 static BOOL hidePressHomeToUnlockLabel;
@@ -173,6 +177,8 @@ static void loadPreferences() {
 	portraitX = !CFPreferencesCopyAppValue(CFSTR("portraitX"), kPrefsAppID) ? 0 : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("portraitX"), kPrefsAppID)) floatValue];
 	enableLandscapeX = !CFPreferencesCopyAppValue(CFSTR("enableLandscapeX"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enableLandscapeX"), kPrefsAppID)) boolValue];
 	landscapeX = !CFPreferencesCopyAppValue(CFSTR("landscapeX"), kPrefsAppID) ? 0 : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("landscapeX"), kPrefsAppID)) floatValue];
+    enableSize = !CFPreferencesCopyAppValue(CFSTR("enableSize"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enableSize"), kPrefsAppID)) boolValue];
+    customSize = !CFPreferencesCopyAppValue(CFSTR("customSize"), kPrefsAppID) ? kDefaultGlyphSize : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("customSize"), kPrefsAppID)) floatValue];
 	shouldHideRing = !CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID)) boolValue];
     hidePressHomeToUnlockLabel = !CFPreferencesCopyAppValue(CFSTR("hidePressHomeToUnlockLabel"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("hidePressHomeToUnlockLabel"), kPrefsAppID)) boolValue];
     pressHomeToUnlockText = !CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID) ? @"" : CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID));
@@ -550,6 +556,16 @@ static void performShakeFingerFailAnimation(void) {
 %hook PKGlyphView
 %new
 - (void)updatePositionWithOrientation:(UIInterfaceOrientation)orientation {
+    // Sizing:
+    CGRect frame = fingerglyph.frame;
+    CGFloat size = kDefaultGlyphSize;
+    if(enableSize && customSize != 0) {
+        size = customSize;
+    }
+    frame.size = CGSizeMake(size, size);
+    fingerglyph.frame = frame;
+    
+    // Positioning:
 	CGRect screen = [[UIScreen mainScreen] bounds];
 	float dx, dy;
 
