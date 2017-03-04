@@ -99,6 +99,7 @@ static BOOL applyColorToCustomGlyphs;
 static UIColor *primaryColorOverride;
 static UIColor *secondaryColorOverride;
 static BOOL overrideIsForCustomCover;
+static BOOL fadeWhenRecognized;
 
 static NSString *CFRevert = @"ColorFlowLockScreenColorReversionNotification";
 static NSString *CFColor = @"ColorFlowLockScreenColorizationNotification";
@@ -178,7 +179,8 @@ static void loadPreferences() {
     useHoldToReaderAnimation = !CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID)) boolValue];
 	hideWhenMusicControlsAreVisible = !CFPreferencesCopyAppValue(CFSTR("hideWhenMusicControlsAreVisible"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("hideWhenMusicControlsAreVisible"), kPrefsAppID)) boolValue];
 	moveBackWhenMusicControlsAreVisible = !CFPreferencesCopyAppValue(CFSTR("moveBackWhenMusicControlsAreVisible"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("moveBackWhenMusicControlsAreVisible"), kPrefsAppID)) boolValue];
-	applyColorToCustomGlyphs = !CFPreferencesCopyAppValue(CFSTR("applyColorToCustomGlyphs"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("applyColorToCustomGlyphs"), kPrefsAppID)) boolValue];
+    applyColorToCustomGlyphs = !CFPreferencesCopyAppValue(CFSTR("applyColorToCustomGlyphs"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("applyColorToCustomGlyphs"), kPrefsAppID)) boolValue];
+    fadeWhenRecognized = !CFPreferencesCopyAppValue(CFSTR("fadeWhenRecognized"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("fadeWhenRecognized"), kPrefsAppID)) boolValue];
 
 	// load theme bundle
 	NSURL *bundleURL = [NSURL fileURLWithPath:kThemePath];
@@ -251,7 +253,12 @@ static void performTickAnimation(void) {
 	if (fingerglyph) {
 		doingTickAnimation = YES;
 		[fingerglyph setState:kGlyphStateTicked animated:YES completionHandler:^{
-			doingTickAnimation = NO;
+            doingTickAnimation = NO;
+            if(fadeWhenRecognized) {
+                [UIView animateWithDuration:0.5 animations:^() {
+                    fingerglyph.alpha = 0;
+                }];
+            }
 		}];
 	}
 }
