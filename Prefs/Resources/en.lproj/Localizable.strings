@@ -44,6 +44,8 @@
 "LOCKLABEL_CUSTOM_TEXT_ENABLED_LABEL" = "Use custom text";
 "LOCKLABEL_CUSTOM_TEXT_LABEL" = "Custom text";
 "POSITION_LABEL" = "Position";
+"FINGERSIZE_TOGL_LABEL" = "Use Custom Size";
+"FINGERSIZE_VALUE_LABEL" = "Custom Size";
 
 /* Appearance > Position Page */
 "POSITION_TITLE" = "Position";
