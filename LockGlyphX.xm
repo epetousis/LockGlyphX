@@ -925,23 +925,6 @@ static void performShakeFingerFailAnimation(void) {
 
 //------------------------------------------------------------------------------
 
-%hook SBAssistantController
-- (void)_viewWillDisappearOnMainScreen:(BOOL)arg1 {
-	if (enabled && fingerglyph) {
-		resetFingerScanAnimation();
-	}
-	%orig;
-}
-- (void)_viewDidDisappearOnMainScreen:(BOOL)arg1 {
-	if (enabled && fingerglyph) {
-		resetFingerScanAnimation();
-	}
-	%orig;
-}
-%end
-
-//------------------------------------------------------------------------------
-
 %hook SBUICallToActionLabel
 - (void)setText:(id)text {
 	if (enabled && hidePressHomeToUnlockLabel) {
