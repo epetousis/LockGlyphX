@@ -232,6 +232,9 @@ static void performFingerScanAnimation(void) {
 }
 
 static void resetFingerScanAnimation(void) {
+    [UIView animateWithDuration:0.5 animations:^() {
+        fingerglyph.alpha = 1;
+    }];
     if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]){
         if (fingerglyph.customImage)
             [fingerglyph setState:kGlyphStateCustom animated:YES completionHandler:nil];
@@ -241,6 +244,7 @@ static void resetFingerScanAnimation(void) {
 }
 
 static void resetFingerScan(void) {
+    fingerglyph.alpha = 1;
     if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]){
         if (fingerglyph.customImage)
             [fingerglyph setState:kGlyphStateCustom animated:NO completionHandler:nil];
