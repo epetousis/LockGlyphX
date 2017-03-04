@@ -646,7 +646,7 @@ static void performShakeFingerFailAnimation(void) {
 - (id)createCustomImageLayer {
 	CALayer *result = %orig;
 	if (enabled) {
-		result.contentsScale = 2.0;
+        result.contentsScale = [[UIScreen mainScreen] scale];
 		result.mask = nil;
 	}
 	return result;
