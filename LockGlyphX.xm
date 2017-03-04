@@ -7,7 +7,6 @@
 //  feat. @sticktron, @AppleBetasDev
 //
 
-#define DEBUG 1
 #define DEBUG_PREFIX @"[LockGlyphX]"
 #import "DebugLog.h"
 
@@ -801,25 +800,28 @@ static void performShakeFingerFailAnimation(void) {
 		DebugLog(@"Biometric event occured: %llu", event);
 
 		switch (event) {
-			case kTouchIDFingerDown:
-				DebugLog(@"TouchID: finger down");
-				performFingerScanAnimation();
-			break;
-
-			case kTouchIDFingerUp:
-				DebugLog(@"TouchID: finger up");
-				resetFingerScanAnimation();
-			break;
-
-			case kTouchIDNotMatched:
-				DebugLog(@"TouchID: match failed");
-				if (shakeOnIncorrectFinger) {
-					performShakeFingerFailAnimation();
-				}
-				if (vibrateOnIncorrectFinger) {
-					AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-				}
-			break;
+            case kTouchIDFingerDown:
+                DebugLog(@"TouchID: finger down");
+                performFingerScanAnimation();
+            break;
+            
+            case kTouchIDFingerUp:
+                DebugLog(@"TouchID: finger up");
+                canStartFingerDownAnimation = YES;
+                resetFingerScanAnimation();
+            break;
+            
+            case kTouchIDNotMatched:
+            case kTouchIDDisabled:
+                canStartFingerDownAnimation = NO;
+                DebugLog(@"TouchID: match failed");
+                if (shakeOnIncorrectFinger) {
+                    performShakeFingerFailAnimation();
+                }
+                if (vibrateOnIncorrectFinger && ![manager.lockScreenViewController isPasscodeLockVisible]) {
+                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+                }
+            break;
 
 			case kTouchIDSuccess:
 				DebugLog(@"TouchID: success");
