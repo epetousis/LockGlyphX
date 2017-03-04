@@ -7,6 +7,7 @@
 //  feat. @sticktron, @AppleBetasDev
 //
 
+#define DEBUG 1
 #define DEBUG_PREFIX @"[LockGlyphX]"
 #import "DebugLog.h"
 
@@ -28,6 +29,7 @@
 #define kTouchIDFingerHeld 	2
 #define kTouchIDMatched 	3
 #define kTouchIDSuccess 	4
+#define kTouchIDDisabled 	6
 #define kTouchIDNotMatched 	10
 
 #define kLockGlyphLockScreenActivatedNotification   @"LockGlyphLockScreenActivatedNotification"
@@ -67,6 +69,7 @@ static BOOL doingTickAnimation;
 static NSBundle *themeAssets;
 SMDelayedBlockHandle unlockBlock;
 static BOOL isObservingForCCCF;
+static BOOL canStartFingerDownAnimation;
 
 static BOOL enabled;
 static NSString *themeBundleName;
@@ -223,12 +226,14 @@ static void prefsCallback(CFNotificationCenterRef center, void *observer, CFStri
 }
 
 static void performFingerScanAnimation(void) {
-	if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]) {
-		doingScanAnimation = YES;
-        [fingerglyph setState:(useLoadingStateForScanning ? kGlyphStateLoading : kGlyphStateScanning) animated:YES completionHandler:^{
-			doingScanAnimation = NO;
-		}];
-	}
+    if (canStartFingerDownAnimation) {
+        if (fingerglyph && [fingerglyph respondsToSelector:@selector(setState:animated:completionHandler:)]) {
+            doingScanAnimation = YES;
+            [fingerglyph setState:(useLoadingStateForScanning ? kGlyphStateLoading : kGlyphStateScanning) animated:YES completionHandler:^{
+                doingScanAnimation = NO;
+            }];
+        }
+    }
 }
 
 static void resetFingerScanAnimation(void) {
@@ -310,6 +315,7 @@ static void performShakeFingerFailAnimation(void) {
 	}
 
 	authenticated = NO;
+    canStartFingerDownAnimation = YES;
 
 	if (fingerglyph) {
 		DebugLog(@"WARNING: fingerglyph shouldn't exist right now!");
@@ -697,30 +703,34 @@ static void performShakeFingerFailAnimation(void) {
 		return;
 	}
 
-	SBLockScreenManager *manager = [%c(SBLockScreenManager) sharedInstance];
+    SBLockScreenManager *manager = [%c(SBLockScreenManager) sharedInstance];
+    
 	if ([manager isUILocked]) {
 		DebugLog(@"Biometric event occured: %llu", event);
 
 		switch (event) {
-			case kTouchIDFingerDown:
-				DebugLog(@"TouchID: finger down");
-				performFingerScanAnimation();
+            case kTouchIDFingerDown:
+                DebugLog(@"TouchID: finger down");
+                performFingerScanAnimation();
 			break;
 
 			case kTouchIDFingerUp:
 				DebugLog(@"TouchID: finger up");
+                canStartFingerDownAnimation = YES;
 				resetFingerScanAnimation();
-			break;
-
-			case kTouchIDNotMatched:
-				DebugLog(@"TouchID: match failed");
-				if (shakeOnIncorrectFinger) {
-					performShakeFingerFailAnimation();
-				}
-				if (vibrateOnIncorrectFinger && ![manager.lockScreenViewController isPasscodeLockVisible]) {
-					AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-				}
-			break;
+            break;
+            
+            case kTouchIDNotMatched:
+            case kTouchIDDisabled:
+                canStartFingerDownAnimation = NO;
+                DebugLog(@"TouchID: match failed");
+                if (shakeOnIncorrectFinger) {
+                    performShakeFingerFailAnimation();
+                }
+                if (vibrateOnIncorrectFinger && ![manager.lockScreenViewController isPasscodeLockVisible]) {
+                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+                }
+            break;
 
 			case kTouchIDSuccess:
 				DebugLog(@"TouchID: success");
