@@ -60,6 +60,36 @@
 			<key>label</key>
 			<string>POSITION_LABEL</string>
 		</dict>
+        <!-- Use Custom Size -->
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>cellClass</key>
+            <string>LGXSwitchCell</string>
+            <key>default</key>
+            <false/>
+            <key>defaults</key>
+            <string>com.evilgoldfish.lockglyphx</string>
+            <key>key</key>
+            <string>enableSize</string>
+            <key>label</key>
+            <string>FINGERSIZE_TOGL_LABEL</string>
+            <key>PostNotification</key>
+            <string>com.evilgoldfish.lockglyphx.settingschanged</string>
+        </dict>
+        <!-- Custom Size -->
+        <dict>
+            <key>cell</key>
+            <string>PSEditTextCell</string>
+            <key>label</key>
+            <string>FINGERSIZE_VALUE_LABEL</string>
+            <key>defaults</key>
+            <string>com.evilgoldfish.lockglyphx</string>
+            <key>key</key>
+            <string>customSize</string>
+            <key>PostNotification</key>
+            <string>com.evilgoldfish.lockglyphx.settingschanged</string>
+        </dict>
 		
 		<!-- Custom Colors -->
 		<dict>
