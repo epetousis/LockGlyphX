@@ -786,7 +786,8 @@ static void performShakeFingerFailAnimation(void) {
 		return;
 	}
 
-	SBLockScreenManager *manager = [%c(SBLockScreenManager) sharedInstance];
+    SBLockScreenManager *manager = [%c(SBLockScreenManager) sharedInstance];
+    
 	if ([manager isUILocked]) {
 		DebugLog(@"Biometric event occured: %llu", event);
 
@@ -794,12 +795,12 @@ static void performShakeFingerFailAnimation(void) {
             case kTouchIDFingerDown:
                 DebugLog(@"TouchID: finger down");
                 performFingerScanAnimation();
-            break;
-            
-            case kTouchIDFingerUp:
-                DebugLog(@"TouchID: finger up");
+			break;
+
+			case kTouchIDFingerUp:
+				DebugLog(@"TouchID: finger up");
                 canStartFingerDownAnimation = YES;
-                resetFingerScanAnimation();
+				resetFingerScanAnimation();
             break;
             
             case kTouchIDNotMatched:
@@ -843,12 +844,13 @@ static void performShakeFingerFailAnimation(void) {
 							delayInSeconds = 0.1;
 						}
 					}
-
+                    
+                    if (unlockSoundChoice != kSoundNone && unlockSound) {
+                        AudioServicesPlaySystemSound(unlockSound);
+                    }
+                    
 					unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
 						DebugLog(@"performing block after delay now");
-						if (!useTickAnimation && unlockSoundChoice != kSoundNone && unlockSound) {
-							AudioServicesPlaySystemSound(unlockSound);
-						}
 						%orig;
 					});
 
@@ -859,8 +861,8 @@ static void performShakeFingerFailAnimation(void) {
 					}
 					if (!manager.isUILocked) {
 						DebugLog(@"manager.isUILocked == NO");
-						if (!useTickAnimation && unlockSoundChoice != kSoundNone && unlockSound && shouldNotDelay) {
-							DebugLog(@"!useTickAnimation && unlockSoundChoice != 0 && unlockSound && shouldNotDelay");
+						if (unlockSoundChoice != kSoundNone && unlockSound && shouldNotDelay) {
+							DebugLog(@"unlockSoundChoice != 0 && unlockSound && shouldNotDelay");
 							AudioServicesPlaySystemSound(unlockSound);
 						}
 					}
