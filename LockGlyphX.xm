@@ -655,34 +655,8 @@ static void performShakeFingerFailAnimation(void) {
 
 //------------------------------------------------------------------------------
 
-/* iOS 10.2 */
-%hook PKFingerprintGlyphView
-- (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
-	if (enabled && useFasterAnimations && usingDefaultGlyph && (doingTickAnimation || doingScanAnimation)) {
-		if (authenticated) {
-			arg2 = MIN(arg2, 0.1);
-		} else {
-			arg1 = MIN(arg1, 0.8);
-			arg2 *= 0.5;
-		}
-	}
-	%orig;
-}
-- (double)_minimumAnimationDurationForStateTransition {
-	return enabled && authenticated && useFasterAnimations && (doingTickAnimation || doingScanAnimation) ? 0.1 : %orig;
-}
-- (void)layoutSubviews {
-	%orig;
-
-	if (enabled && shouldHideRing) {
-		CALayer *ringLayer = MSHookIvar<CALayer *>(self, "_foregroundRingContainerLayer");
-		ringLayer.hidden = YES;
-	}
-}
-%end
-
-/* iOS 10, 10.1 */
-%hook PKSubglyphView
+// Class name changed in iOS 10.2, from PKSubglyphView to PKFingerprintGlyphView.
+%hook __PKFingerprintGlyphView_or_PKSubglyphView
 - (void)_setProgress:(double)arg1 withDuration:(double)arg2 forShapeLayerAtIndex:(unsigned long long)arg {
 	if (enabled && useFasterAnimations && usingDefaultGlyph && (doingTickAnimation || doingScanAnimation)) {
 		if (authenticated) {
@@ -812,7 +786,8 @@ static void performShakeFingerFailAnimation(void) {
 		return;
 	}
 
-	SBLockScreenManager *manager = [%c(SBLockScreenManager) sharedInstance];
+    SBLockScreenManager *manager = [%c(SBLockScreenManager) sharedInstance];
+    
 	if ([manager isUILocked]) {
 		DebugLog(@"Biometric event occured: %llu", event);
 
@@ -820,12 +795,12 @@ static void performShakeFingerFailAnimation(void) {
             case kTouchIDFingerDown:
                 DebugLog(@"TouchID: finger down");
                 performFingerScanAnimation();
-            break;
-            
-            case kTouchIDFingerUp:
-                DebugLog(@"TouchID: finger up");
+			break;
+
+			case kTouchIDFingerUp:
+				DebugLog(@"TouchID: finger up");
                 canStartFingerDownAnimation = YES;
-                resetFingerScanAnimation();
+				resetFingerScanAnimation();
             break;
             
             case kTouchIDNotMatched:
@@ -869,12 +844,13 @@ static void performShakeFingerFailAnimation(void) {
 							delayInSeconds = 0.1;
 						}
 					}
-
+                    
+                    if (unlockSoundChoice != kSoundNone && unlockSound) {
+                        AudioServicesPlaySystemSound(unlockSound);
+                    }
+                    
 					unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
 						DebugLog(@"performing block after delay now");
-						if (!useTickAnimation && unlockSoundChoice != kSoundNone && unlockSound) {
-							AudioServicesPlaySystemSound(unlockSound);
-						}
 						%orig;
 					});
 
@@ -885,8 +861,8 @@ static void performShakeFingerFailAnimation(void) {
 					}
 					if (!manager.isUILocked) {
 						DebugLog(@"manager.isUILocked == NO");
-						if (!useTickAnimation && unlockSoundChoice != kSoundNone && unlockSound && shouldNotDelay) {
-							DebugLog(@"!useTickAnimation && unlockSoundChoice != 0 && unlockSound && shouldNotDelay");
+						if (unlockSoundChoice != kSoundNone && unlockSound && shouldNotDelay) {
+							DebugLog(@"unlockSoundChoice != 0 && unlockSound && shouldNotDelay");
 							AudioServicesPlaySystemSound(unlockSound);
 						}
 					}
@@ -967,9 +943,12 @@ static void performShakeFingerFailAnimation(void) {
 %ctor {
 	@autoreleasepool {
 		NSLog(@"LockGlyphX was here.");
-
 		loadPreferences();
-
+		
+		// init hooks (with dynamic class name)
+		Class whichClass = IS_IOS_OR_NEWER(iOS_10_2) ? %c(PKFingerprintGlyphView) : %c(PKSubglyphView);
+		%init (_ungrouped, __PKFingerprintGlyphView_or_PKSubglyphView = whichClass);
+		
 		CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
 			NULL,
 			(CFNotificationCallback)prefsCallback,
