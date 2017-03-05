@@ -44,6 +44,8 @@
 "LOCKLABEL_CUSTOM_TEXT_ENABLED_LABEL" = "Use custom text";
 "LOCKLABEL_CUSTOM_TEXT_LABEL" = "Custom text";
 "POSITION_LABEL" = "Position";
+"FINGERSIZE_TOGL_LABEL" = "Use Custom Size";
+"FINGERSIZE_VALUE_LABEL" = "Custom Size";
 
 /* Appearance > Position Page */
 "POSITION_TITLE" = "Position";
@@ -67,6 +69,7 @@
 "ANIM_LOADINGTOGL_FOOTER_TEXT" = "Shows an animated ring while scanning. Requires 'Hide ring' setting to be off.";
 "ANIM_HOLDTOREADERTOGL_LABEL" = "Use alternate idle animation";
 "ANIM_ONLYDEFAULT_LABEL" = "Shows the Apple Pay hold-phone-to-reader animation while idle. Requires the default theme be selected.";
+"ANIM_FADEONRECOGNIZED_LABEL" = "Fade when recognized";
 
 /* Credits Page */
 "CREDITS_TITLE" = "Credits";
