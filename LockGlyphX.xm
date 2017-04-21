@@ -63,8 +63,6 @@ static UIView *lockView;
 static PKGlyphView *fingerglyph;
 static SystemSoundID unlockSound;
 
-static BOOL musicControlsAreVisible;
-
 static BOOL authenticated;
 static BOOL usingDefaultGlyph;
 static BOOL doingScanAnimation;
@@ -96,15 +94,12 @@ static CGFloat portraitX;
 static BOOL enableLandscapeX;
 static CGFloat landscapeX;
 static BOOL enableSize;
-static BOOL enableSizeWithMusic;
 static CGFloat customSize;
-static CGFloat customSizeWithMusic;
 static BOOL shouldHideRing;
 static NSString *pressHomeToUnlockText;
 static BOOL hidePressHomeToUnlockLabel;
 static BOOL overridePressHomeToUnlockText;
 static BOOL hideWhenMusicControlsAreVisible;
-static BOOL sizeWhenMusicControlsAreVisible;
 static BOOL moveBackWhenMusicControlsAreVisible;
 static BOOL applyColorToCustomGlyphs;
 static UIColor *primaryColorOverride;
@@ -183,9 +178,7 @@ static void loadPreferences() {
 	enableLandscapeX = !CFPreferencesCopyAppValue(CFSTR("enableLandscapeX"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enableLandscapeX"), kPrefsAppID)) boolValue];
 	landscapeX = !CFPreferencesCopyAppValue(CFSTR("landscapeX"), kPrefsAppID) ? 0 : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("landscapeX"), kPrefsAppID)) floatValue];
     enableSize = !CFPreferencesCopyAppValue(CFSTR("enableSize"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enableSize"), kPrefsAppID)) boolValue];
-    enableSizeWithMusic = !CFPreferencesCopyAppValue(CFSTR("enableSizeWithMusic"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("enableSizeWithMusic"), kPrefsAppID)) boolValue];
     customSize = !CFPreferencesCopyAppValue(CFSTR("customSize"), kPrefsAppID) ? kDefaultGlyphSize : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("customSize"), kPrefsAppID)) floatValue];
-    customSizeWithMusic = !CFPreferencesCopyAppValue(CFSTR("customSizeWithMusic"), kPrefsAppID) ? kDefaultGlyphSize : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("customSizeWithMusic"), kPrefsAppID)) floatValue];
 	shouldHideRing = !CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("shouldHideRing"), kPrefsAppID)) boolValue];
     hidePressHomeToUnlockLabel = !CFPreferencesCopyAppValue(CFSTR("hidePressHomeToUnlockLabel"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("hidePressHomeToUnlockLabel"), kPrefsAppID)) boolValue];
     pressHomeToUnlockText = !CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID) ? @"" : CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("pressHomeToUnlockText"), kPrefsAppID));
@@ -193,7 +186,6 @@ static void loadPreferences() {
     useLoadingStateForScanning = !CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useLoadingStateForScanning"), kPrefsAppID)) boolValue];
     useHoldToReaderAnimation = !CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("useHoldToReaderAnimation"), kPrefsAppID)) boolValue];
 	hideWhenMusicControlsAreVisible = !CFPreferencesCopyAppValue(CFSTR("hideWhenMusicControlsAreVisible"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("hideWhenMusicControlsAreVisible"), kPrefsAppID)) boolValue];
-  sizeWhenMusicControlsAreVisible = !CFPreferencesCopyAppValue(CFSTR("sizeWhenMusicControlsAreVisible"), kPrefsAppID) ? YES : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("sizeWhenMusicControlsAreVisible"), kPrefsAppID)) boolValue];
 	moveBackWhenMusicControlsAreVisible = !CFPreferencesCopyAppValue(CFSTR("moveBackWhenMusicControlsAreVisible"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("moveBackWhenMusicControlsAreVisible"), kPrefsAppID)) boolValue];
     applyColorToCustomGlyphs = !CFPreferencesCopyAppValue(CFSTR("applyColorToCustomGlyphs"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("applyColorToCustomGlyphs"), kPrefsAppID)) boolValue];
     fadeWhenRecognized = !CFPreferencesCopyAppValue(CFSTR("fadeWhenRecognized"), kPrefsAppID) ? NO : [CFBridgingRelease(CFPreferencesCopyAppValue(CFSTR("fadeWhenRecognized"), kPrefsAppID)) boolValue];
@@ -389,15 +381,13 @@ static void performShakeFingerFailAnimation(void) {
 	// handle when music controls are showing
 	SBDashBoardMainPageViewController *pvc = (SBDashBoardMainPageViewController *)self.pageViewController;
 	if (pvc.contentViewController.showingMediaControls) {
-    musicControlsAreVisible = YES;
 		if (hideWhenMusicControlsAreVisible) {
 			fingerglyph.hidden = YES;
 		} else if (moveBackWhenMusicControlsAreVisible) {
 			[self sendSubviewToBack:fingerglyph];
-    }
-  } else {
-      musicControlsAreVisible = NO;
-  }
+		}
+	}
+
 	// listen for notifications from ColorFlow/CustomCover
 	if (!isObservingForCCCF) {
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(LG_RevertUI:) name:CFRevert object:nil];
@@ -569,21 +559,12 @@ static void performShakeFingerFailAnimation(void) {
     // Sizing:
     CGRect frame = fingerglyph.frame;
     CGFloat size = kDefaultGlyphSize;
-    /*if(enableSize && customSize != 0) {
-        size = customSize;
-    }*/
-    if (sizeWhenMusicControlsAreVisible) {
-      if (musicControlsAreVisible && enableSizeWithMusic && customSizeWithMusic != 0) {
-        size = customSizeWithMusic;
-      } else {
-        size = customSize;
-      }
-    } else {
+    if(enableSize && customSize != 0) {
         size = customSize;
     }
     frame.size = CGSizeMake(size, size);
     fingerglyph.frame = frame;
-
+    
     // Positioning:
 	CGRect screen = [[UIScreen mainScreen] bounds];
 	float dx, dy;
@@ -712,7 +693,7 @@ static void performShakeFingerFailAnimation(void) {
 	}
 
     SBLockScreenManager *manager = [%c(SBLockScreenManager) sharedInstance];
-
+    
 	if ([manager isUILocked]) {
 		DebugLog(@"Biometric event occured: %llu", event);
 
@@ -727,7 +708,7 @@ static void performShakeFingerFailAnimation(void) {
                 canStartFingerDownAnimation = YES;
 				resetFingerScanAnimation();
             break;
-
+            
             case kTouchIDNotMatched:
             case kTouchIDDisabled:
                 canStartFingerDownAnimation = NO;
@@ -769,11 +750,11 @@ static void performShakeFingerFailAnimation(void) {
 							delayInSeconds = 0.1;
 						}
 					}
-
+                    
                     if (unlockSoundChoice != kSoundNone && unlockSound) {
                         AudioServicesPlaySystemSound(unlockSound);
                     }
-
+                    
 					unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
 						DebugLog(@"performing block after delay now");
 						%orig;
@@ -806,7 +787,7 @@ static void performShakeFingerFailAnimation(void) {
 	}
 
     SBLockScreenManager *manager = [%c(SBLockScreenManager) sharedInstance];
-
+    
 	if ([manager isUILocked]) {
 		DebugLog(@"Biometric event occured: %llu", event);
 
@@ -821,7 +802,7 @@ static void performShakeFingerFailAnimation(void) {
                 canStartFingerDownAnimation = YES;
 				resetFingerScanAnimation();
             break;
-
+            
             case kTouchIDNotMatched:
             case kTouchIDDisabled:
                 canStartFingerDownAnimation = NO;
@@ -863,11 +844,11 @@ static void performShakeFingerFailAnimation(void) {
 							delayInSeconds = 0.1;
 						}
 					}
-
+                    
                     if (unlockSoundChoice != kSoundNone && unlockSound) {
                         AudioServicesPlaySystemSound(unlockSound);
                     }
-
+                    
 					unlockBlock = perform_block_after_delay(delayInSeconds, ^(void){
 						DebugLog(@"performing block after delay now");
 						%orig;
@@ -963,11 +944,11 @@ static void performShakeFingerFailAnimation(void) {
 	@autoreleasepool {
 		NSLog(@"LockGlyphX was here.");
 		loadPreferences();
-
+		
 		// init hooks (with dynamic class name)
 		Class whichClass = IS_IOS_OR_NEWER(iOS_10_2) ? %c(PKFingerprintGlyphView) : %c(PKSubglyphView);
 		%init (_ungrouped, __PKFingerprintGlyphView_or_PKSubglyphView = whichClass);
-
+		
 		CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
 			NULL,
 			(CFNotificationCallback)prefsCallback,
