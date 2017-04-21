@@ -28,6 +28,7 @@
 "MUSICCONTROLS_HEADER_TEXT" = "When music controls are visible";
 "MUSICCONTROLS_HIDE_LABEL" = "Hide glyph";
 "MUSICCONTROLS_MOVEBACK_LABEL" = "Move glyph to back";
+"MUSICCONTROLS_SIZE_LABEL" = "Change glyph size";
 
 /* Appearance Page */
 "APPEARANCE_TITLE" = "Appearance";
@@ -46,6 +47,8 @@
 "POSITION_LABEL" = "Position";
 "FINGERSIZE_TOGL_LABEL" = "Use Custom Size";
 "FINGERSIZE_VALUE_LABEL" = "Custom Size";
+"FINGERSIZE_TOGLMUSIC_LABEL" = "Use Custom Size (Music)";
+"FINGERSIZE_VALUEMUSIC_LABEL" = "Custom Size (Music)";
 
 /* Appearance > Position Page */
 "POSITION_TITLE" = "Position";
@@ -75,3 +78,4 @@
 "CREDITS_TITLE" = "Credits";
 "CREDITS_BY" = "Created By";
 "CREDITS_ALSO_BY" = "iOS 10 Port By";
+"CREDITS_REDDIT_BY" = "Other Work By";

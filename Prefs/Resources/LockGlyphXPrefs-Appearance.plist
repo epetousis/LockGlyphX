@@ -6,7 +6,7 @@
 	<string>APPEARANCE_TITLE</string>
 	<key>items</key>
 	<array>
-		
+
 		<!-- Theme Chooser -->
 		<dict>
 			<key>cell</key>
@@ -22,7 +22,7 @@
 			<key>detail</key>
 			<string>LockGlyphXThemeController</string>
 		</dict>
-		
+
 		<!-- Hide Ring -->
 		<dict>
 			<key>cell</key>
@@ -44,7 +44,7 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
-		
+
 		<!-- Position -->
 		<dict>
             <key>cell</key>
@@ -90,7 +90,37 @@
             <key>PostNotification</key>
             <string>com.evilgoldfish.lockglyphx.settingschanged</string>
         </dict>
-		
+				<!-- Use Custom Size Music -->
+        <dict>
+            <key>cell</key>
+            <string>PSSwitchCell</string>
+            <key>cellClass</key>
+            <string>LGXSwitchCell</string>
+            <key>default</key>
+            <false/>
+            <key>defaults</key>
+            <string>com.evilgoldfish.lockglyphx</string>
+            <key>key</key>
+            <string>enableSizeWithMusic</string>
+            <key>label</key>
+            <string>FINGERSIZE_TOGLMUSIC_LABEL</string>
+            <key>PostNotification</key>
+            <string>com.evilgoldfish.lockglyphx.settingschanged</string>
+        </dict>
+        <!-- Custom Size Music -->
+        <dict>
+            <key>cell</key>
+            <string>PSEditTextCell</string>
+            <key>label</key>
+            <string>FINGERSIZE_VALUEMUSIC_LABEL</string>
+            <key>defaults</key>
+            <string>com.evilgoldfish.lockglyphx</string>
+            <key>key</key>
+            <string>customSizeWithMusic</string>
+            <key>PostNotification</key>
+            <string>com.evilgoldfish.lockglyphx.settingschanged</string>
+        </dict>
+
 		<!-- Custom Colors -->
 		<dict>
 			<key>cell</key>
