@@ -6,7 +6,7 @@
 	<string>BEHAVIOUR_TITLE</string>
 	<key>items</key>
 	<array>
-		
+
 		<!-- Unlock Sound -->
 		<dict>
 			<key>cell</key>
@@ -34,7 +34,7 @@
 			<key>staticTextMessage</key>
 			<string>SOUND_FOOTER</string>
 		</dict>
-		
+
 		<!-- Unlock Immediately -->
 		<dict>
 			<key>cell</key>
@@ -58,7 +58,7 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
-		
+
 		<!-- Failed Unlock Action -->
 		<dict>
 			<key>cell</key>
@@ -100,7 +100,7 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
-		
+
 		<!-- Music Controls -->
 		<dict>
 			<key>cell</key>
@@ -140,7 +140,23 @@
 			<key>PostNotification</key>
 			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
 		</dict>
-				
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>cellClass</key>
+			<string>LGXSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.evilgoldfish.lockglyphx</string>
+			<key>key</key>
+			<string>sizeWhenMusicControlsAreVisible</string>
+			<key>label</key>
+			<string>MUSICCONTROLS_SIZE_LABEL</string>
+			<key>PostNotification</key>
+			<string>com.evilgoldfish.lockglyphx.settingschanged</string>
+		</dict>
+
 	</array>
 </dict>
 </plist>
